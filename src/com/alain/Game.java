@@ -5,7 +5,7 @@ import java.util.Scanner;
 
 public class Game {
     private Scanner sc = new Scanner(System.in);
-    private String [] level = {"facile","normale", "difficile"};
+    private String [] level = {"Facile","Normal", "Difficile"};
     private int choiceLevel = 0;
 
     /**
@@ -16,9 +16,14 @@ public class Game {
         System.out.println("===== Bienvenue dans Recherche +/- =====");
         System.out.println("========================================");
         System.out.println("");
-        System.out.println("1 - Commencer une nouvelle partie " + level[0]);
-        System.out.println("2 - Commencer une nouvelle partie " + level[1]);
-        System.out.println("3 - Commencer une nouvelle partie " + level[2]);
+        System.out.println("**********************");
+        System.out.println("** Nouvelle Partie ***");
+        System.out.println("**********************");
+        System.out.println("**\t 1 - "  + level[0] + "\t    **");
+        System.out.println("**\t 2 - "  + level[1] + "\t    **");
+        System.out.println("**\t 3 - "  + level[2] + "  **");
+        System.out.println("**********************");
+        System.out.println("");
         System.out.println("0 - Quitter");
         System.out.println("");
         System.out.println("Entrez le numéro de l'action désirée :");
@@ -35,7 +40,7 @@ public class Game {
             try {
                 this.choiceLevel = sc.nextInt();
                 responseIsGood = true;
-                if (this.choiceLevel < 0 || this.choiceLevel >= level.length)
+                if (this.choiceLevel < 0 || this.choiceLevel > level.length)
                     throw new ArrayIndexOutOfBoundsException();
             } catch (ArrayIndexOutOfBoundsException | InputMismatchException e) {
                 System.out.println("Vous devez saisir un nombre entier, compris entre 0 et " + (level.length));
@@ -50,9 +55,14 @@ public class Game {
         System.exit(0);
     }
 
-    private void startGame(int choice) {
+    /**
+     * Start game in fonction of difficulty level
+     * @param choiceLevel difficulty level
+     */
+    private void startGame(int choiceLevel) {
         clearScreen();
-        System.out.println("Recherche +/- : Niveau " + level[this.choiceLevel]);
+        System.out.println("Recherche +/- : Niveau " + level[choiceLevel-1]);
+
     }
 
     public static void clearScreen() {
