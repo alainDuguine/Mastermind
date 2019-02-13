@@ -27,7 +27,7 @@ public class Game {
         System.out.println("0 - Quitter");
         System.out.println("");
         System.out.println("Entrez le numéro de l'action désirée :");
-        this.runMenu();
+        runMenu();
     }
 
     /**
@@ -48,25 +48,38 @@ public class Game {
                 responseIsGood = false;
             }
         } while (!responseIsGood);
-        while (this.choiceLevel != 0) {
-            this.startGame(this.choiceLevel);
-            this.displayMenu();
+        if (this.choiceLevel!=0) {
+            displayNewGame(this.choiceLevel);
+            this.generateCode(choiceLevel*4);
+        }else{
+            System.exit(0);
         }
-        System.exit(0);
     }
 
     /**
-     * Start game in fonction of difficulty level
+     * Display start game
      * @param choiceLevel difficulty level
      */
-    private void startGame(int choiceLevel) {
-        clearScreen();
+    public void displayNewGame(int choiceLevel) {
         System.out.println("Recherche +/- : Niveau " + level[choiceLevel-1]);
-
     }
 
-    public static void clearScreen() {
-        System.out.print("\033[H\033[2J");
-        System.out.flush();
+    /**
+     * Generate randomly the list of digits to guess
+     * @param nbDigits, number of digits to generate (choiceLevel * 4)
+     * @return
+     */
+    public void generateCode(int nbDigits){
+        int [] code = new int [nbDigits];
+        int i = 0;
+        while (i < nbDigits){
+            code[i] = ((int) Math.floor(Math.random()*10));
+            i++;
+        }
+        for ( int value : code ) {
+            System.out.println( value );
+        }
+        displayMenu();
     }
+
 }
