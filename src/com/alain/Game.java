@@ -1,18 +1,25 @@
 package com.alain;
 
+import java.util.InputMismatchException;
+import java.util.Scanner;
+
 public class Game {
+    Scanner sc = new Scanner(System.in);
     private String levelName;
     private int levelNumber;
     private int nbDigits;
     private int[] digits;
-    private int trials;
+    private int nbTrials;
+    private int trialNb;
+    private int playerTrial = 0;
 
     public Game(String levelName, int levelNumber) {
         this.levelName = levelName;
         this.levelNumber = levelNumber;
         this.nbDigits = levelNumber * 4;
-        this.trials = getNbTrials();
-        displayNewGame(levelNumber);
+        this.nbTrials = getNbTrials();
+        this.displayNewGame(levelNumber);
+        this.trialNb = 0;
     }
 
     /**
@@ -22,6 +29,24 @@ public class Game {
     public void displayNewGame(int choiceLevel) {
         System.out.println("Recherche +/- : Niveau " + levelName);
         generateCode(this.nbDigits);
+        this.trialNb = 1;
+        System.out.println("Essai n° " + trialNb + " sur " + nbTrials + "\n");
+        System.out.println("Entrez une combinaison de " + nbDigits + " chiffres.");
+
+        //Controlling
+        boolean responseIsGood;
+        do {
+            try {
+                this.playerTrial = sc.nextInt();
+                responseIsGood = true;
+                if (String.valueOf(playerTrial).length() != nbDigits)
+                    throw new InputMismatchException();
+            } catch (ArrayIndexOutOfBoundsException | InputMismatchException e) {
+                System.out.println("Vous devez saisir une suite de " + nbDigits +" entiers, compris entre 0 et 9");
+                sc.nextLine();
+                responseIsGood = false;
+            }
+        } while (!responseIsGood);
     }
 
 
@@ -45,6 +70,7 @@ public class Game {
     public void playerTrial(){
         System.out.println("Saisissez une combinaison de " + this.nbDigits + " chiffres :\n");
     }
+
 
     private int getNbTrials() {
         int nbTrials;
