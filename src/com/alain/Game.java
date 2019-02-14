@@ -11,7 +11,7 @@ public class Game {
     private int[] digits;
     private int nbTrials;
     private int trialNb;
-    private int playerTrial = 0;
+    private long playerTrial = 0;
 
     public Game(String levelName, int levelNumber) {
         this.levelName = levelName;
@@ -30,25 +30,13 @@ public class Game {
         System.out.println("Recherche +/- : Niveau " + levelName);
         generateCode(this.nbDigits);
         this.trialNb = 1;
-        System.out.println("Essai n° " + trialNb + " sur " + nbTrials + "\n");
-        System.out.println("Entrez une combinaison de " + nbDigits + " chiffres.");
+        while (trialNb < nbTrials) {
+            System.out.println("Essai n° " + trialNb + " sur " + nbTrials + "\n");
+            System.out.println("Entrez une combinaison de " + nbDigits + " chiffres.");
+            playerTrial();
 
-        //Controlling
-        boolean responseIsGood;
-        do {
-            try {
-                this.playerTrial = sc.nextInt();
-                responseIsGood = true;
-                if (String.valueOf(playerTrial).length() != nbDigits)
-                    throw new InputMismatchException();
-            } catch (ArrayIndexOutOfBoundsException | InputMismatchException e) {
-                System.out.println("Vous devez saisir une suite de " + nbDigits +" entiers, compris entre 0 et 9");
-                sc.nextLine();
-                responseIsGood = false;
-            }
-        } while (!responseIsGood);
+        }
     }
-
 
     /**
      * Generate randomly the list of digits to guess
@@ -67,8 +55,31 @@ public class Game {
         }
     }
 
+    /**
+     * Ask for player input, then control it (length and type).
+     */
     public void playerTrial(){
-        System.out.println("Saisissez une combinaison de " + this.nbDigits + " chiffres :\n");
+        //Controlling
+        boolean responseIsGood;
+        do {
+            try {
+                this.playerTrial = sc.nextLong();
+                responseIsGood = true;
+                if (String.valueOf(playerTrial).length() != nbDigits)
+                    throw new InputMismatchException();
+            } catch (ArrayIndexOutOfBoundsException | InputMismatchException e) {
+                System.out.println("Vous devez saisir une suite de " + nbDigits +" entiers, compris entre 0 et 9");
+                sc.nextLine();
+                responseIsGood = false;
+            }
+        } while (!responseIsGood);
+    }
+
+    /**
+     * split player input with %
+     * @param playerTrial
+     */
+    public void splitInput(long playerTrial){
     }
 
 
