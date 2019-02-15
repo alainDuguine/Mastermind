@@ -1,11 +1,10 @@
 package com.alain;
 
-import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
-public class Game {
+public abstract class Game {
     private Scanner sc = new Scanner(System.in);
     private String levelName;
     private int levelNumber;
@@ -28,50 +27,17 @@ public class Game {
         this.levelNumber = levelNumber;
         this.nbDigits = levelNumber * 4;
         this.nbTrials = getNbTrials();
-        this.startGame();
         this.trialNb = 0;
     }
 
     //----------------------- METHODS ----------------------------------
 
-    /**
-     * Launch Game, call code generation, and ask for input
-     */
-    public void startGame() {
-        String combinationString ="";
-
-        System.out.println("\nRecherche +/- : Niveau " + levelName + "\n");
-        this.generateCode();
-        this.trialNb = 1;
-        while (trialNb <= nbTrials && this.win == false) {
-            System.out.println("Essai n° " + trialNb + " sur " + nbTrials + "\n");
-            System.out.println("Entrez une combinaison de " + nbDigits + " chiffres.\n");
-            this.playerInput();
-            this.splitInput();
-            this.compareInput();
-            trialNb++;
-        }
-        if (win){
-            System.out.println("\nBravo ! Vous avez gagné en " + (this.trialNb-1) +" essais !");
-        }else{
-
-            for (int value : this.combination) {
-                combinationString += value;
-            }
-            System.out.println("\nDésolé, vous avez perdu ! La combinaison secrète était : " + combinationString);
-        }
-        System.out.println("Appuyez sur la touche entrée pour revenir au menu principal");
-        try {
-            System.in.read();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
+    public abstract void startGame();
 
      /**
      * Generate randomly the list of digits to guess
      */
-    public void generateCode(){
+    public void generateCombination(){
         this.combination = new int [nbDigits];
         int i = 0;
         while (i < nbDigits) {
@@ -127,7 +93,7 @@ public class Game {
      * Compare player Input, with generated combination
      * display "+" if the combination digit is higher, "-" if its lower, and "=" if equal.
      */
-    private void compareInput() {
+    public void compareInput() {
         int i = 0;
         String resultTrial = "";
         String resultGood ="";
@@ -160,9 +126,9 @@ public class Game {
         System.out.println("Essai n°"+ trialNb+" : " + decimalFormat.format(playerInput) + "\nRéponse :   " + resultTrial +"\n");
     }
 
-    //---------------- GETTERS --------------------
+    //---------------- GETTERS & SETTERS--------------------
 
-    private int getNbTrials() {
+    public int getNbTrials() {
         int nbTrials;
         switch (this.levelNumber) {
             case 1:
@@ -179,5 +145,29 @@ public class Game {
                 break;
         }
         return nbTrials;
+    }
+
+    public String getLevelName() {
+        return levelName;
+    }
+
+    public int getNbDigits() {
+        return nbDigits;
+    }
+
+    public int getTrialNb() {
+        return trialNb;
+    }
+
+    public boolean isWin() {
+        return win;
+    }
+
+    public void setTrialNb(int trialNb) {
+        this.trialNb = trialNb;
+    }
+
+    public int[] getCombination() {
+        return combination;
     }
 }
