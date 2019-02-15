@@ -1,6 +1,7 @@
 package com.alain;
 
 import java.text.DecimalFormat;
+import java.util.Arrays;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
@@ -9,16 +10,18 @@ public abstract class Game {
     private String levelName;
     private int levelNumber;
     private int nbDigits;
-    private int[] combination;
-    private int[] splitInput;
+    private int[] generatedCombination;
+    private int[] playerCombinationArray;
     private int nbTrials;
     private int trialNb;
-    private long playerInput = 0;
+    private long playerCombination = 0;
     private boolean win = false;
+    private String modeName ="";
 
     //Creating a pattern to separate input every 4 digits for better readability
-    String pattern = "####,####,####";
-    DecimalFormat decimalFormat = new DecimalFormat(pattern);
+    //Used in method compareInput()
+    private String pattern = "####,####,####";
+    private DecimalFormat decimalFormat = new DecimalFormat(pattern);
 
     //---------------------- CONSTRUCTOR ------------------------------
 
@@ -35,32 +38,34 @@ public abstract class Game {
     public abstract void startGame();
 
      /**
-     * Generate randomly the list of digits to guess
+     * Generate randomly a combination in an Array.
+     * length of combination is set by var nbDigits
      */
     public void generateCombination(){
-        this.combination = new int [nbDigits];
+        this.generatedCombination = new int [nbDigits];
         int i = 0;
         while (i < nbDigits) {
-            this.combination[i] = ((int) Math.floor(Math.random() * 10));
+            this.generatedCombination[i] = ((int) Math.floor(Math.random() * 10));
             //We refuse 0 as first digit
-            while (this.combination[0] == 0){
-                this.combination[i] = ((int) Math.floor(Math.random() * 10));
+            while (this.generatedCombination[0] == 0){
+                this.generatedCombination[i] = ((int) Math.floor(Math.random() * 10));
             }
             i++;
         }
     }
 
     /**
-     * Ask for player input, then control it (length and type).
+     * Ask to input a combination, then control it (length and type).
+     * Length of combiantion is set by var nbDigits
      */
-    public void playerInput(){
+    public void playerCombination(){
         //Controlling
         boolean responseIsGood;
         do {
             try {
-                this.playerInput = sc.nextLong();
+                this.playerCombination = sc.nextLong();
                 responseIsGood = true;
-                if (String.valueOf(playerInput).length() != nbDigits)
+                if (String.valueOf(playerCombination).length() != nbDigits)
                     throw new InputMismatchException();
             } catch (ArrayIndexOutOfBoundsException | InputMismatchException e) {
                 System.out.println("Vous devez saisir une suite de " + nbDigits +" entiers, compris entre 0 et 9");
@@ -71,18 +76,20 @@ public abstract class Game {
     }
 
     /**
-     * split player input with modulo and putting it in an array
+     * Split the combination manually input,
+     * and put it in the Array playerCombinationArray
+     * Using modulo method
      */
     public void splitInput(){
-        splitInput = new int[nbDigits];
-        long input = playerInput;
+        playerCombinationArray = new int[nbDigits];
+        long input = playerCombination;
         int i = 0;
         // We create a divisor buy powering 10 ^ nbDigits - 1
         long divisor = (long)Math.pow(10, (nbDigits)-1);
         long remain = 0;
         while (remain != 0 || i < nbDigits) {
-            splitInput[i] = (int) (input / divisor);
-            remain = playerInput % divisor;
+            playerCombinationArray[i] = (int) (input / divisor);
+            remain = playerCombination % divisor;
             input = remain;
             divisor /= 10;
             i++;
@@ -90,21 +97,24 @@ public abstract class Game {
     }
 
     /**
-     * Compare player Input, with generated combination
-     * display "+" if the combination digit is higher, "-" if its lower, and "=" if equal.
+     * Compare two Arrays digits by digits
+     * and display "+" if the controlCombination digit is higher, "-" if its lower, and "=" if equal.
+     * @param inputCombination combination to test
+     * @param controlCombination combination which is searched by the Human/IA
      */
-    public void compareInput() {
+    public void compareInput(int[] inputCombination, int[] controlCombination) {
         int i = 0;
         String resultTrial = "";
         String resultGood ="";
 
-        for (int value : combination) {
+        for (int value : controlCombination) {
+            //We add a " " every 4 digits for better readability
             if (i != 0 && i%4 == 0){
                 resultTrial += " ";
             }
-            if (value == splitInput[i]) {
+            if (value == inputCombination[i]) {
                 resultTrial += "=";
-            } else if (value < splitInput[i]){
+            } else if (value < inputCombination[i]){
                 resultTrial += "-";
             }else{
                 resultTrial += "+";
@@ -112,7 +122,7 @@ public abstract class Game {
             i++;
         }
 
-        //Generating the string of victory to compare to the trial, according to the level
+        //Generating the string that we should find for a winning game according to the number of digits necessary
         for ( i = 0; i<this.nbDigits; i++){
             if (i != 0 && i%4 == 0){
                 resultGood += " ";
@@ -123,7 +133,21 @@ public abstract class Game {
         if (resultTrial.equals(resultGood))
             this.win = true;
 
-        System.out.println("Essai n°"+ trialNb+" : " + decimalFormat.format(playerInput) + "\nRéponse :   " + resultTrial +"\n");
+        // Using a format to split long with " " every 4 digits, for better readability.
+        // we convert the combinationArray into string then into long
+        long combinationToLong = Long.parseLong(combinationToString(inputCombination));
+        System.out.println("Essai n°"+ trialNb+" : " + decimalFormat.format(combinationToLong) + "\nRéponse :   " + resultTrial +"\n");
+    }
+
+    /**
+     * Display the GameTitle according to the game mode and the level
+     */
+    public void displayGameTitle(){
+        System.out.println("========================================");
+        System.out.println("Recherche +/- : Niveau " + this.getLevelName());
+        System.out.println("========================================");
+        System.out.println("");
+        System.out.println("============== Mode " + this.modeName +"=============\n");
     }
 
     //---------------- GETTERS & SETTERS--------------------
@@ -167,7 +191,27 @@ public abstract class Game {
         this.trialNb = trialNb;
     }
 
-    public int[] getCombination() {
-        return combination;
+    public int[] getGeneratedCombination() {
+        return generatedCombination;
+    }
+
+    public String combinationToString(int [] combination) {
+        String combinationString="";
+        for (int value : combination) {
+            combinationString += value;
+        }
+        return combinationString;
+    }
+
+    public void setModeName(String mode) {
+        modeName = mode;
+    }
+
+    public int[] getPlayerCombinationArray() {
+        return playerCombinationArray;
+    }
+
+    public long getPlayerCombination() {
+        return playerCombination;
     }
 }

@@ -4,6 +4,7 @@ import java.io.IOException;
 
 public class Human extends Game{
 
+
     public Human(String levelName, int levelNumber) {
         super(levelName, levelNumber);
     }
@@ -13,27 +14,22 @@ public class Human extends Game{
      */
     @Override
     public void startGame() {
-        String combinationString ="";
-
-        System.out.println("\nRecherche +/- : Niveau " + this.getLevelName() + "\n");
+        this.setModeName("Challenger");
+        this.displayGameTitle();
         this.generateCombination();
         this.setTrialNb(1);
-        while (this.getTrialNb() <= this.getNbTrials() && this.isWin() == false) {
+        while (this.getTrialNb() <= this.getNbTrials() && !this.isWin()) {
             System.out.println("Essai n° " + this.getTrialNb() + " sur " + this.getNbTrials() + "\n");
             System.out.println("Entrez une combinaison de " + this.getNbDigits() + " chiffres.\n");
-            this.playerInput();
+            this.playerCombination();
             this.splitInput();
-            this.compareInput();
+            this.compareInput(this.getPlayerCombinationArray(), this.getGeneratedCombination());
             this.setTrialNb(this.getTrialNb()+1);
         }
         if (this.isWin()){
             System.out.println("\nBravo ! Vous avez gagné en " + (this.getTrialNb()-1) +" essais !");
         }else{
-
-            for (int value : this.getCombination()) {
-                combinationString += value;
-            }
-            System.out.println("\nDésolé, vous avez perdu ! La combinaison secrète était : " + combinationString);
+            System.out.println("\nDésolé, vous avez perdu ! La combinaison secrète était : " + this.combinationToString(this.getGeneratedCombination()) + "\n");
         }
         System.out.println("Appuyez sur la touche entrée pour revenir au menu principal");
         try {

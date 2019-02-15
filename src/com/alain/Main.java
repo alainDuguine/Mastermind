@@ -7,7 +7,7 @@ public class Main {
         menu.displayMenu();
         while (menu.getLevelNumber() != 0){
             //Start a new game with level indications
-            Human game = new Human(menu.getLevelName(), menu.getLevelNumber());
+            IA game = new IA(menu.getLevelName(), menu.getLevelNumber());
             game.startGame();
             menu.displayMenu();
         }
