@@ -8,33 +8,34 @@ public class Game {
     private String levelName;
     private int levelNumber;
     private int nbDigits;
-    private int[] digits;
+    private int[] combination;
     private int nbTrials;
     private int trialNb;
-    private long playerTrial = 0;
+    private long playerInput = 0;
 
     public Game(String levelName, int levelNumber) {
         this.levelName = levelName;
         this.levelNumber = levelNumber;
         this.nbDigits = levelNumber * 4;
         this.nbTrials = getNbTrials();
-        this.displayNewGame(levelNumber);
+        this.startGame();
         this.trialNb = 0;
     }
 
     /**
-     * Display start menu
-     * @param choiceLevel difficulty level
+     * Launch Game, call code generation, and ask for input
      */
-    public void displayNewGame(int choiceLevel) {
+    public void startGame( ) {
         System.out.println("Recherche +/- : Niveau " + levelName);
         generateCode(this.nbDigits);
         this.trialNb = 1;
         while (trialNb < nbTrials) {
             System.out.println("Essai n° " + trialNb + " sur " + nbTrials + "\n");
             System.out.println("Entrez une combinaison de " + nbDigits + " chiffres.");
-            playerTrial();
+            playerInput();
+            splitInput();
 
+            trialNb++;
         }
     }
 
@@ -44,13 +45,17 @@ public class Game {
      * @return
      */
     public void generateCode(int nbDigits){
-        this.digits = new int [nbDigits];
+        this.combination = new int [nbDigits];
         int i = 0;
-        while (i < nbDigits){
-            this.digits[i] = ((int) Math.floor(Math.random()*10));
+        while (i < nbDigits) {
+            this.combination[i] = ((int) Math.floor(Math.random() * 10));
+            //We refuse 0 as first digit
+            while (this.combination[0] == 0){
+                this.combination[i] = ((int) Math.floor(Math.random() * 10));
+            }
             i++;
         }
-        for ( int value : this.digits ) {
+        for ( int value : this.combination ) {
             System.out.println( value );
         }
     }
@@ -58,14 +63,14 @@ public class Game {
     /**
      * Ask for player input, then control it (length and type).
      */
-    public void playerTrial(){
+    public void playerInput(){
         //Controlling
         boolean responseIsGood;
         do {
             try {
-                this.playerTrial = sc.nextLong();
+                this.playerInput = sc.nextLong();
                 responseIsGood = true;
-                if (String.valueOf(playerTrial).length() != nbDigits)
+                if (String.valueOf(playerInput).length() != nbDigits)
                     throw new InputMismatchException();
             } catch (ArrayIndexOutOfBoundsException | InputMismatchException e) {
                 System.out.println("Vous devez saisir une suite de " + nbDigits +" entiers, compris entre 0 et 9");
@@ -76,10 +81,22 @@ public class Game {
     }
 
     /**
-     * split player input with %
-     * @param playerTrial
+     * split player input with modulo and putting it in an array
      */
-    public void splitInput(long playerTrial){
+    public void splitInput(){
+        int [] splitInput = new int[nbDigits];
+        int i =0;
+        // We create a divisor buy powering 10 ^ nbDigits - 1
+        long divisor = (long)Math.pow(10, (nbDigits)-1);
+        long remain = 0;
+        while (remain != 0 || i < nbDigits) {
+            splitInput[i] = (int) (playerInput / divisor);
+            remain = playerInput % divisor;
+            playerInput = remain;
+            divisor /= 10;
+            System.out.println(splitInput[i]);
+            i++;
+        };
     }
 
 
