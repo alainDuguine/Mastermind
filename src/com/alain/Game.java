@@ -1,6 +1,7 @@
 package com.alain;
 
 import java.io.IOException;
+import java.text.DecimalFormat;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
@@ -15,6 +16,10 @@ public class Game {
     private int trialNb;
     private long playerInput = 0;
     private boolean win = false;
+
+    //Creating a pattern to separate input every 4 digits for better readability
+    String pattern = "####,####,####";
+    DecimalFormat decimalFormat = new DecimalFormat(pattern);
 
     //---------------------- CONSTRUCTOR ------------------------------
 
@@ -33,10 +38,12 @@ public class Game {
      * Launch Game, call code generation, and ask for input
      */
     public void startGame() {
+        String combinationString ="";
+
         System.out.println("\nRecherche +/- : Niveau " + levelName + "\n");
         this.generateCode();
         this.trialNb = 1;
-        while (trialNb < nbTrials && this.win == false) {
+        while (trialNb <= nbTrials && this.win == false) {
             System.out.println("Essai n° " + trialNb + " sur " + nbTrials + "\n");
             System.out.println("Entrez une combinaison de " + nbDigits + " chiffres.\n");
             this.playerInput();
@@ -47,7 +54,11 @@ public class Game {
         if (win){
             System.out.println("\nBravo ! Vous avez gagné en " + (this.trialNb-1) +" essais !");
         }else{
-            System.out.println("\nDésolé, vous avez perdu ! La combinaison secrète était : " +this.combination);
+
+            for (int value : this.combination) {
+                combinationString += value;
+            }
+            System.out.println("\nDésolé, vous avez perdu ! La combinaison secrète était : " + combinationString);
         }
         System.out.println("Appuyez sur la touche entrée pour revenir au menu principal");
         try {
@@ -122,6 +133,9 @@ public class Game {
         String resultGood ="";
 
         for (int value : combination) {
+            if (i != 0 && i%4 == 0){
+                resultTrial += " ";
+            }
             if (value == splitInput[i]) {
                 resultTrial += "=";
             } else if (value < splitInput[i]){
@@ -133,14 +147,17 @@ public class Game {
         }
 
         //Generating the string of victory to compare to the trial, according to the level
-        for ( i =0; i<this.nbDigits; i++){
+        for ( i = 0; i<this.nbDigits; i++){
+            if (i != 0 && i%4 == 0){
+                resultGood += " ";
+            }
             resultGood += "=";
         }
 
         if (resultTrial.equals(resultGood))
             this.win = true;
 
-        System.out.println("Essai n°"+ trialNb+" : " + playerInput + "\nRéponse :   " + resultTrial +"\n");
+        System.out.println("Essai n°"+ trialNb+" : " + decimalFormat.format(playerInput) + "\nRéponse :   " + resultTrial +"\n");
     }
 
     //---------------- GETTERS --------------------
