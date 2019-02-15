@@ -11,6 +11,5 @@ public class Main {
             menu.displayMenu();
         }
         System.exit(0);
-
     }
 }
