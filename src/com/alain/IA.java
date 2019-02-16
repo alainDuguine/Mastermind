@@ -31,9 +31,9 @@ public class IA extends Game{
         }
 
         if (this.isWin()){
-            System.out.println("\nBravo ! Vous avez gagné en " + (this.getTrialNb()-1) +" essais !");
+            System.out.println("\nDésolé ! Vous avez perdu, l'ordinateur a trouvé la combinaison  en " + (this.getTrialNb()-1) +" essais !");
         }else{
-            System.out.println("\nDésolé, vous avez perdu ! La combinaison secrète était : " + (this.getPlayerCombination()) + "\n");
+            System.out.println("\nBravo, vous avez gagné ! L'ordinateur n'a pas trouvé votre combinaison secrète, qui était : " + (this.getPlayerCombination()) + "\n");
         }
         System.out.println("Appuyez sur la touche entrée pour revenir au menu principal");
         try {
