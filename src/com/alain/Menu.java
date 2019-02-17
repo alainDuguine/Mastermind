@@ -1,8 +1,6 @@
 package com.alain;
 
-import java.util.HashMap;
 import java.util.InputMismatchException;
-import java.util.Map;
 import java.util.Scanner;
 
 public class Menu {
@@ -77,7 +75,7 @@ public class Menu {
             try {
                 choiceInput = sc.nextInt()-1;
                 responseIsGood = true;
-                if (choiceInput < -1 || choiceInput > list.length)
+                if (choiceInput < -1 || choiceInput > list.length-1)
                     throw new ArrayIndexOutOfBoundsException();
             } catch (ArrayIndexOutOfBoundsException | InputMismatchException e) {
                 System.out.println("Vous devez saisir un nombre entier, compris entre 0 et " + (list.length));
