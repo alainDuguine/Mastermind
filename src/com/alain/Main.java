@@ -16,25 +16,22 @@ public class Main {
             gameSelectionNames[1] = menu.getModeName(gameSelectionIndex[1]);
             gameSelectionNames[2] = menu.getLevelName(gameSelectionIndex[2]);
 
-            choice = "Vous avez choisi de jouer au " + gameSelectionNames[0];
-            choice += " en mode " + gameSelectionNames[1];
-            choice += " en niveau " + gameSelectionNames[2];
             System.out.println(choice + "\n");
 
             if (gameSelectionNames[0].equals("Recherche +/-") && gameSelectionNames[1].equals("Challenger")) {
-                Game game = new Human(gameSelectionNames);
+                Game game = new Challenger(gameSelectionNames[2]);
                 game.startGame();
             } else if (gameSelectionNames[0].equals("Recherche +/-") && gameSelectionNames[1].equals("Défenseur")) {
-                Game game = new IA(gameSelectionNames);
+                Game game = new IA(gameSelectionNames[2]);
                 game.startGame();
             } else if (gameSelectionNames[0].equals("Recherche +/-") && gameSelectionNames[1].equals("Duel")) {
-                System.out.println("Cette partie n'est pas encore implémentée ! Revenez plus tard !");
+                System.out.println("Cette partie n'est pas encore implémentée ! Revenez plus tard !\n");
             } else if (gameSelectionNames[0].equals("Mastermind") && gameSelectionNames[1].equals("Challenger")) {
-                System.out.println("Cette partie n'est pas encore implémentée ! Revenez plus tard !");
+                System.out.println("Cette partie n'est pas encore implémentée ! Revenez plus tard !\n");
             } else if (gameSelectionNames[0].equals("Mastermind") && gameSelectionNames[1].equals("Défenseur")) {
-                System.out.println("Cette partie n'est pas encore implémentée ! Revenez plus tard !");
+                System.out.println("Cette partie n'est pas encore implémentée ! Revenez plus tard !\n");
             } else if (gameSelectionNames[0].equals("Mastermind") && gameSelectionNames[1].equals("Duel")) {
-                System.out.println("Cette partie n'est pas encore implémentée ! Revenez plus tard !");
+                System.out.println("Cette partie n'est pas encore implémentée ! Revenez plus tard !\n");
             }
         }
     }

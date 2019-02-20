@@ -5,14 +5,15 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 
 
-public abstract class RechercheGame implements Game{
+public abstract class RechercheGame implements Game {
     private Scanner sc = new Scanner(System.in);
 
-    protected String gameName;
-    protected String modeName;
     protected String levelName;
-    protected int nbDigits;
-    protected int nbTrials;
+
+    static int nbDigits;
+    static int nbTrials;
+    static String resultGood = "";
+
     protected int trialNb;
 
     private int[] generatedCombination;
@@ -27,37 +28,42 @@ public abstract class RechercheGame implements Game{
 
     //---------------------- CONSTRUCTOR ------------------------------
 
-    public RechercheGame() {
-        /*levelName = gameSelectionNames[0];
-        levelNumber = gameSelectionIndex[2];
-        nbDigits = levelNumber * 4;
-        nbTrials = getNbTrials();
-        trialNb = 0;
-        this.levelName = gameSelectionNames[0];
-        this.levelNumber = gameSelectionIndex[2];
-        this.nbDigits = levelNumber * 4;
-        this.nbTrials = getNbTrials();
-        this.trialNb = 0;*/
+    public RechercheGame(String levelName) {
+        this.levelName = levelName;
     }
 
     //----------------------- METHODS ----------------------------------
 
     public abstract void startGame();
 
-     /**
+    /**
      * Generate randomly a combination in an Array.
      * length of combination is set by var nbDigits
      */
-    public void generateCombination(){
-        this.generatedCombination = new int [nbDigits];
+    public void generateCombination() {
+        this.generatedCombination = new int[nbDigits];
         int i = 0;
         while (i < nbDigits) {
             this.generatedCombination[i] = ((int) Math.floor(Math.random() * 10));
             //We refuse 0 as first digit
-            while (this.generatedCombination[0] == 0){
+            while (this.generatedCombination[0] == 0) {
                 this.generatedCombination[i] = ((int) Math.floor(Math.random() * 10));
             }
             i++;
+        }
+        generateWinningPattern();
+    }
+
+    /**
+     * Generating the string that we should find for a winning game according to the number of digits necessary
+     */
+    private static void generateWinningPattern() {
+
+        for (int i = 0; i < nbDigits; i++) {
+            if (i != 0 && i % 4 == 0) {
+                resultGood += " ";
+            }
+            resultGood += "=";
         }
     }
 
@@ -107,47 +113,43 @@ public abstract class RechercheGame implements Game{
      * Compare two Arrays digits by digits
      * and display "+" if the controlCombination digit is higher, "-" if its lower, and "=" if equal.
      * @param inputCombination combination to test
-     * @param controlCombination combination which is searched by the Human/IA
+     * @param controlCombination combination which is searched by the Challenger/IA
      */
-    public void compareInput(int[] inputCombination, int[] controlCombination) {
+    static String compareInput(int[] inputCombination, int[] controlCombination) {
         int i = 0;
         String resultTrial = "";
-        String resultGood ="";
 
         for (int value : controlCombination) {
             //We add a " " every 4 digits for better readability
-            if (i != 0 && i%4 == 0){
+            if (i != 0 && i % 4 == 0) {
                 resultTrial += " ";
             }
             if (value == inputCombination[i]) {
                 resultTrial += "=";
-            } else if (value < inputCombination[i]){
+            } else if (value < inputCombination[i]) {
                 resultTrial += "-";
-            }else{
+            } else {
                 resultTrial += "+";
             }
             i++;
         }
+        return resultTrial;
+    }
 
-        //Generating the string that we should find for a winning game according to the number of digits necessary
-        for ( i = 0; i<this.nbDigits; i++){
-            if (i != 0 && i%4 == 0){
-                resultGood += " ";
-            }
-            resultGood += "=";
-        }
 
+    public void displayResult(String resultTrial){
         if (resultTrial.equals(resultGood))
             this.win = true;
 
         // Using a format to split long with " " every 4 digits, for better readability.
         // we convert the combinationArray into string first
-        System.out.println("Essai n°"+ trialNb+" : " + combinationFormat(combinationToString(inputCombination)) + "\nRéponse :   " + resultTrial +"\n");
+        System.out.println("Essai n°" + (trialNb+1) + " : " + combinationFormat(combinationToString(playerCombinationArray)) + "\nRéponse :   " + resultTrial + "\n");
     }
 
+
     /**
-     * Format the combination with the patter designed earlier (####,####,####)
-     * tha will add a space every 4 digits
+     * Format the combination with the pattern designed earlier (####,####,####)
+     * that will add a space every 4 digits
      * @param combination a combination in String
      * @return the formatted combination in String
      */
@@ -169,7 +171,7 @@ public abstract class RechercheGame implements Game{
 
     //---------------- GETTERS & SETTERS--------------------
 
-    public void setNbDigitsAndNbTrials(String levelName){
+    static void setNbDigitsAndNbTrials(String levelName){
         switch (levelName) {
             case "Facile":
                 nbDigits = 4;
@@ -189,12 +191,8 @@ public abstract class RechercheGame implements Game{
         }
     }
 
-    public boolean isWin() {
+    boolean isWin() {
         return win;
-    }
-
-    public void setTrialNb(int trialNb) {
-        this.trialNb = trialNb;
     }
 
     public int[] getGeneratedCombination() {
@@ -213,7 +211,11 @@ public abstract class RechercheGame implements Game{
         return playerCombinationArray;
     }
 
-    public long getPlayerCombination() {
-        return playerCombination;
+    public static int getNbTrials() {
+        return nbTrials;
+    }
+
+    public static int getNbDigits() {
+        return nbDigits;
     }
 }
