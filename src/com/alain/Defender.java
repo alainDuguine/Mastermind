@@ -2,25 +2,25 @@ package com.alain;
 
 import java.io.IOException;
 
-public class IA extends RechercheGame{
+public class Defender extends RechercheGame{
 
-    public IA(String levelName) {
+
+
+    public Defender(String levelName) {
         super(levelName);
-        setNbDigitsAndNbTrials(levelName);
-        trialNb = 0;
     }
 
     @Override
     public void startGame() {
         this.displayGameTitle("Recherche +/-", "Défenseur", levelName);
         System.out.println("Entrez une combinaison de " + RechercheGame.getNbDigits() + " chiffres, que devra deviner l'ordinateur\n");
-        this.playerCombination();
-        this.splitInput();
+        this.InputCombination();
+        this.longCombinationToArray();
         while (this.trialNb <= RechercheGame.getNbTrials() && !this.isWin()) {
             System.out.println("Essai n° " + (this.trialNb+1) + " sur " + RechercheGame.getNbTrials() + "\n");
             this.generateCombination();
-            String result = RechercheGame.compareInput(this.getGeneratedCombination(), this.getPlayerCombinationArray());
-            this.displayResult(result);
+            String result = RechercheGame.compareInput(this.getGenerateCombination(), this.getPlayerCombinationArray());
+            this.displayResult(result, this.getGenerateCombination());
             this.trialNb ++;
             System.out.println("Appuyez sur la touche entrée pour continuer");
             try {

@@ -8,17 +8,17 @@ import java.util.Scanner;
 public abstract class RechercheGame implements Game {
     private Scanner sc = new Scanner(System.in);
 
-    protected String levelName;
+    String levelName;
 
-    static int nbDigits;
-    static int nbTrials;
-    static String resultGood = "";
+    private static int nbDigits;
+    private static int nbTrials;
+    private static String resultGood = "";
 
-    protected int trialNb;
+    int trialNb;
 
-    private int[] generatedCombination;
-    private int[] playerCombinationArray;
     private long playerCombination = 0;
+    private int[] generateCombination;
+    private int[] playerCombinationArray;
     private boolean win = false;
 
     //Creating a pattern to separate input every 4 digits for better readability
@@ -30,6 +30,9 @@ public abstract class RechercheGame implements Game {
 
     public RechercheGame(String levelName) {
         this.levelName = levelName;
+        setNbDigitsAndNbTrials(levelName);
+        trialNb = 0;
+        generateWinningPattern();
     }
 
     //----------------------- METHODS ----------------------------------
@@ -41,17 +44,16 @@ public abstract class RechercheGame implements Game {
      * length of combination is set by var nbDigits
      */
     public void generateCombination() {
-        this.generatedCombination = new int[nbDigits];
+        this.generateCombination = new int[nbDigits];
         int i = 0;
         while (i < nbDigits) {
-            this.generatedCombination[i] = ((int) Math.floor(Math.random() * 10));
+            this.generateCombination[i] = ((int) Math.floor(Math.random() * 10));
             //We refuse 0 as first digit
-            while (this.generatedCombination[0] == 0) {
-                this.generatedCombination[i] = ((int) Math.floor(Math.random() * 10));
+            while (this.generateCombination[0] == 0) {
+                this.generateCombination[i] = ((int) Math.floor(Math.random() * 10));
             }
             i++;
         }
-        generateWinningPattern();
     }
 
     /**
@@ -71,12 +73,12 @@ public abstract class RechercheGame implements Game {
      * Ask to input a combination, then control it (length and type).
      * Length of combination is set by var nbDigits
      */
-    public void playerCombination(){
+    public void InputCombination(){
         //Controlling
         boolean responseIsGood;
         do {
             try {
-                this.playerCombination = sc.nextLong();
+                playerCombination = sc.nextLong();
                 responseIsGood = true;
                 if (String.valueOf(playerCombination).length() != nbDigits)
                     throw new InputMismatchException();
@@ -86,6 +88,7 @@ public abstract class RechercheGame implements Game {
                 responseIsGood = false;
             }
         } while (!responseIsGood);
+
     }
 
     /**
@@ -93,7 +96,7 @@ public abstract class RechercheGame implements Game {
      * and put it in the Array playerCombinationArray
      * Using modulo method
      */
-    public void splitInput(){
+    public void longCombinationToArray(){
         playerCombinationArray = new int[nbDigits];
         long input = playerCombination;
         int i = 0;
@@ -111,9 +114,9 @@ public abstract class RechercheGame implements Game {
 
     /**
      * Compare two Arrays digits by digits
-     * and display "+" if the controlCombination digit is higher, "-" if its lower, and "=" if equal.
+     * and display "+" if the generateCombination digit is higher, "-" if its lower, and "=" if equal.
      * @param inputCombination combination to test
-     * @param controlCombination combination which is searched by the Challenger/IA
+     * @param controlCombination combination which is searched by the Challenger/Defender
      */
     static String compareInput(int[] inputCombination, int[] controlCombination) {
         int i = 0;
@@ -137,13 +140,13 @@ public abstract class RechercheGame implements Game {
     }
 
 
-    public void displayResult(String resultTrial){
+    public void displayResult(String resultTrial, int[] combinationTrial){
         if (resultTrial.equals(resultGood))
             this.win = true;
 
         // Using a format to split long with " " every 4 digits, for better readability.
         // we convert the combinationArray into string first
-        System.out.println("Essai n°" + (trialNb+1) + " : " + combinationFormat(combinationToString(playerCombinationArray)) + "\nRéponse :   " + resultTrial + "\n");
+        System.out.println("Essai n°" + (trialNb+1) + " : " + combinationFormat(combinationToString(combinationTrial)) + "\nRéponse :   " + resultTrial + "\n");
     }
 
 
@@ -195,8 +198,8 @@ public abstract class RechercheGame implements Game {
         return win;
     }
 
-    public int[] getGeneratedCombination() {
-        return generatedCombination;
+    public int[] getGenerateCombination() {
+        return generateCombination;
     }
 
     public String combinationToString(int [] combination) {

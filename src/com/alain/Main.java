@@ -22,7 +22,7 @@ public class Main {
                 Game game = new Challenger(gameSelectionNames[2]);
                 game.startGame();
             } else if (gameSelectionNames[0].equals("Recherche +/-") && gameSelectionNames[1].equals("Défenseur")) {
-                Game game = new IA(gameSelectionNames[2]);
+                Game game = new Defender(gameSelectionNames[2]);
                 game.startGame();
             } else if (gameSelectionNames[0].equals("Recherche +/-") && gameSelectionNames[1].equals("Duel")) {
                 System.out.println("Cette partie n'est pas encore implémentée ! Revenez plus tard !\n");
