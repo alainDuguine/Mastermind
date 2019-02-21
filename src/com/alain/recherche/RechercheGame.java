@@ -1,4 +1,6 @@
-package com.alain;
+package com.alain.recherche;
+
+import com.alain.Game;
 
 import java.text.DecimalFormat;
 import java.util.InputMismatchException;
@@ -17,9 +19,9 @@ public abstract class RechercheGame implements Game {
     int trialNb;
 
     private long playerCombination = 0;
-    private int[] generateCombination;
+    protected int[] generateCombination;
     private int[] playerCombinationArray;
-    private boolean win = false;
+    private boolean win;
 
     //Creating a pattern to separate input every 4 digits for better readability
     //Used in method compareInput()
@@ -33,6 +35,7 @@ public abstract class RechercheGame implements Game {
         setNbDigitsAndNbTrials(levelName);
         trialNb = 0;
         generateWinningPattern();
+        win = false;
     }
 
     //----------------------- METHODS ----------------------------------
@@ -60,7 +63,7 @@ public abstract class RechercheGame implements Game {
      * Generating the string that we should find for a winning game according to the number of digits necessary
      */
     private static void generateWinningPattern() {
-
+        resultGood="";
         for (int i = 0; i < nbDigits; i++) {
             if (i != 0 && i % 4 == 0) {
                 resultGood += " ";
@@ -115,21 +118,21 @@ public abstract class RechercheGame implements Game {
     /**
      * Compare two Arrays digits by digits
      * and display "+" if the generateCombination digit is higher, "-" if its lower, and "=" if equal.
-     * @param inputCombination combination to test
-     * @param controlCombination combination which is searched by the Challenger/Defender
+     * @param testedCombination combination to test
+     * @param solution combination which is searched by the Challenger/Defender
      */
-    static String compareInput(int[] inputCombination, int[] controlCombination) {
+    static String compareInput(int[] testedCombination, int[] solution) {
         int i = 0;
         String resultTrial = "";
 
-        for (int value : controlCombination) {
+        for (int value : solution) {
             //We add a " " every 4 digits for better readability
             if (i != 0 && i % 4 == 0) {
                 resultTrial += " ";
             }
-            if (value == inputCombination[i]) {
+            if (value == testedCombination[i]) {
                 resultTrial += "=";
-            } else if (value < inputCombination[i]) {
+            } else if (value < testedCombination[i]) {
                 resultTrial += "-";
             } else {
                 resultTrial += "+";
@@ -186,7 +189,7 @@ public abstract class RechercheGame implements Game {
                 break;
             case "Difficile":
                 nbDigits = 12;
-                nbTrials = 7;
+                nbTrials = 8;
                 break;
             default:
                 nbDigits = 0;

@@ -1,5 +1,8 @@
 package com.alain;
 
+import com.alain.recherche.Challenger;
+import com.alain.recherche.Defender;
+
 public class Main {
 
     public static void main(String[] args) {

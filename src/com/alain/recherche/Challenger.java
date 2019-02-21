@@ -1,4 +1,4 @@
-package com.alain;
+package com.alain.recherche;
 
 import java.io.IOException;
 
@@ -14,7 +14,7 @@ public class Challenger extends RechercheGame{
     public void startGame() {
         this.displayGameTitle("Recherche +/-", "Challenger", levelName);
         this.generateCombination();
-        while (this.trialNb <= RechercheGame.getNbTrials() && !this.isWin()) {
+        while (this.trialNb < RechercheGame.getNbTrials() && !this.isWin()) {
             System.out.println("Essai n° " + (this.trialNb+1) + " sur " + RechercheGame.getNbTrials() + "\n");
             System.out.println("Entrez une combinaison de " + RechercheGame.getNbDigits() + " chiffres.\n");
             this.InputCombination();
