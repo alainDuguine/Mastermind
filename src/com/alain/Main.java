@@ -3,23 +3,16 @@ package com.alain;
 import com.alain.recherche.Challenger;
 import com.alain.recherche.Defender;
 
+
 public class Main {
 
     public static void main(String[] args) {
 
-        int[] gameSelectionIndex = new int[3];
         String[] gameSelectionNames = new String[3];
-        String choice = "";
 
         while (gameSelectionNames != null) {
             Menu menu = new Menu();
-            gameSelectionIndex = menu.displayMenus();
-
-            gameSelectionNames[0] = menu.getGameName(gameSelectionIndex[0]);
-            gameSelectionNames[1] = menu.getModeName(gameSelectionIndex[1]);
-            gameSelectionNames[2] = menu.getLevelName(gameSelectionIndex[2]);
-
-            System.out.println(choice + "\n");
+            gameSelectionNames = menu.displayMenus();
 
             if (gameSelectionNames[0].equals("Recherche +/-") && gameSelectionNames[1].equals("Challenger")) {
                 Game game = new Challenger(gameSelectionNames[2]);

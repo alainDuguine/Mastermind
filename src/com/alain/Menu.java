@@ -12,35 +12,39 @@ public class Menu {
     /**
      * Call for menus, and return an array with the selected elements
      */
-    public int[] displayMenus() {
+    public String[] displayMenus() {
 
-        int [] gameSelection = new int [3];
+        String [] gameSelectionName = new String [3];
+        int [] gameSelectionIndex = new int[3];
 
         //Game Selection
         String title = "==\t LOGICAL GAMES\n==\t Choix du jeu :";
-        gameSelection[0] = displayMenu(title, games);
-        if (gameSelection[0] == -1) {
+        gameSelectionIndex[0] = displayMenu(title, games);
+        if (gameSelectionIndex[0] == -1) {
             //If "0" while game selection -> close app
             System.exit(0);
         }
+        gameSelectionName[0] = games[gameSelectionIndex[0]];
         //Mode Selection
-        title = "==\t " + games[gameSelection[0]] + "\n==\t Choix du mode :";
-        gameSelection[1] = displayMenu(title, modes);
+        title = "==\t " + games[gameSelectionIndex[0]] + "\n==\t Choix du mode :";
+        gameSelectionIndex[1] = displayMenu(title, modes);
         //If "0" while menu selection -> restart menu selection
-        if (gameSelection[1] == -1) {
+        if (gameSelectionIndex[1] == -1) {
             //Reinitializing array, otherwise at the end of selection, exception is thrown.
-            gameSelection = new int[3];
+            gameSelectionIndex = new int[3];
             displayMenus();
         }
+        gameSelectionName[1] = modes[gameSelectionIndex[1]];
         //Level Selection
-        title = "==\t " + games[gameSelection[0]] + " - Mode " + modes[gameSelection[1]] + "\n==\t Choix du niveau :";
-        gameSelection[2] = displayMenu(title, levels);
+        title = "==\t " + games[gameSelectionIndex[0]] + " - Mode " + modes[gameSelectionIndex[1]] + "\n==\t Choix du niveau :";
+        gameSelectionIndex[2] = displayMenu(title, levels);
         //If "0" while game selection -> restart menu selection
-        if (gameSelection[2] == -1) {
-            gameSelection = new int[3];
+        if (gameSelectionIndex[2] == -1) {
+            gameSelectionIndex = new int[3];
             displayMenus();
         }
-        return gameSelection;
+        gameSelectionName[2] = levels[gameSelectionIndex[2]];
+        return gameSelectionName;
     }
 
     /**
@@ -84,17 +88,5 @@ public class Menu {
             }
         } while (!responseIsGood);
         return choiceInput;
-    }
-
-    public String getGameName(int index) {
-        return games[index];
-    }
-
-    public String getModeName(int index) {
-        return modes[index];
-    }
-
-    public String getLevelName(int index) {
-        return levels[index];
     }
 }

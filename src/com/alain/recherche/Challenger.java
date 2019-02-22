@@ -2,8 +2,6 @@ package com.alain.recherche;
 
 import com.alain.Game;
 
-import java.io.IOException;
-
 public class Challenger extends RechercheGame{
 
     public Challenger(String levelName) {
@@ -19,8 +17,7 @@ public class Challenger extends RechercheGame{
         while (this.trialNb < RechercheGame.getNbTrials() && !this.isWin()) {
             System.out.println("Essai n° " + (this.trialNb+1) + " sur " + RechercheGame.getNbTrials() + "\n");
             System.out.println("Entrez une combinaison de " + RechercheGame.getNbDigits() + " chiffres.\n");
-            this.InputCombination();
-            this.longCombinationToArray();
+            this.inputCombination();
             String result = RechercheGame.compareInput(this.getPlayerCombinationArray(), this.getGenerateCombination());
             this.displayResult(result, this.getPlayerCombinationArray());
             this.trialNb ++;
@@ -31,12 +28,6 @@ public class Challenger extends RechercheGame{
             System.out.println("\nDésolé, vous avez perdu ! La combinaison secrète était : " + combinationFormat(combinationToString(this.getGenerateCombination())) + "\n");
         }
         playAgain();
-        /*System.out.println("Appuyez sur la touche entrée pour revenir au menu principal");
-        try {
-            System.in.read();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }*/
     }
 
     @Override

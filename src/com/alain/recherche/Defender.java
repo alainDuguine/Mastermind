@@ -9,6 +9,7 @@ public class Defender extends RechercheGame{
     static int[] upperBound;
     static int[] lowerBound;
     private int [] smartCombination;
+    String result ="";
 
     public Defender(String levelName) {
         super(levelName);
@@ -36,11 +37,9 @@ public class Defender extends RechercheGame{
 
     @Override
     public void startGame() {
-        String result ="";
         this.displayGameTitle("Recherche +/-", "Défenseur", levelName);
         System.out.println("Entrez une combinaison de " + RechercheGame.getNbDigits() + " chiffres, que devra deviner l'ordinateur\n");
-        this.InputCombination();
-        this.longCombinationToArray();
+        this.inputCombination();
         while (this.trialNb < RechercheGame.getNbTrials() && !this.isWin()) {
             System.out.println("Essai n° " + (this.trialNb+1) + " sur " + RechercheGame.getNbTrials() + "\n");
             if (this.trialNb == 0 ) {
@@ -67,24 +66,29 @@ public class Defender extends RechercheGame{
         }
 
         playAgain();
-        /*System.out.println("Appuyez sur la touche entrée pour revenir au menu principal");
-        try {
-            System.in.read();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }*/
     }
 
-
+    /**
+     * generate a "smart" combination according to the result obtained with the last trial.
+     * We will define a range in which a number should be picked up randomly.
+     * @param result is the result of the last trial
+     * @param generatedCombination is the last combination tried
+     * @return smartCombination which is the new combination to try
+     */
     private int[] generateCombinationAfterResult(String result, int[] generatedCombination) {
-
+        //We remove spaces from the result var
         result = result.replaceAll("\\s+","");
 
         for (int i = 0; i < result.length(); i++) {
             if (result.charAt(i) == '=') {
+                //if the result of this digit is "=" we keep the same digit
                 smartCombination[i] = generatedCombination[i];
             }else if (result.charAt(i) == '+') {
+                /*if the result tells us that the digit should be higher ('+'),
+                we use the digit as a lowerBound for the next random generation.
+                 */
                 lowerBound[i] = generatedCombination[i];
+                //Then we generate the number higher than the next one, but lower than the highBound
                 do {
                     smartCombination[i] = ((int) Math.floor(Math.random() * 10));
                 } while (smartCombination[i] >= upperBound[i] || smartCombination[i] <= lowerBound[i]);
@@ -99,6 +103,9 @@ public class Defender extends RechercheGame{
         return smartCombination;
     }
 
+    /**
+     * propose the player to make a new game, otherwise, send back to the main menu
+     */
     @Override
     public void playAgain(){
         String replay;

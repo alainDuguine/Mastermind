@@ -78,7 +78,7 @@ public abstract class RechercheGame implements Game {
      * Ask to input a combination, then control it (length and type).
      * Length of combination is set by var nbDigits
      */
-    public void InputCombination(){
+    public void inputCombination(){
         //Controlling
         boolean responseIsGood;
         do {
@@ -93,7 +93,7 @@ public abstract class RechercheGame implements Game {
                 responseIsGood = false;
             }
         } while (!responseIsGood);
-
+        longCombinationToArray();
     }
 
     /**
