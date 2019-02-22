@@ -8,7 +8,7 @@ import java.util.Scanner;
 
 
 public abstract class RechercheGame implements Game {
-    private Scanner sc = new Scanner(System.in);
+    Scanner sc = new Scanner(System.in);
 
     String levelName;
 
@@ -41,6 +41,8 @@ public abstract class RechercheGame implements Game {
     //----------------------- METHODS ----------------------------------
 
     public abstract void startGame();
+
+    public abstract void playAgain();
 
     /**
      * Generate randomly a combination in an Array.

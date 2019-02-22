@@ -1,5 +1,7 @@
 package com.alain.recherche;
 
+import com.alain.Game;
+
 import java.io.IOException;
 
 public class Defender extends RechercheGame{
@@ -63,12 +65,14 @@ public class Defender extends RechercheGame{
         }else{
             System.out.println("Bravo, vous avez gagné ! L'ordinateur n'a pas trouvé votre combinaison secrète, qui était : " + (combinationFormat(combinationToString(this.getPlayerCombinationArray()))) + "\n");
         }
-        System.out.println("Appuyez sur la touche entrée pour revenir au menu principal");
+
+        playAgain();
+        /*System.out.println("Appuyez sur la touche entrée pour revenir au menu principal");
         try {
             System.in.read();
         } catch (IOException e) {
             e.printStackTrace();
-        }
+        }*/
     }
 
 
@@ -93,5 +97,18 @@ public class Defender extends RechercheGame{
 
         }
         return smartCombination;
+    }
+
+    @Override
+    public void playAgain(){
+        String replay;
+        sc.nextLine();
+        System.out.println("\nRejouer ? O/N");
+        replay = sc.nextLine();
+        replay = replay.toLowerCase();
+        if (replay.equals("o") || replay.equals("oui")){
+            Game defender = new Defender(levelName);
+            defender.startGame();
+        }
     }
 }

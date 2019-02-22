@@ -1,5 +1,7 @@
 package com.alain.recherche;
 
+import com.alain.Game;
+
 import java.io.IOException;
 
 public class Challenger extends RechercheGame{
@@ -28,11 +30,25 @@ public class Challenger extends RechercheGame{
         }else{
             System.out.println("\nDésolé, vous avez perdu ! La combinaison secrète était : " + combinationFormat(combinationToString(this.getGenerateCombination())) + "\n");
         }
-        System.out.println("Appuyez sur la touche entrée pour revenir au menu principal");
+        playAgain();
+        /*System.out.println("Appuyez sur la touche entrée pour revenir au menu principal");
         try {
             System.in.read();
         } catch (IOException e) {
             e.printStackTrace();
+        }*/
+    }
+
+    @Override
+    public void playAgain(){
+        String replay;
+        sc.nextLine();
+        System.out.println("\nRejouer ? O/N");
+        replay = sc.nextLine();
+        replay = replay.toLowerCase();
+        if (replay.equals("o") || replay.equals("oui")){
+            Game defender = new Challenger(levelName);
+            defender.startGame();
         }
     }
 }
