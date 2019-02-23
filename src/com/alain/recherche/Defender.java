@@ -4,7 +4,7 @@ import com.alain.Game;
 
 import java.io.IOException;
 
-public class Defender extends RechercheGame{
+public class Defender extends RechercheGame {
 
     static int[] upperBound;
     static int[] lowerBound;
@@ -37,7 +37,7 @@ public class Defender extends RechercheGame{
 
     @Override
     public void startGame() {
-        this.displayGameTitle("Recherche +/-", "Défenseur", levelName);
+        this.displayGameTitle("Recherche +/-", "Défenseur", this.getLevelName());
         System.out.println("Entrez une combinaison de " + RechercheGame.getNbDigits() + " chiffres, que devra deviner l'ordinateur\n");
         this.inputCombination();
         while (this.trialNb < RechercheGame.getNbTrials() && !this.isWin()) {
@@ -114,7 +114,7 @@ public class Defender extends RechercheGame{
         replay = sc.nextLine();
         replay = replay.toLowerCase();
         if (replay.equals("o") || replay.equals("oui")){
-            Game defender = new Defender(levelName);
+            Game defender = new Defender(this.getLevelName());
             defender.startGame();
         }
     }
