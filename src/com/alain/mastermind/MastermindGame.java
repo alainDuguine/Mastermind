@@ -51,7 +51,7 @@ public abstract class MastermindGame implements Game {
         int i = 0;
         while (i < nbDigits) {
             generateCombination[i] = ((int) Math.floor(Math.random() * 10));
-            while (generateCombination[i] == 0 || generateCombination[i] >= nbColors) {
+            while (generateCombination[i] == 0 || generateCombination[i] > nbColors) {
                 generateCombination[i] = ((int) Math.floor(Math.random() * 10));
             }
             i++;
@@ -75,7 +75,7 @@ public abstract class MastermindGame implements Game {
                 if (String.valueOf(playerCombination).length() != nbDigits || !(String.valueOf(playerCombination).matches("^[1-" + nbColors + "]{" + nbDigits + "}$")))
                     throw new InputMismatchException();
             } catch (ArrayIndexOutOfBoundsException | InputMismatchException e) {
-                System.out.println("Vous devez saisir une suite de " + nbDigits +" entiers, compris entre 1 et " + this.nbColors + ".\n");
+                System.out.println("Vous devez saisir une suite de " + nbDigits +" entiers, compris entre 1 et " + getNbColors() + ".\n");
                 sc.nextLine();
                 responseIsGood = false;
             }
@@ -135,7 +135,7 @@ public abstract class MastermindGame implements Game {
         if (goodPlace == nbDigits){
             this.win = true;
         }
-        return result = goodPlace + " bien placé(s) - " + wrongPlace + " mal placé(s)\n";
+        return goodPlace + " bien placé(s) - " + wrongPlace + " mal placé(s)\n";
     }
 
     public void displayResult(int trialNb, String resultTrial, int[] combinationTrial){

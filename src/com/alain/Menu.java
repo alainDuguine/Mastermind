@@ -30,9 +30,8 @@ public class Menu {
         gameSelectionIndex[1] = displayMenu(title, modes);
         //If "0" while menu selection -> restart menu selection
         if (gameSelectionIndex[1] == -1) {
-            //Reinitializing array, otherwise at the end of selection, exception is thrown.
             gameSelectionIndex = new int[3];
-            displayMenus();
+            this.displayMenus();
         }
         gameSelectionName[1] = modes[gameSelectionIndex[1]];
         //Level Selection
@@ -41,7 +40,7 @@ public class Menu {
         //If "0" while game selection -> restart menu selection
         if (gameSelectionIndex[2] == -1) {
             gameSelectionIndex = new int[3];
-            displayMenus();
+            this.displayMenus();
         }
         gameSelectionName[2] = levels[gameSelectionIndex[2]];
         return gameSelectionName;

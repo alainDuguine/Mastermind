@@ -8,7 +8,7 @@ public class Defender extends RechercheGame {
 
     static int[] upperBound;
     static int[] lowerBound;
-    private int [] smartCombination;
+    private int[] smartCombination;
     String result ="";
 
     public Defender(String levelName) {
