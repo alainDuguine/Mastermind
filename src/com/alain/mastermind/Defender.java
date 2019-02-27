@@ -9,7 +9,6 @@ public class Defender extends MastermindGame{
 
     private int[] generatedCombination;
     private int[] playerCombination;
-    private int[] smartCombination;
     private int trialNb;
     private int[] nbBlacksAndWhites;
     LinkedList <int[]> listCombinations;
@@ -17,7 +16,8 @@ public class Defender extends MastermindGame{
     public Defender(String levelName) {
         super(levelName);
         trialNb = 0;
-        smartCombination = new int[getNbDigits()];
+        playerCombination = new int[getNbDigits()];
+        generatedCombination = new int [getNbDigits()];
         listCombinations = new LinkedList<>();
         nbBlacksAndWhites = new int[2];
     }
@@ -27,13 +27,14 @@ public class Defender extends MastermindGame{
         this.displayGameTitle("Mastermind", "Défenseur", this.getLevelName());
         System.out.println("Entrez une combinaison de " + MastermindGame.getNbDigits() + " chiffres, compris entre 0 et " + (getNbColors()-1) +", que devra deviner l'ordinateur.\n");
         playerCombination = this.inputCombination();
+        generateAllSolutions(getNbColors(), getNbDigits());
         while (trialNb < MastermindGame.getNbTrials() && !this.isWin()) {
             System.out.println("Essai n° " + ((trialNb)+1) + " sur " + MastermindGame.getNbTrials() + "\n");
             if (trialNb == 0) {
-                generatedCombination = generateCombination();
+                generatedCombination = chooseCombinationFromList(listCombinations);
             }else{
-                smartCombination = generateCombinationAfterResult(generatedCombination, nbBlacksAndWhites);
-                //System.arraycopy(smartCombination, 0, generatedCombination,0, smartCombination.length);
+                listCombinations = getListCombinationAfterResult(generatedCombination, nbBlacksAndWhites);
+                generatedCombination = chooseCombinationFromList(listCombinations);
             }
             nbBlacksAndWhites = compareInput(generatedCombination,playerCombination);
             this.displayResult(trialNb, nbBlacksAndWhites, generatedCombination);
@@ -55,28 +56,40 @@ public class Defender extends MastermindGame{
         playAgain();
     }
 
-    private int[] generateCombinationAfterResult(int[] generatedCombination, int[] nbBlacksAndWhites) {
+    /**
+     * Compare the last combination tried, with the whole list of potentials solution,
+     * And remove the one who don't have the same result (because it's a reciprocal operation).
+     * @param lastPlayedCombination the last combination played
+     * @param nbBlacksAndWhites the result given from the try
+     * @return
+     */
+    private LinkedList<int[]> getListCombinationAfterResult(int[] lastPlayedCombination, int[] nbBlacksAndWhites) {
         int nbDelete = 0;
-        int temp[];
+        int element[];
         int[] testBlacksAndWhites = new int[2];
-        if (listCombinations.size() == 0){
-            generateAllSolutions(getNbColors(), getNbDigits());
-        }
+
+        //We create an iterator to be able to delete items at the same time as we are reading
         Iterator<int[]> it = listCombinations.iterator();
         while(it.hasNext()){
-            temp = it.next();
-            testBlacksAndWhites = compareInput(temp, generatedCombination);
-            System.out.println("Arrays.equals(testBlacksAndWhites,nbBlacksAndWhites)" + Arrays.equals(testBlacksAndWhites,nbBlacksAndWhites));
+            element = it.next();
+            //We test all combinations in the list with the last played combination.
+            //And remove each ones who gave a different result than nbBlacksAndWhites
+            testBlacksAndWhites = compareInput(element, lastPlayedCombination);
             if (!(Arrays.equals(testBlacksAndWhites,nbBlacksAndWhites))){
                 it.remove();
                 nbDelete++;
             }
         }
-        System.out.println("Taille liste " + listCombinations.size() + ", Nombre de suppressions : " + nbDelete);
-        return testBlacksAndWhites;
+        System.out.println("Taille liste " + listCombinations.size() + ", Nombre de suppressions : " + nbDelete + "\n");
+        return listCombinations;
     }
 
-    private void generateAllSolutions(int nbColors, int nbDigits){
+    /**
+     * Will generate all potentials solutions from n x {0,0,0,0...}  where n is nbDigits to {k,k,k,k...} where k is nbColors
+     * @param nbColors
+     * @param nbDigits
+     */
+    public void generateAllSolutions(int nbColors, int nbDigits){
         int remain, divisor;
         nbColors = getNbColors();
         nbDigits = getNbDigits();

@@ -3,6 +3,8 @@ package com.alain.mastermind;
 import com.alain.Game;
 
 import java.util.InputMismatchException;
+import java.util.LinkedList;
+import java.util.Random;
 import java.util.Scanner;
 
 public abstract class MastermindGame implements Game {
@@ -56,6 +58,17 @@ public abstract class MastermindGame implements Game {
             i++;
         }
         return generateCombination;
+    }
+
+    /**
+     * Pick randomly an object from the list of solutions possible
+     * @param listCombinations
+     * @return
+     */
+    public int[] chooseCombinationFromList(LinkedList<int[]> listCombinations){
+        Random generator = new Random();
+        int randomIndex = generator.nextInt(listCombinations.size());
+        return listCombinations.get(randomIndex);
     }
 
     /**
