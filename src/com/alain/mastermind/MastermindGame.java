@@ -15,11 +15,13 @@ public abstract class MastermindGame implements Game {
     private static int nbDigits;
     private static int nbTrials;
     private boolean win;
+    private int blackHits;
+    private int whiteHits;
 
     //Creating a pattern to separate input every 4 digits for better readability
     //Used in method compareInput()
-    private String pattern = "####,####,####";
-    private DecimalFormat decimalFormat = new DecimalFormat(pattern);
+    //private String pattern = "####,####";
+    //private DecimalFormat decimalFormat = new DecimalFormat(pattern);
 
     //---------------------- CONSTRUCTOR ------------------------------
 
@@ -27,6 +29,8 @@ public abstract class MastermindGame implements Game {
         this.levelName = levelName;
         getParameters(levelName);
         win = false;
+        blackHits = 0;
+        whiteHits = 0;
     }
 
     //----------------------- METHODS ----------------------------------
@@ -72,10 +76,10 @@ public abstract class MastermindGame implements Game {
                 playerCombination = sc.nextLong();
                 responseIsGood = true;
                 //We use a dynamic regular expression to check the input, setup by the nbColors (range of selection) and  nbDigits (number of digits)
-                if (String.valueOf(playerCombination).length() != nbDigits || !(String.valueOf(playerCombination).matches("^[1-" + nbColors + "]{" + nbDigits + "}$")))
+                if (String.valueOf(playerCombination).length() != nbDigits || !(String.valueOf(playerCombination).matches("^[0-" + (nbColors-1) + "]{" + nbDigits + "}$")))
                     throw new InputMismatchException();
             } catch (ArrayIndexOutOfBoundsException | InputMismatchException e) {
-                System.out.println("Vous devez saisir une suite de " + nbDigits +" entiers, compris entre 1 et " + getNbColors() + ".\n");
+                System.out.println("Vous devez saisir une suite de " + nbDigits +" entiers, compris entre 0 et " + (getNbColors()-1) + ".\n");
                 sc.nextLine();
                 responseIsGood = false;
             }
@@ -105,44 +109,46 @@ public abstract class MastermindGame implements Game {
         return playerCombination;
     }
 
-    protected String compareInput(int[] testCombination, int[] solutionCombination) {
-        int goodPlace = 0;
-        int wrongPlace = 0;
+    protected int[] compareInput(int[] testCombination, int[] solutionCombination) {
+        int blackHits = 0;
+        int whiteHits = 0;
+        int[] blacksAndWhites = new int [2];
         int[] test = testCombination.clone();
         int[] solution = solutionCombination.clone();
 
-        String result = "";
         int i;
         //We first check if the numbers are in good spot, and we change their value for not finding them after
-        for (i = 0; i < nbDigits; i++){
-            if (test[i] == solution[i]){
-                goodPlace++;
+        for (i = 0; i < nbDigits; i++) {
+            if (test[i] == solution[i]) {
+                blackHits++;
                 test[i] *= 10;
                 solution[i] *= 100;
             }
         }
+        blacksAndWhites[0] = blackHits;
 
         for (i = 0; i < nbDigits; i++) {
             for (int j = 0; j < nbDigits; j++) {
                 if (test[i] == solution[j]) {
-                    wrongPlace++;
+                    whiteHits++;
                     test[i] *= 10;
                     solution[j] *= 100;
                 }
             }
         }
-
-        if (goodPlace == nbDigits){
-            this.win = true;
-        }
-        return goodPlace + " bien placé(s) - " + wrongPlace + " mal placé(s)\n";
+        blacksAndWhites[1] = whiteHits;
+        return blacksAndWhites;
     }
 
-    public void displayResult(int trialNb, String resultTrial, int[] combinationTrial){
+    public void displayResult(int[] blacksAndWhites, int[] combination){
+        if (blackHits == nbDigits){
+            this.win = true;
+        }
+        String result = blacksAndWhites[0] + " bien placé(s) - " + blacksAndWhites[1] + " mal placé(s)\n";
 
         // Using a format to split long with " " every 4 digits, for better readability.
         // we convert the combinationArray into string first
-        System.out.println("Essai n°" + (trialNb+1) + " : " + combinationToString(combinationTrial) + "\nRéponse :   " + resultTrial + "\n");
+        System.out.println("Essai n°" + (getNbTrials()+1) + " : " + combinationToString(combination) + "\nRéponse :   " + result + "\n");
     }
 
     public String combinationToString(int [] combination) {
@@ -178,23 +184,31 @@ public abstract class MastermindGame implements Game {
     private void getParameters(String levelName) {
         switch (levelName) {
             case "Facile":
-                nbColors = 4;
+                nbColors = 6;
                 nbDigits = 4;
                 nbTrials = 10;
                 break;
             case "Normal":
-                nbColors = 7;
-                nbDigits = 6;
+                nbColors = 8;
+                nbDigits = 5;
                 nbTrials = 10;
                 break;
             case "Difficile":
                 nbColors = 10;
-                nbDigits = 8;
+                nbDigits = 6;
                 nbTrials = 10;
                 break;
             default:
                 nbColors = 0;
                 break;
         }
+    }
+
+    public int getBlackHits() {
+        return blackHits;
+    }
+
+    public int getWhiteHits() {
+        return whiteHits;
     }
 }

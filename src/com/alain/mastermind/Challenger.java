@@ -6,6 +6,7 @@ public class Challenger extends MastermindGame{
 
     private int[] generatedCombination;
     private int[] playerCombination;
+    int[] nbBlacksAndWhites;
 
     int trialNb;
 
@@ -21,10 +22,10 @@ public class Challenger extends MastermindGame{
         generatedCombination = this.generateCombination();
         while (trialNb < MastermindGame.getNbTrials() && !this.isWin()) {
             System.out.println("Essai n° " + (trialNb+1) + " sur " + MastermindGame.getNbTrials() + "\n");
-            System.out.println("Entrez une combinaison de " + MastermindGame.getNbDigits() + " chiffres, compris entre 1 et " + getNbColors() +".\n");
+            System.out.println("Entrez une combinaison de " + MastermindGame.getNbDigits() + " chiffres, compris entre 0 et " + (getNbColors()-1) +".\n");
             playerCombination = this.inputCombination();
-            String result = this.compareInput(playerCombination, generatedCombination);
-            this.displayResult(trialNb, result, playerCombination);
+            nbBlacksAndWhites = this.compareInput(playerCombination, generatedCombination);
+            this.displayResult(nbBlacksAndWhites, playerCombination);
             trialNb++;
         }
         if (this.isWin()){
