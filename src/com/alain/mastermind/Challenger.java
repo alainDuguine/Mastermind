@@ -25,7 +25,7 @@ public class Challenger extends MastermindGame{
             System.out.println("Entrez une combinaison de " + MastermindGame.getNbDigits() + " chiffres, compris entre 0 et " + (getNbColors()-1) +".\n");
             playerCombination = this.inputCombination();
             nbBlacksAndWhites = this.compareInput(playerCombination, generatedCombination);
-            this.displayResult(nbBlacksAndWhites, playerCombination);
+            this.displayResult(trialNb, nbBlacksAndWhites, playerCombination);
             trialNb++;
         }
         if (this.isWin()){

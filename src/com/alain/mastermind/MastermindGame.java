@@ -2,7 +2,6 @@ package com.alain.mastermind;
 
 import com.alain.Game;
 
-import java.text.DecimalFormat;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
@@ -15,8 +14,6 @@ public abstract class MastermindGame implements Game {
     private static int nbDigits;
     private static int nbTrials;
     private boolean win;
-    private int blackHits;
-    private int whiteHits;
 
     //Creating a pattern to separate input every 4 digits for better readability
     //Used in method compareInput()
@@ -29,8 +26,6 @@ public abstract class MastermindGame implements Game {
         this.levelName = levelName;
         getParameters(levelName);
         win = false;
-        blackHits = 0;
-        whiteHits = 0;
     }
 
     //----------------------- METHODS ----------------------------------
@@ -55,7 +50,7 @@ public abstract class MastermindGame implements Game {
         int i = 0;
         while (i < nbDigits) {
             generateCombination[i] = ((int) Math.floor(Math.random() * 10));
-            while (generateCombination[i] == 0 || generateCombination[i] > nbColors) {
+            while (generateCombination[i] >= nbColors) {
                 generateCombination[i] = ((int) Math.floor(Math.random() * 10));
             }
             i++;
@@ -109,7 +104,7 @@ public abstract class MastermindGame implements Game {
         return playerCombination;
     }
 
-    protected int[] compareInput(int[] testCombination, int[] solutionCombination) {
+    static int[] compareInput(int[] testCombination, int[] solutionCombination) {
         int blackHits = 0;
         int whiteHits = 0;
         int[] blacksAndWhites = new int [2];
@@ -121,8 +116,8 @@ public abstract class MastermindGame implements Game {
         for (i = 0; i < nbDigits; i++) {
             if (test[i] == solution[i]) {
                 blackHits++;
-                test[i] *= 10;
-                solution[i] *= 100;
+                test[i] += 10;
+                solution[i] += 100;
             }
         }
         blacksAndWhites[0] = blackHits;
@@ -131,8 +126,8 @@ public abstract class MastermindGame implements Game {
             for (int j = 0; j < nbDigits; j++) {
                 if (test[i] == solution[j]) {
                     whiteHits++;
-                    test[i] *= 10;
-                    solution[j] *= 100;
+                    test[i] += 10;
+                    solution[j] += 100;
                 }
             }
         }
@@ -140,15 +135,13 @@ public abstract class MastermindGame implements Game {
         return blacksAndWhites;
     }
 
-    public void displayResult(int[] blacksAndWhites, int[] combination){
-        if (blackHits == nbDigits){
+    public void displayResult(int trialNb, int[] blacksAndWhites, int[] combination){
+        if (blacksAndWhites[0] == nbDigits){
             this.win = true;
         }
-        String result = blacksAndWhites[0] + " bien placé(s) - " + blacksAndWhites[1] + " mal placé(s)\n";
 
-        // Using a format to split long with " " every 4 digits, for better readability.
-        // we convert the combinationArray into string first
-        System.out.println("Essai n°" + (getNbTrials()+1) + " : " + combinationToString(combination) + "\nRéponse :   " + result + "\n");
+        String result = blacksAndWhites[0] + " bien placé(s) - " + blacksAndWhites[1] + " mal placé(s)";
+        System.out.println("Essai n°" + (trialNb+1) + " : " + combinationToString(combination) + "\nRéponse :   " + result + "\n");
     }
 
     public String combinationToString(int [] combination) {
@@ -204,11 +197,4 @@ public abstract class MastermindGame implements Game {
         }
     }
 
-    public int getBlackHits() {
-        return blackHits;
-    }
-
-    public int getWhiteHits() {
-        return whiteHits;
-    }
 }

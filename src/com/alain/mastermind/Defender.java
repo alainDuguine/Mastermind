@@ -9,15 +9,17 @@ public class Defender extends MastermindGame{
 
     private int[] generatedCombination;
     private int[] playerCombination;
-    LinkedList listCombinations;
-
-    int trialNb;
-    int[] nbBlacksAndWhites = new int[2];
+    private int[] smartCombination;
+    private int trialNb;
+    private int[] nbBlacksAndWhites;
+    LinkedList <int[]> listCombinations;
 
     public Defender(String levelName) {
         super(levelName);
-        this.trialNb = 0;
+        trialNb = 0;
+        smartCombination = new int[getNbDigits()];
         listCombinations = new LinkedList<>();
+        nbBlacksAndWhites = new int[2];
     }
 
     @Override
@@ -26,15 +28,15 @@ public class Defender extends MastermindGame{
         System.out.println("Entrez une combinaison de " + MastermindGame.getNbDigits() + " chiffres, compris entre 0 et " + (getNbColors()-1) +", que devra deviner l'ordinateur.\n");
         playerCombination = this.inputCombination();
         while (trialNb < MastermindGame.getNbTrials() && !this.isWin()) {
-            System.out.println("Essai n° " + (trialNb+1) + " sur " + MastermindGame.getNbTrials() + "\n");
-            if (this.trialNb == 0) {
+            System.out.println("Essai n° " + ((trialNb)+1) + " sur " + MastermindGame.getNbTrials() + "\n");
+            if (trialNb == 0) {
                 generatedCombination = generateCombination();
             }else{
-                generateCombinationAfterResult(generatedCombination, getBlackHits(), getWhiteHits());
+                smartCombination = generateCombinationAfterResult(generatedCombination, nbBlacksAndWhites);
                 //System.arraycopy(smartCombination, 0, generatedCombination,0, smartCombination.length);
             }
-            nbBlacksAndWhites = this.compareInput(generatedCombination, playerCombination);
-            this.displayResult(nbBlacksAndWhites, generatedCombination);
+            nbBlacksAndWhites = compareInput(generatedCombination,playerCombination);
+            this.displayResult(trialNb, nbBlacksAndWhites, generatedCombination);
             trialNb++;
             System.out.println("Appuyez sur la touche entrée pour continuer");
             try {
@@ -53,32 +55,40 @@ public class Defender extends MastermindGame{
         playAgain();
     }
 
-    private void generateCombinationAfterResult(int[] generatedCombination, int blackHits, int whiteHits) {
+    private int[] generateCombinationAfterResult(int[] generatedCombination, int[] nbBlacksAndWhites) {
+        int nbDelete = 0;
+        int temp[];
+        int[] testBlacksAndWhites = new int[2];
         if (listCombinations.size() == 0){
             generateAllSolutions(getNbColors(), getNbDigits());
         }
-        listCombinations.remove(generatedCombination);
-        //for (value : listCombinations){
-//
-        //          }
-
-
+        Iterator<int[]> it = listCombinations.iterator();
+        while(it.hasNext()){
+            temp = it.next();
+            testBlacksAndWhites = compareInput(temp, generatedCombination);
+            System.out.println("Arrays.equals(testBlacksAndWhites,nbBlacksAndWhites)" + Arrays.equals(testBlacksAndWhites,nbBlacksAndWhites));
+            if (!(Arrays.equals(testBlacksAndWhites,nbBlacksAndWhites))){
+                it.remove();
+                nbDelete++;
+            }
+        }
+        System.out.println("Taille liste " + listCombinations.size() + ", Nombre de suppressions : " + nbDelete);
+        return testBlacksAndWhites;
     }
 
-    private List<int[]> generateAllSolutions(int nbColors, int nbDigits){
+    private void generateAllSolutions(int nbColors, int nbDigits){
         int remain, divisor;
         nbColors = getNbColors();
         nbDigits = getNbDigits();
         int[] comb;
         double totalNbCombinations = Math.pow(nbColors, nbDigits);
         //We generate the list of all possible combinations
-        List<int[]> listCombinations = new LinkedList<>();
         for ( int i = 0 ; i < totalNbCombinations;i++) {
             comb = new int[nbDigits];
             int j = nbDigits;
             int value = i;
             do {
-                //On convertit en base nbColors
+                //Convert decimal list in base nbColors
                 divisor = value / nbColors;
                 remain = value % nbColors;
                 comb[j-1] = remain;
@@ -87,7 +97,6 @@ public class Defender extends MastermindGame{
             }while (divisor != 0);
             listCombinations.add(comb);
         }
-        return listCombinations;
     }
 
     @Override
