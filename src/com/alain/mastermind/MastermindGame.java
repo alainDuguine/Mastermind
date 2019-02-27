@@ -17,11 +17,6 @@ public abstract class MastermindGame implements Game {
     private static int nbTrials;
     private boolean win;
 
-    //Creating a pattern to separate input every 4 digits for better readability
-    //Used in method compareInput()
-    //private String pattern = "####,####";
-    //private DecimalFormat decimalFormat = new DecimalFormat(pattern);
-
     //---------------------- CONSTRUCTOR ------------------------------
 
     public MastermindGame(String levelName) {
