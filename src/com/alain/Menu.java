@@ -5,60 +5,51 @@ import java.util.Scanner;
 
 public class Menu {
     private Scanner sc = new Scanner(System.in);
+    private String[] selectionNames = {"jeu","mode","niveau"};
     private String [] games = {"Recherche +/-", "Mastermind"};
     private String [] modes = {"Challenger", "Défenseur", "Duel"};
     private String [] levels = {"Facile","Normal", "Difficile"};
+    private String[][] selectionArray = new String[3][];
+    private String[] gameSelectionName = new String[3];
 
     /**
      * Call for menus, and return an array with the selected elements
      */
     public String[] displayMenus() {
 
-        String [] gameSelectionName = new String [3];
-        int [] gameSelectionIndex = new int[3];
+        String mainTitle ="==\t LOGICAL GAMES";
+        String title="";
+
+        int i=0;
+
+        selectionArray[0] = games;
+        selectionArray[1] = modes;
+        selectionArray[2] = levels;
 
         //Game Selection
-        String title = "==\t LOGICAL GAMES\n==\t Choix du jeu :";
-        gameSelectionIndex[0] = displayMenu(title, games);
-        if (gameSelectionIndex[0] == -1) {
-            //If "0" while game selection -> close app
-            System.exit(0);
+        for (String[] value : selectionArray) {
+            title = "==\t Choix du " + selectionNames[i] + " :";
+            gameSelectionName[i] = displayMenu(mainTitle, title, value);
+            mainTitle += "\n==\t " + gameSelectionName[i];
+            i++;
         }
-        gameSelectionName[0] = games[gameSelectionIndex[0]];
-        //Mode Selection
-        title = "==\t " + games[gameSelectionIndex[0]] + "\n==\t Choix du mode :";
-        gameSelectionIndex[1] = displayMenu(title, modes);
-        //If "0" while menu selection -> restart menu selection
-        if (gameSelectionIndex[1] == -1) {
-            gameSelectionIndex = new int[3];
-            this.displayMenus();
-        }
-        gameSelectionName[1] = modes[gameSelectionIndex[1]];
-        //Level Selection
-        title = "==\t " + games[gameSelectionIndex[0]] + " - Mode " + modes[gameSelectionIndex[1]] + "\n==\t Choix du niveau :";
-        gameSelectionIndex[2] = displayMenu(title, levels);
-        //If "0" while game selection -> restart menu selection
-        if (gameSelectionIndex[2] == -1) {
-            gameSelectionIndex = new int[3];
-            this.displayMenus();
-        }
-        gameSelectionName[2] = levels[gameSelectionIndex[2]];
         return gameSelectionName;
     }
 
     /**
      * Display menus according to a list of elements,
      * Ask for player input, and control it.
-     * Add in gameSelection HashMap, the couple selection number, selection Title.
+     * @param mainTitle Main Title of the menu
      * @param title Title of the menu
      * @param list List of element to choose from
      * @return the number Selected
      */
-    private int displayMenu(String title, String[] list) {
-
+    private String displayMenu(String mainTitle, String title, String[] list) {
+        String choiceName ="";
         //Display menu
         int i = 0;
         System.out.println("=========================");
+        System.out.println(mainTitle);
         System.out.println(title);
         System.out.println("=========================");
         for ( String value : list){
@@ -86,6 +77,10 @@ public class Menu {
                 responseIsGood = false;
             }
         } while (!responseIsGood);
-        return choiceInput;
+        if (choiceInput == -1){
+            System.exit(0);
+        }
+        choiceName = list[choiceInput];
+        return choiceName;
     }
 }

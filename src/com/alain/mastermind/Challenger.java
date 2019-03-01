@@ -20,9 +20,9 @@ public class Challenger extends MastermindGame{
     public void startGame() {
         this.displayGameTitle("Mastermind +/-", "Challenger", this.getLevelName());
         generatedCombination = this.generateCombination();
-        while (trialNb < MastermindGame.getNbTrials() && !this.isWin()) {
-            System.out.println("Essai n° " + (trialNb+1) + " sur " + MastermindGame.getNbTrials() + "\n");
-            System.out.println("Entrez une combinaison de " + MastermindGame.getNbDigits() + " chiffres, compris entre 0 et " + (getNbColors()-1) +".\n");
+        while (trialNb < this.getNbTrials() && !this.isWin()) {
+            System.out.println("Essai n° " + (trialNb+1) + " sur " + this.getNbTrials() + "\n");
+            System.out.println("Entrez une combinaison de " + this.getNbDigits() + " chiffres, compris entre 0 et " + (getNbColors()-1) +".\n");
             playerCombination = this.inputCombination();
             nbBlacksAndWhites = this.compareInput(playerCombination, generatedCombination);
             this.displayResult(trialNb, nbBlacksAndWhites, playerCombination);

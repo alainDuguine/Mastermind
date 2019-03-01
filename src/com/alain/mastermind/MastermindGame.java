@@ -79,7 +79,7 @@ public abstract class MastermindGame implements Game {
                 playerCombination = sc.nextLong();
                 responseIsGood = true;
                 //We use a dynamic regular expression to check the input, setup by the nbColors (range of selection) and  nbDigits (number of digits)
-                if (String.valueOf(playerCombination).length() != nbDigits || !(String.valueOf(playerCombination).matches("^[0-" + (nbColors-1) + "]{" + nbDigits + "}$")))
+                if (!(String.valueOf(playerCombination).matches("^[0-" + (nbColors-1) + "]{" + nbDigits + "}$")))
                     throw new InputMismatchException();
             } catch (ArrayIndexOutOfBoundsException | InputMismatchException e) {
                 System.out.println("Vous devez saisir une suite de " + nbDigits +" entiers, compris entre 0 et " + (getNbColors()-1) + ".\n");
@@ -112,7 +112,7 @@ public abstract class MastermindGame implements Game {
         return playerCombination;
     }
 
-    static int[] compareInput(int[] testCombination, int[] solutionCombination) {
+    protected static int[] compareInput(int[] testCombination, int[] solutionCombination) {
         int blackHits = 0;
         int whiteHits = 0;
         int[] blacksAndWhites = new int [2];
@@ -121,7 +121,7 @@ public abstract class MastermindGame implements Game {
 
         int i;
         //We first check if the numbers are in good spot, and we change their value for not finding them after
-        for (i = 0; i < nbDigits; i++) {
+        for (i = 0; i < solutionCombination.length; i++) {
             if (test[i] == solution[i]) {
                 blackHits++;
                 test[i] += 10;
@@ -130,8 +130,8 @@ public abstract class MastermindGame implements Game {
         }
         blacksAndWhites[0] = blackHits;
 
-        for (i = 0; i < nbDigits; i++) {
-            for (int j = 0; j < nbDigits; j++) {
+        for (i = 0; i < solutionCombination.length; i++) {
+            for (int j = 0; j < solutionCombination.length; j++) {
                 if (test[i] == solution[j]) {
                     whiteHits++;
                     test[i] += 10;
@@ -162,11 +162,11 @@ public abstract class MastermindGame implements Game {
 
     //---------------- GETTERS & SETTERS--------------------
 
-    public static int getNbTrials() {
+    public int getNbTrials() {
         return nbTrials;
     }
 
-    public static int getNbDigits() {
+    public int getNbDigits() {
         return nbDigits;
     }
 
@@ -174,7 +174,7 @@ public abstract class MastermindGame implements Game {
         return levelName;
     }
 
-    public static int getNbColors() {
+    public int getNbColors() {
         return nbColors;
     }
 

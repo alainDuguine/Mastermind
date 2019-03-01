@@ -25,11 +25,11 @@ public class Defender extends MastermindGame{
     @Override
     public void startGame() {
         this.displayGameTitle("Mastermind", "Défenseur", this.getLevelName());
-        System.out.println("Entrez une combinaison de " + MastermindGame.getNbDigits() + " chiffres, compris entre 0 et " + (getNbColors()-1) +", que devra deviner l'ordinateur.\n");
+        System.out.println("Entrez une combinaison de " + this.getNbDigits() + " chiffres, compris entre 0 et " + (getNbColors()-1) +", que devra deviner l'ordinateur.\n");
         playerCombination = this.inputCombination();
         generateAllSolutions(getNbColors(), getNbDigits());
-        while (trialNb < MastermindGame.getNbTrials() && !this.isWin()) {
-            System.out.println("Essai n° " + ((trialNb)+1) + " sur " + MastermindGame.getNbTrials() + "\n");
+        while (trialNb < this.getNbTrials() && !this.isWin()) {
+            System.out.println("Essai n° " + ((trialNb)+1) + " sur " + this.getNbTrials() + "\n");
             if (trialNb == 0) {
                 generatedCombination = chooseCombinationFromList(listCombinations);
             }else{
@@ -91,8 +91,6 @@ public class Defender extends MastermindGame{
      */
     public void generateAllSolutions(int nbColors, int nbDigits){
         int remain, divisor;
-        nbColors = getNbColors();
-        nbDigits = getNbDigits();
         int[] comb;
         double totalNbCombinations = Math.pow(nbColors, nbDigits);
         //We generate the list of all possible combinations
