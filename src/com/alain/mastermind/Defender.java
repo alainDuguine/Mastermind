@@ -5,13 +5,15 @@ import com.alain.Game;
 import java.io.IOException;
 import java.util.*;
 
-public class Defender extends MastermindGame{
+public class Defender extends MastermindGame implements Game{
 
     private int[] generatedCombination;
     private int[] playerCombination;
     private int trialNb;
     private int[] nbBlacksAndWhites;
-    LinkedList <int[]> listCombinations;
+    private LinkedList <int[]> listCombinations;
+
+    //---------------------- CONSTRUCTOR ------------------------------
 
     public Defender(String levelName) {
         super(levelName);
@@ -22,12 +24,24 @@ public class Defender extends MastermindGame{
         nbBlacksAndWhites = new int[2];
     }
 
+    //----------------------- METHODS ----------------------------------
+
     @Override
     public void startGame() {
         this.displayGameTitle("Mastermind", "Défenseur", this.getLevelName());
         System.out.println("Entrez une combinaison de " + this.getNbDigits() + " chiffres, compris entre 0 et " + (getNbColors()-1) +", que devra deviner l'ordinateur.\n");
         playerCombination = this.inputCombination();
         generateAllSolutions(getNbColors(), getNbDigits());
+        playTurn();
+        if (this.isWin()){
+            System.out.println("Désolé ! Vous avez perdu, l'ordinateur a trouvé la combinaison  en " + (trialNb) +" essais !");
+        }else{
+            System.out.println("Bravo, vous avez gagné ! L'ordinateur n'a pas trouvé votre combinaison secrète, qui était : " + (combinationToString(playerCombination)) + "\n");
+        }
+    }
+
+    @Override
+    public void playTurn() {
         while (trialNb < this.getNbTrials() && !this.isWin()) {
             System.out.println("Essai n° " + ((trialNb)+1) + " sur " + this.getNbTrials() + "\n");
             if (trialNb == 0) {
@@ -46,14 +60,6 @@ public class Defender extends MastermindGame{
                 e.printStackTrace();
             }
         }
-
-        if (this.isWin()){
-            System.out.println("Désolé ! Vous avez perdu, l'ordinateur a trouvé la combinaison  en " + (trialNb) +" essais !");
-        }else{
-            System.out.println("Bravo, vous avez gagné ! L'ordinateur n'a pas trouvé votre combinaison secrète, qui était : " + (combinationToString(playerCombination)) + "\n");
-        }
-
-        playAgain();
     }
 
     /**
@@ -61,12 +67,12 @@ public class Defender extends MastermindGame{
      * And remove the one who don't have the same result (because it's a reciprocal operation).
      * @param lastPlayedCombination the last combination played
      * @param nbBlacksAndWhites the result given from the try
-     * @return
+     * @return listCombinations updated
      */
     private LinkedList<int[]> getListCombinationAfterResult(int[] lastPlayedCombination, int[] nbBlacksAndWhites) {
         int nbDelete = 0;
-        int element[];
-        int[] testBlacksAndWhites = new int[2];
+        int [] element;
+        int[] testBlacksAndWhites;
 
         //We create an iterator to be able to delete items at the same time as we are reading
         Iterator<int[]> it = listCombinations.iterator();
@@ -86,10 +92,10 @@ public class Defender extends MastermindGame{
 
     /**
      * Will generate all potentials solutions from n x {0,0,0,0...}  where n is nbDigits to {k,k,k,k...} where k is nbColors
-     * @param nbColors
-     * @param nbDigits
+     * @param nbColors nbColors that can be played
+     * @param nbDigits nbDigits in the combination
      */
-    public void generateAllSolutions(int nbColors, int nbDigits){
+    private void generateAllSolutions(int nbColors, int nbDigits){
         int remain, divisor;
         int[] comb;
         double totalNbCombinations = Math.pow(nbColors, nbDigits);
@@ -108,19 +114,5 @@ public class Defender extends MastermindGame{
             }while (divisor != 0);
             listCombinations.add(comb);
         }
-    }
-
-    @Override
-    public void playAgain() {
-        String replay;
-        sc.nextLine();
-        System.out.println("\nRejouer ? O/N");
-        replay = sc.nextLine();
-        replay = replay.toLowerCase();
-        if (replay.equals("o") || replay.equals("oui")){
-            Game defender = new Defender(this.getLevelName());
-            defender.startGame();
-        }
-
     }
 }

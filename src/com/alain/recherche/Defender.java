@@ -4,12 +4,14 @@ import com.alain.Game;
 
 import java.io.IOException;
 
-public class Defender extends RechercheGame {
+public class Defender extends RechercheGame implements Game{
 
-    static int[] upperBound;
-    static int[] lowerBound;
+    private static int[] upperBound;
+    private static int[] lowerBound;
     private int[] smartCombination;
-    String result ="";
+    private String result ="";
+
+    //---------------------- CONSTRUCTOR ------------------------------
 
     public Defender(String levelName) {
         super(levelName);
@@ -19,10 +21,12 @@ public class Defender extends RechercheGame {
         boundInitializing();
     }
 
+    //----------------------- METHODS ----------------------------------
+
     /**
      * Initialise the boundaries to (low) -1 and (high) 10
      */
-    static void boundInitializing() {
+    private static void boundInitializing() {
         for (int i = 0; i < upperBound.length; i++){
             if (i == 0){
                 //We refuse 0 as first digit
@@ -40,6 +44,17 @@ public class Defender extends RechercheGame {
         this.displayGameTitle("Recherche +/-", "Défenseur", this.getLevelName());
         System.out.println("Entrez une combinaison de " + RechercheGame.getNbDigits() + " chiffres, que devra deviner l'ordinateur\n");
         this.inputCombination();
+        this.playTurn();
+        if (this.isWin()){
+            System.out.println("Désolé ! Vous avez perdu, l'ordinateur a trouvé la combinaison  en " + (this.trialNb) +" essais !");
+        }else{
+            System.out.println("Bravo, vous avez gagné ! L'ordinateur n'a pas trouvé votre combinaison secrète, qui était : " + (combinationFormat(combinationToString(this.getPlayerCombinationArray()))) + "\n");
+        }
+
+    }
+
+    @Override
+    public void playTurn() {
         while (this.trialNb < RechercheGame.getNbTrials() && !this.isWin()) {
             System.out.println("Essai n° " + (this.trialNb+1) + " sur " + RechercheGame.getNbTrials() + "\n");
             if (this.trialNb == 0 ) {
@@ -58,14 +73,6 @@ public class Defender extends RechercheGame {
                 e.printStackTrace();
             }
         }
-
-        if (this.isWin()){
-            System.out.println("Désolé ! Vous avez perdu, l'ordinateur a trouvé la combinaison  en " + (this.trialNb) +" essais !");
-        }else{
-            System.out.println("Bravo, vous avez gagné ! L'ordinateur n'a pas trouvé votre combinaison secrète, qui était : " + (combinationFormat(combinationToString(this.getPlayerCombinationArray()))) + "\n");
-        }
-
-        playAgain();
     }
 
     /**
@@ -101,21 +108,5 @@ public class Defender extends RechercheGame {
 
         }
         return smartCombination;
-    }
-
-    /**
-     * propose the player to make a new game, otherwise, send back to the main menu
-     */
-    @Override
-    public void playAgain(){
-        String replay;
-        sc.nextLine();
-        System.out.println("\nRejouer ? O/N");
-        replay = sc.nextLine();
-        replay = replay.toLowerCase();
-        if (replay.equals("o") || replay.equals("oui")){
-            Game defender = new Defender(this.getLevelName());
-            defender.startGame();
-        }
     }
 }

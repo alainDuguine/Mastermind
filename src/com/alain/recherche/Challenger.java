@@ -2,13 +2,17 @@ package com.alain.recherche;
 
 import com.alain.Game;
 
-public class Challenger extends RechercheGame {
+public class Challenger extends RechercheGame implements Game{
 
-    int[] generatedCombination;
+    private int[] generatedCombination;
+
+    //---------------------- CONSTRUCTOR ------------------------------
 
     public Challenger(String levelName) {
         super(levelName);
     }
+
+    //----------------------- METHODS ----------------------------------
 
     /**
      * Launch Game, call code generation, and ask for input
@@ -17,6 +21,16 @@ public class Challenger extends RechercheGame {
     public void startGame() {
         this.displayGameTitle("Recherche +/-", "Challenger", this.getLevelName());
         generatedCombination = this.generateCombination();
+        this.playTurn();
+        if (this.isWin()){
+            System.out.println("\nBravo ! Vous avez gagné en " + (trialNb) +" essais !");
+        }else{
+            System.out.println("\nDésolé, vous avez perdu ! La combinaison secrète était : " + combinationFormat(combinationToString(this.getGenerateCombination())) + "\n");
+        }
+    }
+
+    @Override
+    public void playTurn() {
         while (getTrialNb() < RechercheGame.getNbTrials() && !this.isWin()) {
             System.out.println("Essai n° " + (getTrialNb()+1) + " sur " + RechercheGame.getNbTrials() + "\n");
             System.out.println("Entrez une combinaison de " + RechercheGame.getNbDigits() + " chiffres.\n");
@@ -25,24 +39,6 @@ public class Challenger extends RechercheGame {
             this.displayResult(result, this.getPlayerCombinationArray());
             setTrialNb(getTrialNb()+1);
         }
-        if (this.isWin()){
-            System.out.println("\nBravo ! Vous avez gagné en " + (trialNb) +" essais !");
-        }else{
-            System.out.println("\nDésolé, vous avez perdu ! La combinaison secrète était : " + combinationFormat(combinationToString(this.getGenerateCombination())) + "\n");
-        }
-        playAgain();
     }
 
-    @Override
-    public void playAgain(){
-        String replay;
-        sc.nextLine();
-        System.out.println("\nRejouer ? O/N");
-        replay = sc.nextLine();
-        replay = replay.toLowerCase();
-        if (replay.equals("o") || replay.equals("oui")){
-            Game challenger = new Challenger(this.getLevelName());
-            challenger.startGame();
-        }
-    }
 }

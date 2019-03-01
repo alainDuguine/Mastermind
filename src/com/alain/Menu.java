@@ -19,7 +19,6 @@ public class Menu {
 
         String mainTitle ="==\t LOGICAL GAMES";
         String title="";
-
         int i=0;
 
         selectionArray[0] = games;

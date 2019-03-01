@@ -9,7 +9,7 @@ import java.util.Scanner;
 
 public abstract class MastermindGame implements Game {
 
-    Scanner sc = new Scanner(System.in);
+    private Scanner sc = new Scanner(System.in);
 
     private String levelName;
     private static int nbColors;
@@ -19,7 +19,7 @@ public abstract class MastermindGame implements Game {
 
     //---------------------- CONSTRUCTOR ------------------------------
 
-    public MastermindGame(String levelName) {
+    protected MastermindGame(String levelName) {
         this.levelName = levelName;
         getParameters(levelName);
         win = false;
@@ -27,22 +27,21 @@ public abstract class MastermindGame implements Game {
 
     //----------------------- METHODS ----------------------------------
 
-    public abstract void startGame();
-
-    public abstract void playAgain();
-
     /**
      * Display the GameTitle according to the game mode and the level
      */
-    public void displayGameTitle(String gameName, String modeName, String levelName){
+    protected void displayGameTitle(String gameName, String modeName, String levelName){
         System.out.println("========================================");
         System.out.println(gameName + " : Niveau " + levelName);
-        System.out.println("========================================");
-        System.out.println("");
+        System.out.println("========================================\n");
         System.out.println("============= Mode " + modeName +" ============\n");
     }
 
-    public int[] generateCombination(){
+    /**
+     * generate a combination with Math.random
+     * @return generated combination
+     */
+    protected int[] generateCombination(){
         int[] generateCombination = new int[nbDigits];
         int i = 0;
         while (i < nbDigits) {
@@ -57,10 +56,10 @@ public abstract class MastermindGame implements Game {
 
     /**
      * Pick randomly an object from the list of solutions possible
-     * @param listCombinations
-     * @return
+     * @param listCombinations listCombinations generated earlier
+     * @return the combination choosen
      */
-    public int[] chooseCombinationFromList(LinkedList<int[]> listCombinations){
+    protected int[] chooseCombinationFromList(LinkedList<int[]> listCombinations){
         Random generator = new Random();
         int randomIndex = generator.nextInt(listCombinations.size());
         return listCombinations.get(randomIndex);
@@ -70,7 +69,7 @@ public abstract class MastermindGame implements Game {
      * Ask to input a combination, then control it (length and type).
      * Length of combination is set by var nbDigits, 0 is not accepted
      */
-    public int[] inputCombination(){
+    protected int[] inputCombination(){
         //Controlling
         long playerCombination = 0;
         boolean responseIsGood;
@@ -95,7 +94,7 @@ public abstract class MastermindGame implements Game {
      * and put it in the Array playerCombination
      * Using modulo method
      */
-    public int[] longCombinationToArray(long combination){
+    private int[] longCombinationToArray(long combination){
         int[] playerCombination = new int[nbDigits];
         long input = combination;
         int i = 0;
@@ -112,6 +111,12 @@ public abstract class MastermindGame implements Game {
         return playerCombination;
     }
 
+    /**
+     * compare two combinations and return blacks and whites pen result
+     * @param testCombination combination tested
+     * @param solutionCombination point of comparison
+     * @return blacksAndWhites result int[] of blacks and whites pins
+     */
     protected static int[] compareInput(int[] testCombination, int[] solutionCombination) {
         int blackHits = 0;
         int whiteHits = 0;
@@ -143,7 +148,13 @@ public abstract class MastermindGame implements Game {
         return blacksAndWhites;
     }
 
-    public void displayResult(int trialNb, int[] blacksAndWhites, int[] combination){
+    /**
+     * print out the result of a turn
+     * @param trialNb number of trial currently played
+     * @param blacksAndWhites result of the test
+     * @param combination combination tested
+     */
+    protected void displayResult(int trialNb, int[] blacksAndWhites, int[] combination){
         if (blacksAndWhites[0] == nbDigits){
             this.win = true;
         }
@@ -152,7 +163,12 @@ public abstract class MastermindGame implements Game {
         System.out.println("Essai n°" + (trialNb+1) + " : " + combinationToString(combination) + "\nRéponse :   " + result + "\n");
     }
 
-    public String combinationToString(int [] combination) {
+    /**
+     * Convert int[] combination to String
+     * @param combination to convert
+     * @return combinationString combination converted
+     */
+    protected String combinationToString(int[] combination) {
         String combinationString="";
         for (int value : combination) {
             combinationString += value;
@@ -160,25 +176,39 @@ public abstract class MastermindGame implements Game {
         return combinationString;
     }
 
+    /**
+     * Ask for replay
+     * @return boolean according to the choice
+     */
+    @Override
+    public boolean playAgain() {
+        String replay;
+        sc.nextLine();
+        System.out.println("\nRejouer ? O/N");
+        replay = sc.nextLine();
+        replay = replay.toLowerCase();
+        return replay.equals("o") || replay.equals("oui");
+    }
+
     //---------------- GETTERS & SETTERS--------------------
 
-    public int getNbTrials() {
+    protected int getNbTrials() {
         return nbTrials;
     }
 
-    public int getNbDigits() {
+    protected int getNbDigits() {
         return nbDigits;
     }
 
-    public String getLevelName() {
+    protected String getLevelName() {
         return levelName;
     }
 
-    public int getNbColors() {
+    protected int getNbColors() {
         return nbColors;
     }
 
-    public boolean isWin() {
+    protected boolean isWin() {
         return win;
     }
 
