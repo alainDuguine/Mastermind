@@ -239,8 +239,6 @@ public abstract class RechercheGame implements Game{
         return generateCombination;
     }
 
-
-
     protected int[] getPlayerCombinationArray() {
         return playerCombinationArray;
     }
