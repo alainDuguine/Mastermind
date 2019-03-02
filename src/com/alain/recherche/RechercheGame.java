@@ -14,12 +14,6 @@ public abstract class RechercheGame implements Game{
     private static int nbDigits;
     private static int nbTrials;
     private static String resultGood = "";
-
-    int trialNb;
-
-    private long playerCombination = 0;
-    protected int[] generateCombination;
-    private int[] playerCombinationArray;
     private boolean win;
 
     //Creating a pattern to separate input every 4 digits for better readability
@@ -31,8 +25,7 @@ public abstract class RechercheGame implements Game{
 
     protected RechercheGame(String levelName) {
         this.levelName = levelName;
-        getNbDigitsAndNbTrials(levelName);
-        trialNb = 0;
+        getParameters(levelName);
         generateWinningPattern();
         win = false;
     }
@@ -42,16 +35,12 @@ public abstract class RechercheGame implements Game{
     /**
      * Generate randomly a combination in an Array.
      * length of combination is set by var nbDigits
-     * 0 can't be a value
      */
     protected int[] generateCombination() {
-        this.generateCombination = new int[nbDigits];
+        int[] generateCombination = new int[nbDigits];
         int i = 0;
         while (i < nbDigits) {
-            this.generateCombination[i] = ((int) Math.floor(Math.random() * 10));
-            while (this.generateCombination[i] == 0) {
-                this.generateCombination[i] = ((int) Math.floor(Math.random() * 10));
-            }
+            generateCombination[i] = ((int) Math.floor(Math.random() * 10));
             i++;
         }
         return generateCombination;
@@ -74,15 +63,15 @@ public abstract class RechercheGame implements Game{
      * Ask to input a combination, then control it (length and type).
      * Length of combination is set by var nbDigits, 0 is not accepted
      */
-    protected void inputCombination(){
+    protected int[] inputCombination(){
         //Controlling
+        String playerCombination="";
         boolean responseIsGood;
         do {
             try {
-                playerCombination = sc.nextLong();
+                playerCombination = sc.next();
                 responseIsGood = true;
-                //if (String.valueOf(playerCombination).length() != nbDigits || String.valueOf(playerCombination).contains("0"))
-                if (!(String.valueOf(playerCombination).matches("^[0-9]{" + nbDigits + "}$")))
+                if (playerCombination.matches("^[0-9]{" + (nbDigits-1) + "}$"))
                     throw new InputMismatchException();
             } catch (ArrayIndexOutOfBoundsException | InputMismatchException e) {
                 System.out.println("Vous devez saisir une suite de " + nbDigits +" entiers, compris entre 0 et 9");
@@ -90,7 +79,7 @@ public abstract class RechercheGame implements Game{
                 responseIsGood = false;
             }
         } while (!responseIsGood);
-        longCombinationToArray();
+        return combinationToArray(playerCombination);
     }
 
     /**
@@ -98,20 +87,17 @@ public abstract class RechercheGame implements Game{
      * and put it in the Array playerCombinationArray
      * Using modulo method
      */
-    private void longCombinationToArray(){
-        playerCombinationArray = new int[nbDigits];
-        long input = playerCombination;
-        int i = 0;
-        // We create a divisor buy powering 10 ^ nbDigits - 1
-        long divisor = (long)Math.pow(10, (nbDigits)-1);
-        long remain = 0;
-        while (remain != 0 || i < nbDigits) {
-            playerCombinationArray[i] = (int) (input / divisor);
-            remain = playerCombination % divisor;
-            input = remain;
-            divisor /= 10;
-            i++;
+    private int[] combinationToArray(String combination){
+        int[] playerCombination = new int[nbDigits];
+        char character;
+        String characterToString;
+
+        for (int i=0; i<combination.length();i++) {
+            character = combination.charAt(i);
+            characterToString = String.valueOf(character);
+            playerCombination[i] = Integer.parseInt(characterToString);
         }
+        return playerCombination;
     }
 
     /**
@@ -120,7 +106,7 @@ public abstract class RechercheGame implements Game{
      * @param testedCombination combination to test
      * @param solution combination which is searched by the Challenger/Defender
      */
-    static String compareInput(int[] testedCombination, int[] solution) {
+     protected String compareInput(int[] testedCombination, int[] solution) {
         int i = 0;
         String resultTrial = "";
 
@@ -147,7 +133,7 @@ public abstract class RechercheGame implements Game{
      * @param resultTrial contains String to print
      * @param combinationTrial contains combination tried
      */
-    protected void displayResult(String resultTrial, int[] combinationTrial){
+    protected void displayResult(int trialNb, String resultTrial, int[] combinationTrial){
         if (resultTrial.equals(resultGood))
             this.win = true;
 
@@ -163,7 +149,7 @@ public abstract class RechercheGame implements Game{
      * @param combination a combination in String
      * @return the formatted combination in String
      */
-    protected String combinationFormat(String combination){
+    private String combinationFormat(String combination){
         long combinationToLong = Long.parseLong(combination);
         return decimalFormat.format(combinationToLong);
     }
@@ -202,16 +188,12 @@ public abstract class RechercheGame implements Game{
         System.out.println("\nRejouer ? O/N");
         replay = sc.nextLine();
         replay = replay.toLowerCase();
-        if (replay.equals("o") || replay.equals("oui")){
-            return true;
-        }else{
-            return false;
-        }
+        return replay.equals("o") || replay.equals("oui");
     }
 
     //---------------- GETTERS & SETTERS--------------------
 
-    private static void getNbDigitsAndNbTrials(String levelName){
+    private void getParameters(String levelName){
         switch (levelName) {
             case "Facile":
                 nbDigits = 4;
@@ -235,19 +217,11 @@ public abstract class RechercheGame implements Game{
         return win;
     }
 
-    protected int[] getGenerateCombination() {
-        return generateCombination;
-    }
-
-    protected int[] getPlayerCombinationArray() {
-        return playerCombinationArray;
-    }
-
-    protected static int getNbTrials() {
+    protected int getNbTrials() {
         return nbTrials;
     }
 
-    protected static int getNbDigits() {
+    protected  int getNbDigits() {
         return nbDigits;
     }
 
@@ -255,11 +229,4 @@ public abstract class RechercheGame implements Game{
         return levelName;
     }
 
-    protected int getTrialNb() {
-        return trialNb;
-    }
-
-    protected void setTrialNb(int trialNb) {
-        this.trialNb = trialNb;
-    }
 }

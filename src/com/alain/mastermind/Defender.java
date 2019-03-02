@@ -43,8 +43,8 @@ public class Defender extends MastermindGame implements Game{
     @Override
     public void playTurn() {
         while (trialNb < this.getNbTrials() && !this.isWin()) {
-            System.out.println("Essai n° " + ((trialNb)+1) + " sur " + this.getNbTrials() + "\n");
-            if (trialNb == 0) {
+            System.out.println("Essai n° " + ((this.trialNb)+1) + " sur " + this.getNbTrials() + "\n");
+            if (this.trialNb == 0) {
                 generatedCombination = chooseCombinationFromList(listCombinations);
             }else{
                 listCombinations = getListCombinationAfterResult(generatedCombination, nbBlacksAndWhites);

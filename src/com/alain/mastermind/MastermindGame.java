@@ -71,14 +71,11 @@ public abstract class MastermindGame implements Game {
      */
     protected int[] inputCombination(){
         //Controlling
-
         String playerCombination="";
-
         boolean responseIsGood;
         do {
             try {
                 playerCombination = sc.next();
-
                 responseIsGood = true;
                 //We use a dynamic regular expression to check the input, setup by the nbColors (range of selection) and  nbDigits (number of digits)
                 if (!(playerCombination.matches("^[0-" + (nbColors-1) + "]{" + nbDigits + "}$")))
@@ -95,10 +92,8 @@ public abstract class MastermindGame implements Game {
     /**
      * Split the combination manually input,
      * and put it in the Array playerCombination
-     * Using modulo method
      */
     private int[] combinationToArray(String combination){
-
         int[] playerCombination = new int[nbDigits];
         char character;
         String characterToString;
@@ -117,7 +112,7 @@ public abstract class MastermindGame implements Game {
      * @param solutionCombination point of comparison
      * @return blacksAndWhites result int[] of blacks and whites pins
      */
-    protected static int[] compareInput(int[] testCombination, int[] solutionCombination) {
+    protected int[] compareInput(int[] testCombination, int[] solutionCombination) {
         int blackHits = 0;
         int whiteHits = 0;
         int[] blacksAndWhites = new int [2];

@@ -22,10 +22,10 @@ public class Challenger extends MastermindGame implements Game{
     @Override
     public void startGame() {
         this.displayGameTitle("Mastermind +/-", "Challenger", this.getLevelName());
-        generatedCombination = this.generateCombination();
-        playTurn();
+        this.generatedCombination = this.generateCombination();
+        this.playTurn();
         if (this.isWin()){
-            System.out.println("\nBravo ! Vous avez gagné en " + (trialNb) +" essais !");
+            System.out.println("\nBravo ! Vous avez gagné en " + (this.trialNb) +" essais !");
         }else{
             System.out.println("\nDésolé, vous avez perdu ! La combinaison secrète était : " + combinationToString(generatedCombination) + "\n");
         }
@@ -33,13 +33,13 @@ public class Challenger extends MastermindGame implements Game{
 
     @Override
     public void playTurn() {
-        while (trialNb < this.getNbTrials() && !this.isWin()) {
-            System.out.println("Essai n° " + (trialNb+1) + " sur " + this.getNbTrials() + "\n");
+        while (this.trialNb < this.getNbTrials() && !this.isWin()) {
+            System.out.println("Essai n° " + (this.trialNb+1) + " sur " + this.getNbTrials() + "\n");
             System.out.println("Entrez une combinaison de " + this.getNbDigits() + " chiffres, compris entre 0 et " + (getNbColors()-1) +".\n");
-            playerCombination = this.inputCombination();
-            nbBlacksAndWhites = this.compareInput(playerCombination, generatedCombination);
-            this.displayResult(trialNb, nbBlacksAndWhites, playerCombination);
-            trialNb++;
+            this.playerCombination = this.inputCombination();
+            this.nbBlacksAndWhites = this.compareInput(this.playerCombination, this.generatedCombination);
+            this.displayResult(this.trialNb, this.nbBlacksAndWhites, this.playerCombination);
+            this.trialNb++;
         }
     }
 }

@@ -6,15 +6,19 @@ import java.io.IOException;
 
 public class Defender extends RechercheGame implements Game{
 
-    private static int[] upperBound;
-    private static int[] lowerBound;
+    private int[] playerCombination;
+    private int[] generatedCombination;
+    private int[] upperBound;
+    private int[] lowerBound;
     private int[] smartCombination;
     private String result ="";
+    private int trialNb;
 
     //---------------------- CONSTRUCTOR ------------------------------
 
     public Defender(String levelName) {
         super(levelName);
+        trialNb = 0;
         upperBound = new int [getNbDigits()];
         lowerBound = new int [getNbDigits()];
         smartCombination = new int[getNbDigits()];
@@ -26,45 +30,38 @@ public class Defender extends RechercheGame implements Game{
     /**
      * Initialise the boundaries to (low) -1 and (high) 10
      */
-    private static void boundInitializing() {
-        for (int i = 0; i < upperBound.length; i++){
-            if (i == 0){
-                //We refuse 0 as first digit
-                lowerBound[i] = 0;
-                upperBound[i] = 10;
-            }else {
-                upperBound[i] = 10;
-                lowerBound[i] = -1;
-            }
+    private void boundInitializing() {
+        for (int i = 0; i < this.upperBound.length; i++){
+            this.upperBound[i] = 10;
+            this.lowerBound[i] = -1;
         }
     }
 
     @Override
     public void startGame() {
         this.displayGameTitle("Recherche +/-", "Défenseur", this.getLevelName());
-        System.out.println("Entrez une combinaison de " + RechercheGame.getNbDigits() + " chiffres, que devra deviner l'ordinateur\n");
-        this.inputCombination();
+        System.out.println("Entrez une combinaison de " + this.getNbDigits() + " chiffres, compris entre 0 et 9, que devra deviner l'ordinateur\n");
+        playerCombination = this.inputCombination();
         this.playTurn();
         if (this.isWin()){
             System.out.println("Désolé ! Vous avez perdu, l'ordinateur a trouvé la combinaison  en " + (this.trialNb) +" essais !");
         }else{
-            System.out.println("Bravo, vous avez gagné ! L'ordinateur n'a pas trouvé votre combinaison secrète, qui était : " + (combinationFormat(combinationToString(this.getPlayerCombinationArray()))) + "\n");
+            System.out.println("Bravo, vous avez gagné ! L'ordinateur n'a pas trouvé votre combinaison secrète, qui était : " + combinationToString(playerCombination) + "\n");
         }
 
     }
 
     @Override
     public void playTurn() {
-        while (this.trialNb < RechercheGame.getNbTrials() && !this.isWin()) {
-            System.out.println("Essai n° " + (this.trialNb+1) + " sur " + RechercheGame.getNbTrials() + "\n");
+        while (this.trialNb < this.getNbTrials() && !this.isWin()) {
+            System.out.println("Essai n° " + (this.trialNb+1) + " sur " + this.getNbTrials() + "\n");
             if (this.trialNb == 0 ) {
-                this.generateCombination();
+                this.generatedCombination = this.generateCombination();
             }else{
-                smartCombination = generateCombinationAfterResult(result, generateCombination);
-                System.arraycopy(smartCombination, 0, generateCombination,0, smartCombination.length);
+                this.generatedCombination = generateCombinationAfterResult(this.result, this.generatedCombination);
             }
-            result = RechercheGame.compareInput(generateCombination, this.getPlayerCombinationArray());
-            this.displayResult(result, generateCombination);
+            this.result = this.compareInput(this.generatedCombination, this.playerCombination);
+            this.displayResult(this.trialNb, this.result, this.generatedCombination);
             this.trialNb ++;
             System.out.println("Appuyez sur la touche entrée pour continuer");
             try {
@@ -89,21 +86,21 @@ public class Defender extends RechercheGame implements Game{
         for (int i = 0; i < result.length(); i++) {
             if (result.charAt(i) == '=') {
                 //if the result of this digit is "=" we keep the same digit
-                smartCombination[i] = generatedCombination[i];
+                this.smartCombination[i] = generatedCombination[i];
             }else if (result.charAt(i) == '+') {
                 /*if the result tells us that the digit should be higher ('+'),
                 we use the digit as a lowerBound for the next random generation.
                  */
-                lowerBound[i] = generatedCombination[i];
+                this.lowerBound[i] = generatedCombination[i];
                 //Then we generate the number higher than the next one, but lower than the highBound
                 do {
-                    smartCombination[i] = ((int) Math.floor(Math.random() * 10));
-                } while (smartCombination[i] >= upperBound[i] || smartCombination[i] <= lowerBound[i]);
+                    this.smartCombination[i] = ((int) Math.floor(Math.random() * 10));
+                } while (this.smartCombination[i] >= this.upperBound[i] || this.smartCombination[i] <= this.lowerBound[i]);
             }else {
-                upperBound[i] = generatedCombination[i];
+                this.upperBound[i] = generatedCombination[i];
                 do {
-                    smartCombination[i] = ((int) Math.floor(Math.random() * 10));
-                } while (smartCombination[i] >= upperBound[i] || smartCombination[i] <= lowerBound[i]);
+                    this.smartCombination[i] = ((int) Math.floor(Math.random() * 10));
+                } while (this.smartCombination[i] >= this.upperBound[i] || this.smartCombination[i] <= this.lowerBound[i]);
             }
 
         }
