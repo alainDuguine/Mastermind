@@ -9,30 +9,43 @@ public class Menu {
     private String [] games = {"Recherche +/-", "Mastermind"};
     private String [] modes = {"Challenger", "Défenseur", "Duel"};
     private String [] levels = {"Facile","Normal", "Difficile"};
-    private String[][] selectionArray = new String[3][];
-    private String[] gameSelectionName = new String[3];
+    private String[][] selectionArrays = new String[3][];
+    private String[] gameSelectionNames = new String[3];
 
     /**
      * Call for menus, and return an array with the selected elements
+     * Menus are called dynamically according to the array selectionArrays,
+     * the Menu titles are dynamically changed according to the selection.
      */
-    public String[] displayMenus() {
+    String[] displayMenus() {
 
         String mainTitle ="==\t LOGICAL GAMES";
-        String title="";
-        int i=0;
+        String title;
+        int i;
+        int gameSelectionIndex;
 
-        selectionArray[0] = games;
-        selectionArray[1] = modes;
-        selectionArray[2] = levels;
+        selectionArrays[0] = games;
+        selectionArrays[1] = modes;
+        selectionArrays[2] = levels;
 
         //Game Selection
-        for (String[] value : selectionArray) {
+        for (i = 0; i < selectionNames.length; i++){
+        //for (String[] value : selectionArrays) {
             title = "==\t Choix du " + selectionNames[i] + " :";
-            gameSelectionName[i] = displayMenu(mainTitle, title, value);
-            mainTitle += "\n==\t " + gameSelectionName[i];
-            i++;
+            gameSelectionIndex = displayMenu(mainTitle, title, selectionArrays[i]);
+            // If user selected Quitter it brings him back one step further
+            //And erase the last entry in mainTitle.
+            if (gameSelectionIndex == -1){
+                i=i-2;
+                if (i<-1)
+                    System.exit(0);
+                mainTitle = mainTitle.replace("\n==\t " + gameSelectionNames[i+1], "");
+            }else {
+                gameSelectionNames[i] = selectionArrays[i][gameSelectionIndex];
+                mainTitle += "\n==\t " + gameSelectionNames[i];
+            }
         }
-        return gameSelectionName;
+        return gameSelectionNames;
     }
 
     /**
@@ -43,7 +56,7 @@ public class Menu {
      * @param list List of element to choose from
      * @return the number Selected
      */
-    private String displayMenu(String mainTitle, String title, String[] list) {
+    private int displayMenu(String mainTitle, String title, String[] list) {
         String choiceName ="";
         //Display menu
         int i = 0;
@@ -55,10 +68,12 @@ public class Menu {
             System.out.println("==\t " + (i+1) + " - " + value);
             i++;
         }
-        System.out.println("=========================");
-        System.out.println("");
-        System.out.println("0 - Quitter");
-        System.out.println("");
+        System.out.println("=========================\n");
+        if (mainTitle.length() <= 17) {
+            System.out.println("0 - Quitter\n");
+        }else {
+            System.out.println("0 - Précédent\n");
+        }
         System.out.println("Quel est votre choix :\n");
 
         //take and control input
@@ -76,10 +91,8 @@ public class Menu {
                 responseIsGood = false;
             }
         } while (!responseIsGood);
-        if (choiceInput == -1){
-            System.exit(0);
-        }
-        choiceName = list[choiceInput];
-        return choiceName;
+        //choiceName = list[choiceInput];
+        //return choiceName;
+        return choiceInput;
     }
 }
