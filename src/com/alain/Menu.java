@@ -6,9 +6,10 @@ import java.util.Scanner;
 public class Menu {
     private Scanner sc = new Scanner(System.in);
     private String[] selectionNames = {"jeu","mode","niveau"};
-    private String [] games = {"Recherche +/-", "Mastermind"};
-    private String [] modes = {"Challenger", "Défenseur", "Duel"};
-    private String [] levels = {"Facile","Normal", "Difficile"};
+    private String[] games = {"Recherche +/-", "Mastermind"};
+    private String[] modes = {"Challenger", "Défenseur", "Duel"};
+    private String[] levels = {"Facile","Normal", "Difficile"};
+
     private String[][] selectionArrays = new String[3][];
     private String[] gameSelectionNames = new String[3];
 
@@ -57,7 +58,6 @@ public class Menu {
      * @return the number Selected
      */
     private int displayMenu(String mainTitle, String title, String[] list) {
-        String choiceName ="";
         //Display menu
         int i = 0;
         System.out.println("=========================");
@@ -91,8 +91,6 @@ public class Menu {
                 responseIsGood = false;
             }
         } while (!responseIsGood);
-        //choiceName = list[choiceInput];
-        //return choiceName;
         return choiceInput;
     }
 }
