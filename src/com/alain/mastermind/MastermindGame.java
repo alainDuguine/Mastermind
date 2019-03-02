@@ -71,14 +71,17 @@ public abstract class MastermindGame implements Game {
      */
     protected int[] inputCombination(){
         //Controlling
-        long playerCombination = 0;
+
+        String playerCombination="";
+
         boolean responseIsGood;
         do {
             try {
-                playerCombination = sc.nextLong();
+                playerCombination = sc.next();
+
                 responseIsGood = true;
                 //We use a dynamic regular expression to check the input, setup by the nbColors (range of selection) and  nbDigits (number of digits)
-                if (!(String.valueOf(playerCombination).matches("^[0-" + (nbColors-1) + "]{" + nbDigits + "}$")))
+                if (!(playerCombination.matches("^[0-" + (nbColors-1) + "]{" + nbDigits + "}$")))
                     throw new InputMismatchException();
             } catch (ArrayIndexOutOfBoundsException | InputMismatchException e) {
                 System.out.println("Vous devez saisir une suite de " + nbDigits +" entiers, compris entre 0 et " + (getNbColors()-1) + ".\n");
@@ -86,7 +89,7 @@ public abstract class MastermindGame implements Game {
                 responseIsGood = false;
             }
         } while (!responseIsGood);
-        return longCombinationToArray(playerCombination);
+        return combinationToArray(playerCombination);
     }
 
     /**
@@ -94,19 +97,16 @@ public abstract class MastermindGame implements Game {
      * and put it in the Array playerCombination
      * Using modulo method
      */
-    private int[] longCombinationToArray(long combination){
+    private int[] combinationToArray(String combination){
+
         int[] playerCombination = new int[nbDigits];
-        long input = combination;
-        int i = 0;
-        // We create a divisor buy powering 10 ^ nbDigits - 1
-        long divisor = (long)Math.pow(10, (nbDigits)-1);
-        long remain = 0;
-        while (remain != 0 || i < nbDigits) {
-            playerCombination[i] = (int) (input / divisor);
-            remain = combination % divisor;
-            input = remain;
-            divisor /= 10;
-            i++;
+        char character;
+        String characterToString;
+
+        for (int i=0; i<combination.length();i++) {
+            character = combination.charAt(i);
+            characterToString = String.valueOf(character);
+            playerCombination[i] = Integer.parseInt(characterToString);
         }
         return playerCombination;
     }
