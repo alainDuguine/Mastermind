@@ -1,10 +1,8 @@
 package com.alain.recherche;
 
-import com.alain.Game;
-
 import java.io.IOException;
 
-public class Defender extends RechercheGame implements Game{
+public class Defender extends RechercheGame{
 
     private int[] playerCombination;
     private int[] generatedCombination;
@@ -31,9 +29,9 @@ public class Defender extends RechercheGame implements Game{
     public void startGame() {
         this.displayGameTitle("Recherche +/-", "Défenseur", this.getLevelName());
         System.out.println("Entrez une combinaison de " + this.getNbDigits() + " chiffres, compris entre 0 et 9, que devra deviner l'ordinateur\n");
-        playerCombination = this.inputCombination();
+        this.playerCombination = this.inputCombination(this.getNbDigits(),10);
         this.playTurn();
-        this.endGameResult(this.getClass().getName(), this.trialNb, playerCombination);
+        this.endGameResult(this.getClass().getName(), this.trialNb, this.combinationToString(playerCombination));
     }
 
     @Override
@@ -41,7 +39,7 @@ public class Defender extends RechercheGame implements Game{
         while (this.trialNb < this.getNbTrials() && !this.isWin()) {
             System.out.println("Essai n° " + (this.trialNb+1) + " sur " + this.getNbTrials() + "\n");
             if (this.trialNb == 0 ) {
-                this.generatedCombination = this.generateCombination();
+                this.generatedCombination = this.generateCombination(this.getNbDigits(), 10);
             }else{
                 this.generatedCombination = generateCombinationAfterResult(this.result, this.generatedCombination);
             }

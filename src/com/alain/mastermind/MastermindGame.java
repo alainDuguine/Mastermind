@@ -2,57 +2,25 @@ package com.alain.mastermind;
 
 import com.alain.Game;
 
-import java.util.InputMismatchException;
 import java.util.LinkedList;
 import java.util.Random;
-import java.util.Scanner;
 
-public abstract class MastermindGame implements Game {
-
-    private Scanner sc = new Scanner(System.in);
+public abstract class MastermindGame extends Game {
 
     private String levelName;
     private static int nbColors;
     private static int nbDigits;
     private static int nbTrials;
-    private boolean win;
 
     //---------------------- CONSTRUCTOR ------------------------------
 
     protected MastermindGame(String levelName) {
+        super();
         this.levelName = levelName;
         getParameters(levelName);
-        win = false;
     }
 
     //----------------------- METHODS ----------------------------------
-
-    /**
-     * Display the GameTitle according to the game mode and the level
-     */
-    protected void displayGameTitle(String gameName, String modeName, String levelName){
-        System.out.println("========================================");
-        System.out.println(gameName + " : Niveau " + levelName);
-        System.out.println("========================================\n");
-        System.out.println("============= Mode " + modeName +" ============\n");
-    }
-
-    /**
-     * generate a combination with Math.random
-     * @return generated combination
-     */
-    protected int[] generateCombination(){
-        int[] generateCombination = new int[nbDigits];
-        int i = 0;
-        while (i < nbDigits) {
-            generateCombination[i] = ((int) Math.floor(Math.random() * 10));
-            while (generateCombination[i] >= nbColors) {
-                generateCombination[i] = ((int) Math.floor(Math.random() * 10));
-            }
-            i++;
-        }
-        return generateCombination;
-    }
 
     /**
      * Pick randomly an object from the list of solutions possible
@@ -63,47 +31,6 @@ public abstract class MastermindGame implements Game {
         Random generator = new Random();
         int randomIndex = generator.nextInt(listCombinations.size());
         return listCombinations.get(randomIndex);
-    }
-
-    /**
-     * Ask to input a combination, then control it (length and type).
-     * Length of combination is set by var nbDigits, 0 is not accepted
-     */
-    protected int[] inputCombination(){
-        //Controlling
-        String playerCombination="";
-        boolean responseIsGood;
-        do {
-            try {
-                playerCombination = sc.next();
-                responseIsGood = true;
-                //We use a dynamic regular expression to check the input, setup by the nbColors (range of selection) and  nbDigits (number of digits)
-                if (!(playerCombination.matches("^[0-" + (nbColors-1) + "]{" + nbDigits + "}$")))
-                    throw new InputMismatchException();
-            } catch (ArrayIndexOutOfBoundsException | InputMismatchException e) {
-                System.out.println("Vous devez saisir une suite de " + nbDigits +" entiers, compris entre 0 et " + (getNbColors()-1) + ".\n");
-                sc.nextLine();
-                responseIsGood = false;
-            }
-        } while (!responseIsGood);
-        return combinationToArray(playerCombination);
-    }
-
-    /**
-     * Split the combination manually input,
-     * and put it in the Array playerCombination
-     */
-    private int[] combinationToArray(String combination){
-        int[] playerCombination = new int[nbDigits];
-        char character;
-        String characterToString;
-
-        for (int i=0; i<combination.length();i++) {
-            character = combination.charAt(i);
-            characterToString = String.valueOf(character);
-            playerCombination[i] = Integer.parseInt(characterToString);
-        }
-        return playerCombination;
     }
 
     /**
@@ -151,7 +78,7 @@ public abstract class MastermindGame implements Game {
      */
     protected void displayResult(int trialNb, int[] blacksAndWhites, int[] combination){
         if (blacksAndWhites[0] == nbDigits){
-            this.win = true;
+            this.setWin(true);
         }
 
         String result = blacksAndWhites[0] + " bien placé(s) - " + blacksAndWhites[1] + " mal placé(s)";
@@ -171,20 +98,6 @@ public abstract class MastermindGame implements Game {
         return combinationString;
     }
 
-    /**
-     * Ask for replay
-     * @return boolean according to the choice
-     */
-    @Override
-    public boolean playAgain() {
-        String replay;
-        sc.nextLine();
-        System.out.println("\nRejouer ? O/N");
-        replay = sc.nextLine();
-        replay = replay.toLowerCase();
-        return replay.equals("o") || replay.equals("oui");
-    }
-
     //---------------- GETTERS & SETTERS--------------------
 
     protected int getNbTrials() {
@@ -201,10 +114,6 @@ public abstract class MastermindGame implements Game {
 
     protected int getNbColors() {
         return nbColors;
-    }
-
-    protected boolean isWin() {
-        return win;
     }
 
     private void getParameters(String levelName) {

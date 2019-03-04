@@ -5,7 +5,7 @@ import com.alain.Game;
 import java.io.IOException;
 import java.util.*;
 
-public class Defender extends MastermindGame implements Game{
+public class Defender extends MastermindGame{
 
     private int[] generatedCombination;
     private int[] playerCombination;
@@ -30,14 +30,10 @@ public class Defender extends MastermindGame implements Game{
     public void startGame() {
         this.displayGameTitle("Mastermind", "Défenseur", this.getLevelName());
         System.out.println("Entrez une combinaison de " + this.getNbDigits() + " chiffres, compris entre 0 et " + (getNbColors()-1) +", que devra deviner l'ordinateur.\n");
-        playerCombination = this.inputCombination();
+        this.playerCombination = this.inputCombination(this.getNbDigits(), this.getNbColors());
         generateAllSolutions(getNbColors(), getNbDigits());
         this.playTurn();
-        if (this.isWin()){
-            System.out.println("Désolé ! Vous avez perdu, l'ordinateur a trouvé la combinaison  en " + (trialNb) +" essais !");
-        }else{
-            System.out.println("Bravo, vous avez gagné ! L'ordinateur n'a pas trouvé votre combinaison secrète, qui était : " + (combinationToString(playerCombination)) + "\n");
-        }
+        this.endGameResult(this.getClass().getName(), this.trialNb, this.combinationToString(this.playerCombination));
     }
 
     @Override

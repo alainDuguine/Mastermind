@@ -1,43 +1,25 @@
 package com.alain.recherche;
 
 import com.alain.Game;
-import java.util.InputMismatchException;
-import java.util.Scanner;
 
-
-public abstract class RechercheGame implements Game{
-    private Scanner sc = new Scanner(System.in);
+public abstract class RechercheGame extends Game{
 
     private String levelName;
     private static int nbDigits;
     private static int nbTrials;
     private static String resultGood = "";
-    private boolean win;
+    private int nbMax =10;
 
-    //---------------------- CONSTRUCTOR ------------------------------
+//---------------------- CONSTRUCTOR ------------------------------
 
     protected RechercheGame(String levelName) {
+        super();
         this.levelName = levelName;
         getParameters(levelName);
         generateWinningPattern();
-        win = false;
     }
 
     //----------------------- METHODS ----------------------------------
-
-    /**
-     * Generate randomly a combination in an Array.
-     * length of combination is set by var nbDigits
-     */
-    protected int[] generateCombination() {
-        int[] generateCombination = new int[nbDigits];
-        int i = 0;
-        while (i < nbDigits) {
-            generateCombination[i] = ((int) Math.floor(Math.random() * 10));
-            i++;
-        }
-        return generateCombination;
-    }
 
     /**
      * Generating the string that we should find for a winning game according to the number of digits necessary
@@ -50,47 +32,6 @@ public abstract class RechercheGame implements Game{
             }
             resultGood += "=";
         }
-    }
-
-    /**
-     * Ask to input a combination, then control it (length and type).
-     * Length of combination is set by var nbDigits, 0 is not accepted
-     */
-    protected int[] inputCombination(){
-        //Controlling
-        String playerCombination="";
-        boolean responseIsGood;
-        do {
-            try {
-                playerCombination = sc.next();
-                responseIsGood = true;
-                if (playerCombination.matches("^[0-9]{" + (nbDigits-1) + "}$"))
-                    throw new InputMismatchException();
-            } catch (ArrayIndexOutOfBoundsException | InputMismatchException e) {
-                System.out.println("Vous devez saisir une suite de " + nbDigits +" entiers, compris entre 0 et 9");
-                sc.nextLine();
-                responseIsGood = false;
-            }
-        } while (!responseIsGood);
-        return combinationToArray(playerCombination);
-    }
-
-    /**
-     * Split the combination manually input,
-     * and put it in the Array playerCombinationArray
-     * Using modulo method
-     */
-    private int[] combinationToArray(String combination){
-        int[] playerCombination = new int[nbDigits];
-        char character;
-        String characterToString;
-
-        for (int i=0; i<combination.length();i++) {
-            character = combination.charAt(i);
-            characterToString = String.valueOf(character);
-            playerCombination[i] = Integer.parseInt(characterToString);
-        }
-        return playerCombination;
     }
 
     /**
@@ -121,48 +62,15 @@ public abstract class RechercheGame implements Game{
     }
 
     /**
-     * Display text according to ending of the party, win or loss
-     * @param trialNb number of trials played.
-     * @param combination that was to found
-     */
-    protected void endGameResult (String className, int trialNb, int[] combination) {
-        if (className.contains("Defender")){
-            if (this.isWin()) {
-                System.out.println("Désolé ! Vous avez perdu, l'ordinateur a trouvé la combinaison  en " + (trialNb) + " essais !");
-            } else {
-                System.out.println("Bravo, vous avez gagné ! L'ordinateur n'a pas trouvé votre combinaison secrète, qui était : " + combinationToString(combination) + "\n");
-            }
-        }else{
-            if (this.isWin()){
-                System.out.println("\nBravo ! Vous avez gagné en " + (trialNb) +" essais !");
-            }else{
-                System.out.println("\nDésolé, vous avez perdu ! La combinaison secrète était : " + combinationToString(combination) + "\n");
-            }
-        }
-    }
-
-    /**
      * print out the result of a turn
      * @param resultTrial contains String to print
      * @param combinationTrial contains combination tried
      */
     protected void displayResult(int trialNb, String resultTrial, int[] combinationTrial){
-        if (resultTrial.equals(resultGood))
-            this.win = true;
-
-        // Using a format to split long with " " every 4 digits, for better readability.
-        // we convert the combinationArray into string first
+        if (resultTrial.equals(resultGood)) {
+            this.setWin(true);
+        }
         System.out.println("Essai n°" + (trialNb+1) + " : " + combinationToString(combinationTrial) + "\nRéponse :   " + resultTrial + "\n");
-    }
-
-    /**
-     * Display the GameTitle according to the game mode and the level
-     */
-    protected void displayGameTitle(String gameName, String modeName, String levelName){
-        System.out.println("========================================");
-        System.out.println(gameName + " : Niveau " + levelName);
-        System.out.println("========================================\n");
-        System.out.println("============= Mode " + modeName +" ============\n");
     }
 
     /**
@@ -184,19 +92,6 @@ public abstract class RechercheGame implements Game{
         return combinationString;
     }
 
-    /**
-     * Ask for replay
-     * @return boolean according to the choice
-     */
-    @Override
-    public boolean playAgain() {
-        String replay;
-        sc.nextLine();
-        System.out.println("\nRejouer ? O/N");
-        replay = sc.nextLine();
-        replay = replay.toLowerCase();
-        return replay.equals("o") || replay.equals("oui");
-    }
 
     //---------------- GETTERS & SETTERS--------------------
 
@@ -220,10 +115,6 @@ public abstract class RechercheGame implements Game{
         }
     }
 
-    boolean isWin() {
-        return win;
-    }
-
     protected int getNbTrials() {
         return nbTrials;
     }
@@ -234,6 +125,10 @@ public abstract class RechercheGame implements Game{
 
     protected String getLevelName() {
         return levelName;
+    }
+
+    public int getNbMax() {
+        return nbMax;
     }
 
 }

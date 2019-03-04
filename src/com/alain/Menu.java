@@ -42,8 +42,19 @@ public class Menu {
                     System.exit(0);
                 mainTitle = mainTitle.replace("\n==\t " + gameSelectionNames[i+1], "");
             }else {
-                gameSelectionNames[i] = selectionArrays[i][gameSelectionIndex];
-                mainTitle += "\n==\t " + gameSelectionNames[i];
+                mainTitle += "\n==\t " + selectionArrays[i][gameSelectionIndex];
+                switch (selectionArrays[i][gameSelectionIndex]){
+                    case "Recherche +/-":
+                        gameSelectionNames[i] = "recherche";
+                        break;
+                    case "Mastermind":
+                        gameSelectionNames[i] = "mastermind";
+                        break;
+                    case "Défenseur":
+                        gameSelectionNames[i] = "Defender";
+                        break;
+                    default : gameSelectionNames[i] = selectionArrays[i][gameSelectionIndex];
+                }
             }
         }
         return gameSelectionNames;
@@ -75,7 +86,16 @@ public class Menu {
             System.out.println("0 - Précédent\n");
         }
         System.out.println("Quel est votre choix :\n");
+        return this.playerInput(0,list.length-1);
+    }
 
+    /**
+     * Read player input and check that it is good type and in the good range
+     * @param nbMin minimum number accepted
+     * @param nbMax maximum number accepted
+     * @return the input choice as an int
+     */
+    private int playerInput(int nbMin, int nbMax) {
         //take and control input
         int choiceInput = 0;
         boolean responseIsGood;
@@ -83,14 +103,31 @@ public class Menu {
             try {
                 choiceInput = sc.nextInt()-1;
                 responseIsGood = true;
-                if (choiceInput < -1 || choiceInput > list.length-1)
+                if (choiceInput < -1 || choiceInput > nbMax)
                     throw new ArrayIndexOutOfBoundsException();
             } catch (ArrayIndexOutOfBoundsException | InputMismatchException e) {
-                System.out.println("Vous devez saisir un nombre entier, compris entre 0 et " + (list.length));
+                System.out.println("Vous devez saisir un nombre entier, compris entre " + nbMin + " et " + nbMax);
                 sc.nextLine();
                 responseIsGood = false;
             }
         } while (!responseIsGood);
         return choiceInput;
+    }
+
+    /**
+     * display menu to choose what to do at the end of a game.
+     * @return the input choice as an int
+     */
+    public int replayMenu(){
+        System.out.println("\n=========================");
+        System.out.println("Une autre partie ?");
+        System.out.println("=========================");
+        System.out.println("1 - Rejouer");
+        System.out.println("2 - Revenir au menu principal");
+        System.out.println("0 - Quitter");
+        System.out.println("=========================\n");
+        System.out.println("Quel est votre choix :\n");
+        return this.playerInput(0,2);
+
     }
 }
