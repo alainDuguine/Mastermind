@@ -27,28 +27,13 @@ public class Defender extends RechercheGame implements Game{
 
     //----------------------- METHODS ----------------------------------
 
-    /**
-     * Initialise the boundaries to (low) -1 and (high) 10
-     */
-    private void boundInitializing() {
-        for (int i = 0; i < this.upperBound.length; i++){
-            this.upperBound[i] = 10;
-            this.lowerBound[i] = -1;
-        }
-    }
-
     @Override
     public void startGame() {
         this.displayGameTitle("Recherche +/-", "Défenseur", this.getLevelName());
         System.out.println("Entrez une combinaison de " + this.getNbDigits() + " chiffres, compris entre 0 et 9, que devra deviner l'ordinateur\n");
         playerCombination = this.inputCombination();
         this.playTurn();
-        if (this.isWin()){
-            System.out.println("Désolé ! Vous avez perdu, l'ordinateur a trouvé la combinaison  en " + (this.trialNb) +" essais !");
-        }else{
-            System.out.println("Bravo, vous avez gagné ! L'ordinateur n'a pas trouvé votre combinaison secrète, qui était : " + combinationToString(playerCombination) + "\n");
-        }
-
+        this.endGameResult(this.getClass().getName(), this.trialNb, playerCombination);
     }
 
     @Override
@@ -69,6 +54,16 @@ public class Defender extends RechercheGame implements Game{
             } catch (IOException e) {
                 e.printStackTrace();
             }
+        }
+    }
+
+    /**
+     * Initialise the boundaries to (low) -1 and (high) 10
+     */
+    private void boundInitializing() {
+        for (int i = 0; i < this.upperBound.length; i++){
+            this.upperBound[i] = 10;
+            this.lowerBound[i] = -1;
         }
     }
 

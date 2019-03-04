@@ -18,19 +18,12 @@ public class Challenger extends RechercheGame implements Game{
 
     //----------------------- METHODS ----------------------------------
 
-    /**
-     * Launch Game, call code generation, and ask for input
-     */
     @Override
     public void startGame() {
         this.displayGameTitle("Recherche +/-", "Challenger", this.getLevelName());
         this.generatedCombination = this.generateCombination();
         this.playTurn();
-        if (this.isWin()){
-            System.out.println("\nBravo ! Vous avez gagné en " + (this.trialNb) +" essais !");
-        }else{
-            System.out.println("\nDésolé, vous avez perdu ! La combinaison secrète était : " + combinationToString(generatedCombination) + "\n");
-        }
+        this.endGameResult(this.getClass().getName(),this.trialNb, generatedCombination);
     }
 
     @Override

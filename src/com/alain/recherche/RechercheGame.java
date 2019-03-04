@@ -1,8 +1,6 @@
 package com.alain.recherche;
 
 import com.alain.Game;
-
-import java.text.DecimalFormat;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
@@ -15,11 +13,6 @@ public abstract class RechercheGame implements Game{
     private static int nbTrials;
     private static String resultGood = "";
     private boolean win;
-
-    //Creating a pattern to separate input every 4 digits for better readability
-    //Used in method compareInput()
-    private String pattern = "####,####,####";
-    private DecimalFormat decimalFormat = new DecimalFormat(pattern);
 
     //---------------------- CONSTRUCTOR ------------------------------
 
@@ -127,6 +120,26 @@ public abstract class RechercheGame implements Game{
         return resultTrial;
     }
 
+    /**
+     * Display text according to ending of the party, win or loss
+     * @param trialNb number of trials played.
+     * @param combination that was to found
+     */
+    protected void endGameResult (String className, int trialNb, int[] combination) {
+        if (className.contains("Defender")){
+            if (this.isWin()) {
+                System.out.println("Désolé ! Vous avez perdu, l'ordinateur a trouvé la combinaison  en " + (trialNb) + " essais !");
+            } else {
+                System.out.println("Bravo, vous avez gagné ! L'ordinateur n'a pas trouvé votre combinaison secrète, qui était : " + combinationToString(combination) + "\n");
+            }
+        }else{
+            if (this.isWin()){
+                System.out.println("\nBravo ! Vous avez gagné en " + (trialNb) +" essais !");
+            }else{
+                System.out.println("\nDésolé, vous avez perdu ! La combinaison secrète était : " + combinationToString(combination) + "\n");
+            }
+        }
+    }
 
     /**
      * print out the result of a turn
@@ -139,19 +152,7 @@ public abstract class RechercheGame implements Game{
 
         // Using a format to split long with " " every 4 digits, for better readability.
         // we convert the combinationArray into string first
-        System.out.println("Essai n°" + (trialNb+1) + " : " + combinationFormat(combinationToString(combinationTrial)) + "\nRéponse :   " + resultTrial + "\n");
-    }
-
-
-    /**
-     * Format the combination with the pattern designed earlier (####,####,####)
-     * that will add a space every 4 digits
-     * @param combination a combination in String
-     * @return the formatted combination in String
-     */
-    private String combinationFormat(String combination){
-        long combinationToLong = Long.parseLong(combination);
-        return decimalFormat.format(combinationToLong);
+        System.out.println("Essai n°" + (trialNb+1) + " : " + combinationToString(combinationTrial) + "\nRéponse :   " + resultTrial + "\n");
     }
 
     /**
@@ -170,9 +171,15 @@ public abstract class RechercheGame implements Game{
      * @return combinationString combination converted
      */
     protected String combinationToString(int[] combination) {
+        int i =0;
         String combinationString="";
         for (int value : combination) {
+            //We add a " " every 4 digits for better readability
+            if (i != 0 && i % 4 == 0) {
+                combinationString += " ";
+            }
             combinationString += value;
+            i++;
         }
         return combinationString;
     }

@@ -32,7 +32,7 @@ public class Defender extends MastermindGame implements Game{
         System.out.println("Entrez une combinaison de " + this.getNbDigits() + " chiffres, compris entre 0 et " + (getNbColors()-1) +", que devra deviner l'ordinateur.\n");
         playerCombination = this.inputCombination();
         generateAllSolutions(getNbColors(), getNbDigits());
-        playTurn();
+        this.playTurn();
         if (this.isWin()){
             System.out.println("Désolé ! Vous avez perdu, l'ordinateur a trouvé la combinaison  en " + (trialNb) +" essais !");
         }else{
