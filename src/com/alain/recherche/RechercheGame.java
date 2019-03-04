@@ -8,7 +8,7 @@ public abstract class RechercheGame extends Game{
     private static int nbDigits;
     private static int nbTrials;
     private static String resultGood = "";
-    private int nbMax =10;
+    private int nbMax = 10;
 
 //---------------------- CONSTRUCTOR ------------------------------
 
@@ -66,11 +66,11 @@ public abstract class RechercheGame extends Game{
      * @param resultTrial contains String to print
      * @param combinationTrial contains combination tried
      */
-    protected void displayResult(int trialNb, String resultTrial, int[] combinationTrial){
+    protected void displayResult(String resultTrial, int[] combinationTrial){
         if (resultTrial.equals(resultGood)) {
             this.setWin(true);
         }
-        System.out.println("Essai n°" + (trialNb+1) + " : " + combinationToString(combinationTrial) + "\nRéponse :   " + resultTrial + "\n");
+        System.out.println("Essai :   " + combinationToString(combinationTrial) + "\nRéponse : " + resultTrial + "\n");
     }
 
     /**
@@ -130,5 +130,4 @@ public abstract class RechercheGame extends Game{
     public int getNbMax() {
         return nbMax;
     }
-
 }

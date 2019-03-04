@@ -38,6 +38,11 @@ public class Challenger extends MastermindGame{
             this.trialNb++;
         }
     }
+
+    @Override
+    public void playTurn(int trialNb, int[] solutionCombination) {
+
+    }
 }
 
 

@@ -10,7 +10,6 @@ public abstract class Game {
 
     //---------------------- CONSTRUCTOR ------------------------------
 
-
     public Game() {
         this.win = false;
     }
@@ -20,6 +19,8 @@ public abstract class Game {
     public abstract void startGame();
 
     public abstract void playTurn();
+
+    public abstract void playTurn(int trialNb, int[] solutionCombination);
 
     /**
      * Display the GameTitle according to the game mode and the level
@@ -54,7 +55,7 @@ public abstract class Game {
      * Length of combination is set by var nbDigits, 0 is not accepted
      */
     protected int[] inputCombination(int nbDigits, int nbMax){
-        //Controlling
+        //Controlling input
         String playerCombination="";
         boolean responseIsGood;
         do {
@@ -109,6 +110,23 @@ public abstract class Game {
             }else{
                 System.out.println("\nDésolé, vous avez perdu ! La combinaison secrète était : " + combination + "\n");
             }
+        }
+    }
+
+    /**
+     * Display text according to ending of the party, win or loss
+     */
+    protected void endGameDuel(boolean gameComputer, boolean gamePlayer, int trialNb, String computerCombination, String playerCombination) {
+        if (gameComputer && gamePlayer) {
+            System.out.println("Match Nul ! Vous avez trouvé les combinaisons secrètes en même temps, en " + (trialNb) + " essais !\n");
+        } else if (gameComputer){
+            System.out.println("Désolé, vous avez perdu ! L'ordinateur a trouvé la combinaison  en " + (trialNb) + " essais !\n");
+        } else if (gamePlayer){
+            System.out.println("Bravo ! Vous avez battu l'ordinateur en " + (trialNb) +" essais !\n");
+        }else{
+            System.out.println("Match nul ! Ni vous, ni l'ordinateur, n'avez trouvé les combinaisons secrètes !\n");
+            System.out.println("La combinaison secrète de l'ordinateur était : " + computerCombination);
+            System.out.println("Votre combinaison secrète était : " + playerCombination + "\n");
         }
     }
 

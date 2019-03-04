@@ -9,13 +9,12 @@ public class Main {
 
         String[] gameSelectionNames = null;
         String className;
-
         Menu menu = new Menu();
         int replay = 1;
         Game game;
 
         //We will create dynamically an object according to the users answer in the menu.
-        // We need a Class, and a Constructor, to instanciate an object with parameters
+        // We need a Class, and a Constructor, to instantiate an object with parameters
         Class<?> clazz;
         Constructor<?>[] constructors;
         Constructor constructor = null;
@@ -39,7 +38,7 @@ public class Main {
                         //We load the constructor in constructor
                         constructor = constructor1;
                     }
-                    //Instanciation of the object Game according to the user selection
+                    //Instantiation of the object Game according to the user selection
                     game = (Game) constructor.newInstance(gameSelectionNames[2]);
                     game.startGame();
                     replay = menu.replayMenu();

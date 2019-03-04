@@ -9,6 +9,7 @@ public class Defender extends RechercheGame{
     private int[] upperBound;
     private int[] lowerBound;
     private int[] smartCombination;
+    private boolean win;
     private String result ="";
     private int trialNb;
 
@@ -17,6 +18,7 @@ public class Defender extends RechercheGame{
     public Defender(String levelName) {
         super(levelName);
         trialNb = 0;
+        win =false;
         upperBound = new int [getNbDigits()];
         lowerBound = new int [getNbDigits()];
         smartCombination = new int[getNbDigits()];
@@ -28,31 +30,49 @@ public class Defender extends RechercheGame{
     @Override
     public void startGame() {
         this.displayGameTitle("Recherche +/-", "Défenseur", this.getLevelName());
-        System.out.println("Entrez une combinaison de " + this.getNbDigits() + " chiffres, compris entre 0 et 9, que devra deviner l'ordinateur\n");
+        System.out.println("Entrez une combinaison de " + this.getNbDigits() + " chiffres, compris entre 0 et 9, que devra deviner l'ordinateur.\n");
         this.playerCombination = this.inputCombination(this.getNbDigits(),10);
-        this.playTurn();
+        while (this.trialNb < this.getNbTrials() && !this.win) {
+            this.playTurn();
+            this.trialNb ++;
+        }
         this.endGameResult(this.getClass().getName(), this.trialNb, this.combinationToString(playerCombination));
     }
 
     @Override
     public void playTurn() {
-        while (this.trialNb < this.getNbTrials() && !this.isWin()) {
-            System.out.println("Essai n° " + (this.trialNb+1) + " sur " + this.getNbTrials() + "\n");
-            if (this.trialNb == 0 ) {
-                this.generatedCombination = this.generateCombination(this.getNbDigits(), 10);
-            }else{
-                this.generatedCombination = generateCombinationAfterResult(this.result, this.generatedCombination);
-            }
-            this.result = this.compareInput(this.generatedCombination, this.playerCombination);
-            this.displayResult(this.trialNb, this.result, this.generatedCombination);
-            this.trialNb ++;
-            System.out.println("Appuyez sur la touche entrée pour continuer");
-            try {
-                System.in.read();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+        System.out.println("Essai n° " + (this.trialNb+1) + " sur " + this.getNbTrials() + "\n");
+        if (this.trialNb == 0 ) {
+            this.generatedCombination = this.generateCombination(this.getNbDigits(), 10);
+        }else{
+            this.generatedCombination = generateCombinationAfterResult(this.result, this.generatedCombination);
         }
+        this.result = this.compareInput(this.generatedCombination, this.playerCombination);
+        this.displayResult(this.result, this.generatedCombination);
+        System.out.println("Appuyez sur la touche entrée pour continuer");
+        try {
+            System.in.read();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    /**
+     * playTurn method used to play in Duel mode
+     * @param trialNb current trialNb
+     * @param solutionCombination combination to be found
+     */
+    @Override
+    public void playTurn(int trialNb, int[]solutionCombination) {
+        System.out.println("Essai n° " + (trialNb+1) + " sur " + this.getNbTrials() + " - Ordinateur\n");
+        if (trialNb == 0 ) {
+            this.generatedCombination = this.generateCombination(this.getNbDigits(), 10);
+        }else{
+            this.generatedCombination = generateCombinationAfterResult(this.result, this.generatedCombination);
+        }
+        this.result = this.compareInput(this.generatedCombination, solutionCombination);
+        this.displayResult(this.result, generatedCombination);
     }
 
     /**

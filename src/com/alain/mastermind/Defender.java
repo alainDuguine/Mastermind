@@ -58,6 +58,11 @@ public class Defender extends MastermindGame{
         }
     }
 
+    @Override
+    public void playTurn(int trialNb, int[] solutionCombination) {
+
+    }
+
     /**
      * Compare the last combination tried, with the whole list of potentials solution,
      * And remove the one who don't have the same result (because it's a reciprocal operation).
