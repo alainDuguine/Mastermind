@@ -22,6 +22,8 @@ public class Challenger extends RechercheGame{
         this.displayGameTitle("Recherche +/-", "Challenger", this.getLevelName());
         this.generatedCombination = this.generateCombination(this.getNbDigits(), this.getNbMax());
         while (this.trialNb < this.getNbTrials() && !this.isWin()) {
+            if (isDev())
+                System.out.println("(Combinaison secrète : " + this.combinationToString(generatedCombination)+")\n");
             this.playTurn();
             this.trialNb++;
         }

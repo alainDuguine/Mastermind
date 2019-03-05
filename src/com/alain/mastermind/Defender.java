@@ -102,7 +102,8 @@ public class Defender extends MastermindGame {
                 nbDelete++;
             }
         }
-        //System.out.println("Taille liste " + this.listCombinations.size() + ", Nombre de suppressions : " + nbDelete + "\n");
+        if (isDev())
+            System.out.println("Taille liste " + this.listCombinations.size() + ", Nombre de suppressions : " + nbDelete + "\n");
         return this.listCombinations;
     }
 

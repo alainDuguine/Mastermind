@@ -15,6 +15,7 @@ abstract class MastermindGame extends Game {
     private static int nbColors;
     private static int nbDigits;
     private static int nbTrials;
+    private static boolean dev;
 
     //---------------------- CONSTRUCTOR ------------------------------
 
@@ -126,9 +127,13 @@ abstract class MastermindGame extends Game {
         InputStream is = new FileInputStream("D:\\Développement\\Java\\Mastermind\\src\\resources\\config.properties");
         p.load(is);
 
-        System.out.println("m"+levelName+"NbColors");
-        System.out.println("m"+levelName+"NbDigits");
-        System.out.println("m"+levelName+"NbTrials");
+        nbColors = Integer.parseInt(p.getProperty("m"+levelName+"NbColors"));
+        nbDigits = Integer.parseInt(p.getProperty("m"+levelName+"NbDigits"));
+        nbTrials = Integer.parseInt(p.getProperty("m"+levelName+"NbTrials"));
+        dev = Boolean.parseBoolean(p.getProperty("dev"));
     }
 
+    static boolean isDev() {
+        return dev;
+    }
 }

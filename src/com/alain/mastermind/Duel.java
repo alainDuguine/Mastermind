@@ -29,10 +29,11 @@ public class Duel extends MastermindGame {
         public void startGame() {
             this.displayGameTitle("Mastermind", "Duel", this.getLevelName());
             this.solutionComputerCombination = this.generateCombination(this.getNbDigits(), this.getNbColors());
-            System.out.println("(combinaison secrète :" + this.combinationToString(this.solutionComputerCombination) + ")");
             System.out.println("Entrez une combinaison de " + this.getNbDigits() + " chiffres, compris entre 0 et " + (getNbColors() - 1) + ", que devra deviner l'ordinateur.\n");
             this.solutionPlayerCombination = this.inputCombination(this.getNbDigits(),this.getNbColors());
             while (this.trialNbDuel < this.getNbTrials() && !this.gamePlayer.isWin() && !this.gameComputer.isWin()) {
+                if (isDev())
+                    System.out.println("(Combinaison secrète : " + this.combinationToString(solutionComputerCombination) + ")\n");
                 this.playTurn(this.trialNbDuel,this.solutionComputerCombination);
                 this.trialNbDuel++;
             }

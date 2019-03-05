@@ -12,6 +12,7 @@ abstract class RechercheGame extends Game{
     private static int nbTrials;
     private static String resultGood = "";
     private int nbMax = 10;
+    private static boolean dev;
 
 //---------------------- CONSTRUCTOR ------------------------------
 
@@ -105,9 +106,9 @@ abstract class RechercheGame extends Game{
         InputStream is = new FileInputStream("D:\\Développement\\Java\\Mastermind\\src\\resources\\config.properties");
         p.load(is);
 
-        System.out.println("r"+levelName+"NbDigits");
-        System.out.println("r"+levelName+"NbTrials");
-
+        nbDigits = Integer.parseInt(p.getProperty("r"+levelName+"NbDigits"));
+        nbTrials = Integer.parseInt(p.getProperty("r"+levelName+"NbTrials"));
+        dev = Boolean.parseBoolean(p.getProperty("dev"));
     }
 
     int getNbTrials() {
@@ -124,5 +125,9 @@ abstract class RechercheGame extends Game{
 
     int getNbMax() {
         return nbMax;
+    }
+
+    static boolean isDev() {
+        return dev;
     }
 }

@@ -24,6 +24,8 @@ public class Challenger extends MastermindGame{
         this.displayGameTitle("Mastermind +/-", "Challenger", this.getLevelName());
         this.generatedCombination = this.generateCombination(this.getNbDigits(), this.getNbColors());
         while (this.trialNb < this.getNbTrials() && !this.isWin()) {
+            if (isDev())
+                System.out.println("Combinaison secrète : " + this.combinationToString(generatedCombination));
             this.playTurn();
             this.trialNb++;
         }

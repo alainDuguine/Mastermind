@@ -29,9 +29,11 @@ public class Duel extends RechercheGame{
 
         this.displayGameTitle("Recherche +/-", "Duel", this.getLevelName());
         this.solutionComputerCombination = this.generateCombination(this.getNbDigits(), this.getNbMax());
-        System.out.println("Entrez une combinaison de " + this.getNbDigits() + " chiffres, compris entre 0 et 9, que devra deviner l'ordinateur\n");
+        System.out.println("Entrez une combinaison de " + this.getNbDigits() + " chiffres, compris entre 0 et 9, que devra deviner l'ordinateur.\n");
         this.solutionPlayerCombination = this.inputCombination(this.getNbDigits(),10);
         while (this.trialNbDuel < this.getNbTrials() && !gamePlayer.isWin() && !gameComputer.isWin()) {
+            if (isDev())
+                System.out.println("(Combinaison secrète : " + this.combinationToString(solutionComputerCombination) + ")\n");
             this.playTurn(this.trialNbDuel,this.solutionComputerCombination);
             this.trialNbDuel++;
         }
