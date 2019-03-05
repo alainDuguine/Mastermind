@@ -2,7 +2,7 @@ package com.alain.recherche;
 
 import com.alain.Game;
 
-public abstract class RechercheGame extends Game{
+abstract class RechercheGame extends Game{
 
     private String levelName;
     private static int nbDigits;
@@ -12,7 +12,7 @@ public abstract class RechercheGame extends Game{
 
 //---------------------- CONSTRUCTOR ------------------------------
 
-    protected RechercheGame(String levelName) {
+    RechercheGame(String levelName) {
         super();
         this.levelName = levelName;
         getParameters(levelName);
@@ -40,7 +40,7 @@ public abstract class RechercheGame extends Game{
      * @param testedCombination combination to test
      * @param solution combination which is searched by the Challenger/Defender
      */
-     protected String compareInput(int[] testedCombination, int[] solution) {
+    String compareInput(int[] testedCombination, int[] solution) {
         int i = 0;
         String resultTrial = "";
 
@@ -66,7 +66,7 @@ public abstract class RechercheGame extends Game{
      * @param resultTrial contains String to print
      * @param combinationTrial contains combination tried
      */
-    protected void displayResult(String resultTrial, int[] combinationTrial){
+    void displayResult(String resultTrial, int[] combinationTrial){
         if (resultTrial.equals(resultGood)) {
             this.setWin(true);
         }
@@ -78,7 +78,7 @@ public abstract class RechercheGame extends Game{
      * @param combination to convert
      * @return combinationString combination converted
      */
-    protected String combinationToString(int[] combination) {
+    String combinationToString(int[] combination) {
         int i =0;
         String combinationString="";
         for (int value : combination) {
@@ -115,19 +115,19 @@ public abstract class RechercheGame extends Game{
         }
     }
 
-    protected int getNbTrials() {
+    int getNbTrials() {
         return nbTrials;
     }
 
-    protected  int getNbDigits() {
+    int getNbDigits() {
         return nbDigits;
     }
 
-    protected String getLevelName() {
+    String getLevelName() {
         return levelName;
     }
 
-    public int getNbMax() {
+    int getNbMax() {
         return nbMax;
     }
 }

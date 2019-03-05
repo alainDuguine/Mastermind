@@ -5,7 +5,7 @@ import com.alain.Game;
 import java.util.LinkedList;
 import java.util.Random;
 
-public abstract class MastermindGame extends Game {
+abstract class MastermindGame extends Game {
 
     private String levelName;
     private static int nbColors;
@@ -14,7 +14,7 @@ public abstract class MastermindGame extends Game {
 
     //---------------------- CONSTRUCTOR ------------------------------
 
-    protected MastermindGame(String levelName) {
+    MastermindGame(String levelName) {
         super();
         this.levelName = levelName;
         getParameters(levelName);
@@ -27,7 +27,7 @@ public abstract class MastermindGame extends Game {
      * @param listCombinations listCombinations generated earlier
      * @return the combination choosen
      */
-    protected int[] chooseCombinationFromList(LinkedList<int[]> listCombinations){
+    int[] chooseCombinationFromList(LinkedList<int[]> listCombinations){
         Random generator = new Random();
         int randomIndex = generator.nextInt(listCombinations.size());
         return listCombinations.get(randomIndex);
@@ -39,7 +39,7 @@ public abstract class MastermindGame extends Game {
      * @param solutionCombination point of comparison
      * @return blacksAndWhites result int[] of blacks and whites pins
      */
-    protected int[] compareInput(int[] testCombination, int[] solutionCombination) {
+    int[] compareInput(int[] testCombination, int[] solutionCombination) {
         int blackHits = 0;
         int whiteHits = 0;
         int[] blacksAndWhites = new int [2];
@@ -76,7 +76,7 @@ public abstract class MastermindGame extends Game {
      * @param blacksAndWhites result of the test
      * @param combination combination tested
      */
-    protected void displayResult(int trialNb, int[] blacksAndWhites, int[] combination){
+    void displayResult(int trialNb, int[] blacksAndWhites, int[] combination){
         if (blacksAndWhites[0] == nbDigits){
             this.setWin(true);
         }
@@ -90,7 +90,7 @@ public abstract class MastermindGame extends Game {
      * @param combination to convert
      * @return combinationString combination converted
      */
-    protected String combinationToString(int[] combination) {
+    String combinationToString(int[] combination) {
         String combinationString="";
         for (int value : combination) {
             combinationString += value;
@@ -100,19 +100,19 @@ public abstract class MastermindGame extends Game {
 
     //---------------- GETTERS & SETTERS--------------------
 
-    protected int getNbTrials() {
+    int getNbTrials() {
         return nbTrials;
     }
 
-    protected int getNbDigits() {
+    int getNbDigits() {
         return nbDigits;
     }
 
-    protected String getLevelName() {
+    String getLevelName() {
         return levelName;
     }
 
-    protected int getNbColors() {
+    int getNbColors() {
         return nbColors;
     }
 
