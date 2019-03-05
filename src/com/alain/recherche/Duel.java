@@ -37,13 +37,14 @@ public class Duel extends RechercheGame{
     }
 
     @Override
-    public void playTurn() {
-    }
-
-    @Override
     public void playTurn(int trialNb, int[] solutionCombination) {
         gamePlayer.playTurn(this.trialNbDuel,this.solutionComputerCombination);
         gameComputer.playTurn(this.trialNbDuel, this.solutionPlayerCombination);
+    }
+
+
+    @Override
+    public void playTurn() {
     }
 
 }

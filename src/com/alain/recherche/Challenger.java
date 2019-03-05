@@ -5,14 +5,12 @@ public class Challenger extends RechercheGame{
     private int[] generatedCombination;
     private int[] playerCombination;
     private int trialNb;
-    private boolean win;
 
     //---------------------- CONSTRUCTOR ------------------------------
 
     public Challenger(String levelName) {
         super(levelName);
         trialNb = 0;
-        this.win = false;
     }
 
     //----------------------- METHODS ----------------------------------
@@ -30,9 +28,9 @@ public class Challenger extends RechercheGame{
 
     @Override
     public void playTurn() {
-        System.out.println("Essai n° " + (this.trialNb+1) + " sur " + this.getNbTrials() + "\n");
-        System.out.println("Entrez une combinaison de " + this.getNbDigits() + " chiffres, compris entre 0 et 9.\n");
+        System.out.println("Essayez de trouver la combinaison de l'ordinateur, en entrant une combinaison de " + this.getNbDigits() + " chiffres, compris entre 0 et 9.\n");
         this.playerCombination = this.inputCombination(this.getNbDigits(), this.getNbMax());
+        System.out.println("Essai n° " + (this.trialNb+1) + " sur " + this.getNbTrials() + "\n");
         String result = this.compareInput(this.playerCombination, this.generatedCombination);
         this.displayResult(result,this.playerCombination);
     }

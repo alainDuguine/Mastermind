@@ -117,10 +117,11 @@ public abstract class Game {
      * Display text according to ending of the party, win or loss
      */
     protected void endGameDuel(boolean gameComputer, boolean gamePlayer, int trialNb, String computerCombination, String playerCombination) {
+        System.out.println("=====================================================================\n");
         if (gameComputer && gamePlayer) {
             System.out.println("Match Nul ! Vous avez trouvé les combinaisons secrètes en même temps, en " + (trialNb) + " essais !\n");
         } else if (gameComputer){
-            System.out.println("Désolé, vous avez perdu ! L'ordinateur a trouvé la combinaison  en " + (trialNb) + " essais !\n");
+            System.out.println("Désolé, vous avez perdu ! L'ordinateur a trouvé la combinaison en " + (trialNb) + " essais !\n");
         } else if (gamePlayer){
             System.out.println("Bravo ! Vous avez battu l'ordinateur en " + (trialNb) +" essais !\n");
         }else{
@@ -128,6 +129,7 @@ public abstract class Game {
             System.out.println("La combinaison secrète de l'ordinateur était : " + computerCombination);
             System.out.println("Votre combinaison secrète était : " + playerCombination + "\n");
         }
+        System.out.println("=====================================================================");
     }
 
 

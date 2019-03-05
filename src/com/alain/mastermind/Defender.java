@@ -1,27 +1,26 @@
 package com.alain.mastermind;
 
-import com.alain.Game;
-
 import java.io.IOException;
 import java.util.*;
 
-public class Defender extends MastermindGame{
+public class Defender extends MastermindGame {
 
     private int[] generatedCombination;
     private int[] playerCombination;
     private int trialNb;
     private int[] nbBlacksAndWhites;
-    private LinkedList <int[]> listCombinations;
+    private LinkedList<int[]> listCombinations;
 
     //---------------------- CONSTRUCTOR ------------------------------
 
     public Defender(String levelName) {
         super(levelName);
-        trialNb = 0;
-        playerCombination = new int[getNbDigits()];
-        generatedCombination = new int [getNbDigits()];
-        listCombinations = new LinkedList<>();
-        nbBlacksAndWhites = new int[2];
+        this.trialNb = 0;
+        this.playerCombination = new int[getNbDigits()];
+        this.generatedCombination = new int[getNbDigits()];
+        this.listCombinations = new LinkedList<>();
+        this.nbBlacksAndWhites = new int[2];
+        this.generateAllSolutions(getNbColors(), getNbDigits());
     }
 
     //----------------------- METHODS ----------------------------------
@@ -29,39 +28,55 @@ public class Defender extends MastermindGame{
     @Override
     public void startGame() {
         this.displayGameTitle("Mastermind", "Défenseur", this.getLevelName());
-        System.out.println("Entrez une combinaison de " + this.getNbDigits() + " chiffres, compris entre 0 et " + (getNbColors()-1) +", que devra deviner l'ordinateur.\n");
+        System.out.println("Entrez une combinaison de " + this.getNbDigits() + " chiffres, compris entre 0 et " + (getNbColors() - 1) + ", que devra deviner l'ordinateur.\n");
         this.playerCombination = this.inputCombination(this.getNbDigits(), this.getNbColors());
-        generateAllSolutions(getNbColors(), getNbDigits());
-        this.playTurn();
+        while (trialNb < this.getNbTrials() && !this.isWin()) {
+            this.playTurn();
+            this.trialNb++;
+        }
         this.endGameResult(this.getClass().getName(), this.trialNb, this.combinationToString(this.playerCombination));
     }
 
     @Override
     public void playTurn() {
-        while (trialNb < this.getNbTrials() && !this.isWin()) {
-            System.out.println("Essai n° " + ((this.trialNb)+1) + " sur " + this.getNbTrials() + "\n");
-            if (this.trialNb == 0) {
-                generatedCombination = chooseCombinationFromList(listCombinations);
-            }else{
-                listCombinations = getListCombinationAfterResult(generatedCombination, nbBlacksAndWhites);
-                generatedCombination = chooseCombinationFromList(listCombinations);
-            }
-            nbBlacksAndWhites = compareInput(generatedCombination,playerCombination);
-            this.displayResult(trialNb, nbBlacksAndWhites, generatedCombination);
-            trialNb++;
-            System.out.println("Appuyez sur la touche entrée pour continuer");
-            try {
-                System.in.read();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+        System.out.println("Essai n° " + ((this.trialNb) + 1) + " sur " + this.getNbTrials() + "\n");
+        if (this.trialNb == 0) {
+            this.generatedCombination = chooseCombinationFromList(this.listCombinations);
+        } else {
+            this.listCombinations = getListCombinationAfterResult(this.generatedCombination, this.nbBlacksAndWhites);
+            this.generatedCombination = chooseCombinationFromList(this.listCombinations);
+        }
+        this.nbBlacksAndWhites = compareInput(this.generatedCombination, this.playerCombination);
+        this.displayResult(this.trialNb, this.nbBlacksAndWhites, this.generatedCombination);
+        this.trialNb++;
+        System.out.println("Appuyez sur la touche entrée pour continuer");
+        try {
+            System.in.read();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
+    /**
+     * playTurn method used to play in Duel mode
+     *
+     * @param trialNb             current trialNb
+     * @param solutionCombination combination to be found
+     */
     @Override
     public void playTurn(int trialNb, int[] solutionCombination) {
-
+        System.out.println("Essai n° " + (trialNb + 1) + " sur " + this.getNbTrials() + " - Ordinateur\n");
+        if (trialNb == 0) {
+            this.generatedCombination = chooseCombinationFromList(this.listCombinations);
+        } else {
+            this.listCombinations = getListCombinationAfterResult(this.generatedCombination, this.nbBlacksAndWhites);
+            this.generatedCombination = chooseCombinationFromList(this.listCombinations);
+        }
+        this.nbBlacksAndWhites = compareInput(this.generatedCombination, solutionCombination);
+        this.displayResult(trialNb, this.nbBlacksAndWhites, this.generatedCombination);
     }
+
+
 
     /**
      * Compare the last combination tried, with the whole list of potentials solution,
@@ -76,7 +91,7 @@ public class Defender extends MastermindGame{
         int[] testBlacksAndWhites;
 
         //We create an iterator to be able to delete items at the same time as we are reading
-        Iterator<int[]> it = listCombinations.iterator();
+        Iterator<int[]> it = this.listCombinations.iterator();
         while(it.hasNext()){
             element = it.next();
             //We test all combinations in the list with the last played combination.
@@ -87,8 +102,8 @@ public class Defender extends MastermindGame{
                 nbDelete++;
             }
         }
-        System.out.println("Taille liste " + listCombinations.size() + ", Nombre de suppressions : " + nbDelete + "\n");
-        return listCombinations;
+        //System.out.println("Taille liste " + this.listCombinations.size() + ", Nombre de suppressions : " + nbDelete + "\n");
+        return this.listCombinations;
     }
 
     /**
@@ -96,7 +111,7 @@ public class Defender extends MastermindGame{
      * @param nbColors nbColors that can be played
      * @param nbDigits nbDigits in the combination
      */
-    private void generateAllSolutions(int nbColors, int nbDigits){
+    void generateAllSolutions(int nbColors, int nbDigits){
         int remain, divisor;
         int[] comb;
         double totalNbCombinations = Math.pow(nbColors, nbDigits);

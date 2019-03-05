@@ -9,7 +9,6 @@ public class Defender extends RechercheGame{
     private int[] upperBound;
     private int[] lowerBound;
     private int[] smartCombination;
-    private boolean win;
     private String result ="";
     private int trialNb;
 
@@ -18,7 +17,6 @@ public class Defender extends RechercheGame{
     public Defender(String levelName) {
         super(levelName);
         trialNb = 0;
-        win =false;
         upperBound = new int [getNbDigits()];
         lowerBound = new int [getNbDigits()];
         smartCombination = new int[getNbDigits()];
@@ -32,7 +30,7 @@ public class Defender extends RechercheGame{
         this.displayGameTitle("Recherche +/-", "Défenseur", this.getLevelName());
         System.out.println("Entrez une combinaison de " + this.getNbDigits() + " chiffres, compris entre 0 et 9, que devra deviner l'ordinateur.\n");
         this.playerCombination = this.inputCombination(this.getNbDigits(),10);
-        while (this.trialNb < this.getNbTrials() && !this.win) {
+        while (this.trialNb < this.getNbTrials() && !this.isWin()) {
             this.playTurn();
             this.trialNb ++;
         }
