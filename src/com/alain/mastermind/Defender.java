@@ -13,7 +13,7 @@ public class Defender extends MastermindGame {
 
     //---------------------- CONSTRUCTOR ------------------------------
 
-    public Defender(String levelName) {
+    public Defender(String levelName) throws IOException {
         super(levelName);
         this.trialNb = 0;
         this.playerCombination = new int[getNbDigits()];

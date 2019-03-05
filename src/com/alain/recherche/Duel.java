@@ -2,6 +2,8 @@ package com.alain.recherche;
 
 import com.alain.Game;
 
+import java.io.IOException;
+
 public class Duel extends RechercheGame{
 
     private int[] solutionComputerCombination;
@@ -13,7 +15,7 @@ public class Duel extends RechercheGame{
 
     //---------------------- CONSTRUCTOR ------------------------------
 
-    public Duel(String levelName) {
+    public Duel(String levelName) throws IOException {
         super(levelName);
         gamePlayer = new Challenger(this.getLevelName());
         gameComputer = new Defender(this.getLevelName());

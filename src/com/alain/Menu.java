@@ -3,7 +3,7 @@ package com.alain;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
-public class Menu {
+class Menu {
     private Scanner sc = new Scanner(System.in);
     private String[] selectionNames = {"jeu","mode","niveau"};
     private String[] games = {"Recherche +/-", "Mastermind"};
@@ -63,7 +63,7 @@ public class Menu {
     /**
      * Display menus according to a list of elements,
      * Ask for player input, and control it.
-     * @param mainTitle Main Title of the menu
+     * @param mainTitle resources Title of the menu
      * @param title Title of the menu
      * @param list List of element to choose from
      * @return the number Selected
@@ -118,7 +118,7 @@ public class Menu {
      * display menu to choose what to do at the end of a game.
      * @return the input choice as an int
      */
-    public int replayMenu(){
+    int replayMenu(){
         System.out.println("\n=========================");
         System.out.println("Une autre partie ?");
         System.out.println("=========================");

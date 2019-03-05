@@ -1,5 +1,7 @@
 package com.alain.mastermind;
 
+import java.io.IOException;
+
 public class Challenger extends MastermindGame{
 
     private int[] generatedCombination;
@@ -10,7 +12,7 @@ public class Challenger extends MastermindGame{
 
     //---------------------- CONSTRUCTOR ------------------------------
 
-    public Challenger(String levelName) {
+    public Challenger(String levelName) throws IOException {
         super(levelName);
         this.trialNb=0;
     }

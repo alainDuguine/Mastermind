@@ -2,7 +2,9 @@ package com.alain.mastermind;
 
 import com.alain.Game;
 
-    public class Duel extends MastermindGame {
+import java.io.IOException;
+
+public class Duel extends MastermindGame {
 
         private int[] solutionComputerCombination;
         private int[] solutionPlayerCombination;
@@ -13,7 +15,7 @@ import com.alain.Game;
 
         //---------------------- CONSTRUCTOR ------------------------------
 
-        public Duel(String levelName) {
+        public Duel(String levelName) throws IOException {
             super(levelName);
             this.gamePlayer = new Challenger(this.getLevelName());
             this.gameComputer = new Defender(this.getLevelName());

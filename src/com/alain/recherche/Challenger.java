@@ -1,5 +1,7 @@
 package com.alain.recherche;
 
+import java.io.IOException;
+
 public class Challenger extends RechercheGame{
 
     private int[] generatedCombination;
@@ -8,7 +10,7 @@ public class Challenger extends RechercheGame{
 
     //---------------------- CONSTRUCTOR ------------------------------
 
-    public Challenger(String levelName) {
+    public Challenger(String levelName) throws IOException {
         super(levelName);
         trialNb = 0;
     }

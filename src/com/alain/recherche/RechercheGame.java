@@ -2,6 +2,9 @@ package com.alain.recherche;
 
 import com.alain.Game;
 
+import java.io.*;
+import java.util.Properties;
+
 abstract class RechercheGame extends Game{
 
     private String levelName;
@@ -12,10 +15,10 @@ abstract class RechercheGame extends Game{
 
 //---------------------- CONSTRUCTOR ------------------------------
 
-    RechercheGame(String levelName) {
+    RechercheGame(String levelName) throws IOException {
         super();
         this.levelName = levelName;
-        getParameters(levelName);
+        getProperties(levelName);
         generateWinningPattern();
     }
 
@@ -95,24 +98,16 @@ abstract class RechercheGame extends Game{
 
     //---------------- GETTERS & SETTERS--------------------
 
-    private void getParameters(String levelName){
-        switch (levelName) {
-            case "Facile":
-                nbDigits = 4;
-                nbTrials = 5;
-                break;
-            case "Normal":
-                nbDigits = 8;
-                nbTrials = 6;
-                break;
-            case "Difficile":
-                nbDigits = 12;
-                nbTrials = 8;
-                break;
-            default:
-                nbDigits = 0;
-                break;
-        }
+    private static void getProperties(String levelName) throws IOException {
+
+        Properties p = new Properties();
+
+        InputStream is = new FileInputStream("D:\\Développement\\Java\\Mastermind\\src\\resources\\config.properties");
+        p.load(is);
+
+        System.out.println("r"+levelName+"NbDigits");
+        System.out.println("r"+levelName+"NbTrials");
+
     }
 
     int getNbTrials() {

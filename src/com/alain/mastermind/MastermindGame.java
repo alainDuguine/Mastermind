@@ -2,7 +2,11 @@ package com.alain.mastermind;
 
 import com.alain.Game;
 
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.LinkedList;
+import java.util.Properties;
 import java.util.Random;
 
 abstract class MastermindGame extends Game {
@@ -14,10 +18,10 @@ abstract class MastermindGame extends Game {
 
     //---------------------- CONSTRUCTOR ------------------------------
 
-    MastermindGame(String levelName) {
+    MastermindGame(String levelName) throws IOException {
         super();
         this.levelName = levelName;
-        getParameters(levelName);
+        getProperties(levelName);
     }
 
     //----------------------- METHODS ----------------------------------
@@ -116,27 +120,15 @@ abstract class MastermindGame extends Game {
         return nbColors;
     }
 
-    private void getParameters(String levelName) {
-        switch (levelName) {
-            case "Facile":
-                nbColors = 6;
-                nbDigits = 4;
-                nbTrials = 10;
-                break;
-            case "Normal":
-                nbColors = 8;
-                nbDigits = 5;
-                nbTrials = 10;
-                break;
-            case "Difficile":
-                nbColors = 10;
-                nbDigits = 6;
-                nbTrials = 10;
-                break;
-            default:
-                nbColors = 0;
-                break;
-        }
+    private static void getProperties(String levelName) throws IOException {
+        Properties p = new Properties();
+
+        InputStream is = new FileInputStream("D:\\Développement\\Java\\Mastermind\\src\\resources\\config.properties");
+        p.load(is);
+
+        System.out.println("m"+levelName+"NbColors");
+        System.out.println("m"+levelName+"NbDigits");
+        System.out.println("m"+levelName+"NbTrials");
     }
 
 }

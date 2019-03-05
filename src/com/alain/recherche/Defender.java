@@ -14,7 +14,7 @@ public class Defender extends RechercheGame{
 
     //---------------------- CONSTRUCTOR ------------------------------
 
-    public Defender(String levelName) {
+    public Defender(String levelName) throws IOException {
         super(levelName);
         trialNb = 0;
         upperBound = new int [getNbDigits()];
