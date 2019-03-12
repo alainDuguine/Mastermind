@@ -37,11 +37,9 @@ abstract class RechercheGame extends Game{
     private static void generateWinningPattern() {
         resultGood="";
         for (int i = 0; i < nbDigits; i++) {
-            if (i != 0 && i % 4 == 0) {
-                resultGood += " ";
-            }
             resultGood += "=";
         }
+        resultGood = resultGood.replaceAll("(.{4})", "$1 ");
     }
 
     /**
@@ -55,10 +53,6 @@ abstract class RechercheGame extends Game{
         String resultTrial = "";
 
         for (int value : solution) {
-            //We add a " " every 4 digits for better readability
-            if (i != 0 && i % 4 == 0) {
-                resultTrial += " ";
-            }
             if (value == testedCombination[i]) {
                 resultTrial += "=";
             } else if (value < testedCombination[i]) {
@@ -69,7 +63,8 @@ abstract class RechercheGame extends Game{
             i++;
         }
         logger.trace("Combination - " + Arrays.toString(testedCombination) + "\n Solution - " + Arrays.toString(solution) + "\n Result - " +resultTrial);
-        return resultTrial;
+        //We add a " " every 4 digits for better readability
+        return resultTrial.replaceAll("(.{4})", "$1 ");
     }
 
     /**
@@ -93,14 +88,12 @@ abstract class RechercheGame extends Game{
         int i =0;
         String combinationString="";
         for (int value : combination) {
-            //We add a " " every 4 digits for better readability
-            if (i != 0 && i % 4 == 0) {
-                combinationString += " ";
-            }
+
             combinationString += value;
             i++;
         }
-        return combinationString;
+        //We add a " " every 4 digits for better readability
+        return combinationString.replaceAll("(.{4})", "$1 ");
     }
 
 

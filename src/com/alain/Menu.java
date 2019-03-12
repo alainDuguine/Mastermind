@@ -128,7 +128,7 @@ class Menu {
      */
     int replayMenu(){
         System.out.println("\n=========================");
-        System.out.println("Une autre partie ?");
+        System.out.println("== Une autre partie ?");
         System.out.println("=========================");
         System.out.println("1 - Rejouer");
         System.out.println("2 - Revenir au menu principal");
