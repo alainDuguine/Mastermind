@@ -4,9 +4,7 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 
 public class Main {
-
-    public static void main(String[] args) throws ClassNotFoundException, IllegalAccessException, InvocationTargetException, InstantiationException {
-
+    public static void main(String[] args) throws IllegalAccessException, InvocationTargetException, InstantiationException, NoSuchMethodException, ClassNotFoundException {
         String[] gameSelectionNames = null;
         String className;
         Menu menu = new Menu();
@@ -16,7 +14,6 @@ public class Main {
         //We will create dynamically an object according to the users answer in the menu.
         // We need a Class, and a Constructor, to instantiate an object with parameters
         Class<?> clazz;
-        Constructor<?>[] constructors;
         Constructor constructor = null;
 
         do{
@@ -33,11 +30,7 @@ public class Main {
                     className = "com.alain." + gameSelectionNames[0] + "." + gameSelectionNames[1];
                     clazz = Class.forName(className);
                     //Getting an array with constructors present in the class
-                    constructors = clazz.getDeclaredConstructors();
-                    for (Constructor<?> constructor1 : constructors) {
-                        //We load the constructor in constructor
-                        constructor = constructor1;
-                    }
+                    constructor = clazz.getDeclaredConstructor(String.class);
                     //Instantiation of the object Game according to the user selection
                     game = (Game) constructor.newInstance(gameSelectionNames[2]);
                     game.startGame();

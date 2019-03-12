@@ -1,11 +1,17 @@
 package com.alain.recherche;
 
 import com.alain.Game;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.*;
+import java.lang.reflect.Array;
+import java.util.Arrays;
 import java.util.Properties;
 
 abstract class RechercheGame extends Game{
+
+    static final Logger logger = LogManager.getLogger();
 
     private String levelName;
     private static int nbDigits;
@@ -62,6 +68,7 @@ abstract class RechercheGame extends Game{
             }
             i++;
         }
+        logger.trace("Combination - " + Arrays.toString(testedCombination) + "\n Solution - " + Arrays.toString(solution) + "\n Result - " +resultTrial);
         return resultTrial;
     }
 
@@ -103,12 +110,13 @@ abstract class RechercheGame extends Game{
 
         Properties p = new Properties();
 
-        InputStream is = new FileInputStream("D:\\Développement\\Java\\Mastermind\\src\\resources\\config.properties");
+        InputStream is = new FileInputStream("src/resources/config.properties");
         p.load(is);
 
-        nbDigits = Integer.parseInt(p.getProperty("r"+levelName+"NbDigits"));
-        nbTrials = Integer.parseInt(p.getProperty("r"+levelName+"NbTrials"));
+        nbDigits = Integer.parseInt(p.getProperty("recherche."+levelName.toLowerCase()+".nbDigits"));
+        nbTrials = Integer.parseInt(p.getProperty("recherche."+levelName.toLowerCase()+".nbTrials"));
         dev = Boolean.parseBoolean(p.getProperty("dev"));
+        logger.trace("nbDigits : " + nbDigits +"\nnbTrials : " + nbTrials);
     }
 
     int getNbTrials() {

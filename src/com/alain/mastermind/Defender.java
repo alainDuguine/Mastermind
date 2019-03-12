@@ -104,6 +104,7 @@ public class Defender extends MastermindGame {
         }
         if (isDev())
             System.out.println("Taille liste " + this.listCombinations.size() + ", Nombre de suppressions : " + nbDelete + "\n");
+        logger.trace("Taille liste " + this.listCombinations.size() + ", Nombre de suppressions : " + nbDelete + "\n");
         return this.listCombinations;
     }
 
@@ -131,5 +132,6 @@ public class Defender extends MastermindGame {
             }while (divisor != 0);
             listCombinations.add(comb);
         }
+        logger.trace(listCombinations.size());
     }
 }

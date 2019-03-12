@@ -1,15 +1,20 @@
 package com.alain.mastermind;
 
 import com.alain.Game;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.Properties;
 import java.util.Random;
 
 abstract class MastermindGame extends Game {
+
+    static final Logger logger = LogManager.getLogger();
 
     private String levelName;
     private static int nbColors;
@@ -40,15 +45,15 @@ abstract class MastermindGame extends Game {
 
     /**
      * compare two combinations and return blacks and whites pen result
-     * @param testCombination combination tested
+     * @param testedCombination combination tested
      * @param solutionCombination point of comparison
      * @return blacksAndWhites result int[] of blacks and whites pins
      */
-    int[] compareInput(int[] testCombination, int[] solutionCombination) {
+    int[] compareInput(int[] testedCombination, int[] solutionCombination) {
         int blackHits = 0;
         int whiteHits = 0;
         int[] blacksAndWhites = new int [2];
-        int[] test = testCombination.clone();
+        int[] test = testedCombination.clone();
         int[] solution = solutionCombination.clone();
 
         int i;
@@ -85,7 +90,7 @@ abstract class MastermindGame extends Game {
         if (blacksAndWhites[0] == nbDigits){
             this.setWin(true);
         }
-
+        logger.trace("Combination - " + Arrays.toString(combination) + "\n Result - " + Arrays.toString(blacksAndWhites));
         String result = blacksAndWhites[0] + " bien placé(s) - " + blacksAndWhites[1] + " mal placé(s)";
         System.out.println("Essai n°" + (trialNb+1) + " : " + combinationToString(combination) + "\nRéponse :   " + result + "\n");
     }
@@ -124,13 +129,14 @@ abstract class MastermindGame extends Game {
     private static void getProperties(String levelName) throws IOException {
         Properties p = new Properties();
 
-        InputStream is = new FileInputStream("D:\\Développement\\Java\\Mastermind\\src\\resources\\config.properties");
+        InputStream is = new FileInputStream("src/resources/config.properties");
         p.load(is);
 
-        nbColors = Integer.parseInt(p.getProperty("m"+levelName+"NbColors"));
-        nbDigits = Integer.parseInt(p.getProperty("m"+levelName+"NbDigits"));
-        nbTrials = Integer.parseInt(p.getProperty("m"+levelName+"NbTrials"));
+        nbColors = Integer.parseInt(p.getProperty("mastermind."+levelName.toLowerCase()+".nbColors"));
+        nbDigits = Integer.parseInt(p.getProperty("mastermind."+levelName.toLowerCase()+".nbDigits"));
+        nbTrials = Integer.parseInt(p.getProperty("mastermind."+levelName.toLowerCase()+".nbTrials"));
         dev = Boolean.parseBoolean(p.getProperty("dev"));
+        logger.trace("nbColors : " + nbColors + "nbDigits : " + nbDigits +"\nnbTrials : " + nbTrials);
     }
 
     static boolean isDev() {

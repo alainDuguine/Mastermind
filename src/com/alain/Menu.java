@@ -1,9 +1,15 @@
 package com.alain;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import java.util.Arrays;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
 class Menu {
+    static final Logger logger = LogManager.getLogger();
+
     private Scanner sc = new Scanner(System.in);
     private String[] selectionNames = {"jeu","mode","niveau"};
     private String[] games = {"Recherche +/-", "Mastermind"};
@@ -57,6 +63,7 @@ class Menu {
                 }
             }
         }
+        logger.trace("Game selection" + Arrays.toString(gameSelectionNames));
         return gameSelectionNames;
     }
 
@@ -106,6 +113,7 @@ class Menu {
                 if (choiceInput < -1 || choiceInput > nbMax)
                     throw new ArrayIndexOutOfBoundsException();
             } catch (ArrayIndexOutOfBoundsException | InputMismatchException e) {
+                logger.warn(e.getMessage() + " Mauvais Input - " + choiceInput);
                 System.out.println("Vous devez saisir un nombre entier, compris entre " + nbMin + " et " + nbMax);
                 sc.nextLine();
                 responseIsGood = false;

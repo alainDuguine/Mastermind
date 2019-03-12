@@ -2,9 +2,11 @@ package com.alain;
 
 import java.util.InputMismatchException;
 import java.util.Scanner;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public abstract class Game {
-
+    static final Logger logger = LogManager.getLogger();
     private Scanner sc = new Scanner(System.in);
     private boolean win;
 
@@ -47,6 +49,7 @@ public abstract class Game {
             }
             i++;
         }
+        logger.trace("Combination generated" + generateCombination);
         return generateCombination;
     }
 
@@ -66,6 +69,7 @@ public abstract class Game {
                 if (!(playerCombination.matches("^[0-" + (nbMax-1) + "]{" + nbDigits + "}$")))
                     throw new InputMismatchException();
             } catch (ArrayIndexOutOfBoundsException | InputMismatchException e) {
+                logger.warn(e.getMessage());
                 System.out.println("Vous devez saisir une suite de " + nbDigits +" entiers, compris entre 0 et " + (nbMax-1) + ".\n");
                 sc.nextLine();
                 responseIsGood = false;
