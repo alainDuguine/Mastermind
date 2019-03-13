@@ -92,16 +92,15 @@ class Menu {
             System.out.println("0 - Précédent\n");
         }
         System.out.println("Quel est votre choix :\n");
-        return this.playerInput(0,list.length-1);
+        return this.playerInput(list.length-1);
     }
 
     /**
      * Read player input and check that it is good type and in the good range
-     * @param nbMin minimum number accepted
      * @param nbMax maximum number accepted
      * @return the input choice as an int
      */
-    private int playerInput(int nbMin, int nbMax) {
+    private int playerInput(int nbMax) {
         //take and control input
         int choiceInput = 0;
         boolean responseIsGood;
@@ -113,7 +112,7 @@ class Menu {
                     throw new ArrayIndexOutOfBoundsException();
             } catch (ArrayIndexOutOfBoundsException | InputMismatchException e) {
                 logger.warn(e.getMessage() + " Mauvais Input - " + choiceInput);
-                System.out.println("Vous devez saisir un nombre entier, compris entre " + nbMin + " et " + nbMax);
+                System.out.println("Vous devez saisir un nombre entier, compris entre 0 et " + nbMax);
                 sc.nextLine();
                 responseIsGood = false;
             }
@@ -134,7 +133,6 @@ class Menu {
         System.out.println("0 - Quitter");
         System.out.println("=========================\n");
         System.out.println("Quel est votre choix :\n");
-        return this.playerInput(0,2);
-
+        return this.playerInput(2);
     }
 }

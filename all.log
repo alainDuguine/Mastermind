@@ -1,23 +1,22 @@
-2019-03-13 15:08:14.063 [main] TRACE com.alain.Menu - Game selection[recherche, Challenger, Facile]
-2019-03-13 15:08:14.083 [main] TRACE com.alain.recherche.RechercheGame - nbDigits : 4
-nbTrials : 5
-2019-03-13 15:08:14.083 [main] TRACE com.alain.Game - Combination generated[I@2d3379b4
-2019-03-13 15:08:30.563 [main] TRACE com.alain.recherche.RechercheGame - Combination - [1, 1, 1, 1]
- Solution - [8, 6, 2, 8]
- Result - ++++
-2019-03-13 15:08:33.506 [main] TRACE com.alain.recherche.RechercheGame - Combination - [5, 5, 5, 5]
- Solution - [8, 6, 2, 8]
- Result - ++-+
-2019-03-13 15:08:38.427 [main] TRACE com.alain.recherche.RechercheGame - Combination - [7, 7, 3, 7]
- Solution - [8, 6, 2, 8]
- Result - +--+
-2019-03-13 15:08:45.043 [main] TRACE com.alain.recherche.RechercheGame - Combination - [9, 6, 2, 8]
- Solution - [8, 6, 2, 8]
- Result - -===
-2019-03-13 15:08:49.963 [main] TRACE com.alain.recherche.RechercheGame - Combination - [8, 6, 2, 8]
- Solution - [8, 6, 2, 8]
- Result - ====
-2019-03-13 15:09:02.927 [main] TRACE com.alain.Menu - Game selection[mastermind, Defender, Normal]
-2019-03-13 15:09:02.936 [main] TRACE com.alain.mastermind.MastermindGame - nbColors : 8nbDigits : 5
+2019-03-13 16:42:05.585 [main] TRACE com.alain.Menu - Game selection[mastermind, Defender, Difficile]
+2019-03-13 16:42:05.585 [main] TRACE com.alain.mastermind.MastermindGame - nbColors : 10nbDigits : 6
 nbTrials : 10
-2019-03-13 15:09:02.943 [main] TRACE com.alain.mastermind.MastermindGame - 32768
+2019-03-13 16:42:06.220 [main] TRACE com.alain.mastermind.MastermindGame - 1000000
+2019-03-13 16:42:12.419 [main] TRACE com.alain.mastermind.MastermindGame - Combination - [9, 8, 2, 7, 6, 9]
+ Result - [2, 0]
+2019-03-13 16:42:25.485 [main] TRACE com.alain.mastermind.MastermindGame - Taille liste 26070, Nombre de suppressions : 973930
+
+2019-03-13 16:42:25.485 [main] TRACE com.alain.mastermind.MastermindGame - Combination - [9, 6, 3, 3, 6, 5]
+ Result - [1, 0]
+2019-03-13 16:42:32.793 [main] TRACE com.alain.mastermind.MastermindGame - Taille liste 2690, Nombre de suppressions : 23380
+
+2019-03-13 16:42:32.793 [main] TRACE com.alain.mastermind.MastermindGame - Combination - [1, 0, 2, 4, 6, 4]
+ Result - [0, 0]
+2019-03-13 16:42:34.213 [main] TRACE com.alain.mastermind.MastermindGame - Taille liste 38, Nombre de suppressions : 2652
+
+2019-03-13 16:42:34.213 [main] TRACE com.alain.mastermind.MastermindGame - Combination - [8, 8, 5, 7, 5, 5]
+ Result - [0, 0]
+2019-03-13 16:42:35.348 [main] TRACE com.alain.mastermind.MastermindGame - Taille liste 1, Nombre de suppressions : 37
+
+2019-03-13 16:42:35.348 [main] TRACE com.alain.mastermind.MastermindGame - Combination - [9, 9, 9, 9, 9, 9]
+ Result - [6, 0]

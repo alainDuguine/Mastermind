@@ -48,7 +48,6 @@ public class Defender extends MastermindGame {
         }
         this.nbBlacksAndWhites = compareInput(this.generatedCombination, this.playerCombination);
         this.displayResult(this.trialNb, this.nbBlacksAndWhites, this.generatedCombination);
-        this.trialNb++;
         System.out.println("Appuyez sur la touche entrée pour continuer");
         try {
             System.in.read();

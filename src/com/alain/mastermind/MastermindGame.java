@@ -89,7 +89,7 @@ abstract class MastermindGame extends Game {
         }
         logger.trace("Combination - " + Arrays.toString(combination) + "\n Result - " + Arrays.toString(blacksAndWhites));
         String result = blacksAndWhites[0] + " bien placé(s) - " + blacksAndWhites[1] + " mal placé(s)";
-        System.out.println("Essai n°" + (trialNb+1) + " : " + combinationToString(combination) + "\nRéponse :   " + result + "\n");
+        System.out.println("Essai : " + combinationToString(combination) + "\nRéponse :   " + result + "\n");
     }
 
     /**
