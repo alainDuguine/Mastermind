@@ -79,11 +79,10 @@ abstract class MastermindGame extends Game {
 
     /**
      * print out the result of a turn
-     * @param trialNb number of trial currently played
      * @param blacksAndWhites result of the test
      * @param combination combination tested
      */
-    void displayResult(int trialNb, int[] blacksAndWhites, int[] combination){
+    void displayResult(int[] blacksAndWhites, int[] combination){
         if (blacksAndWhites[0] == nbDigits){
             this.setWin(true);
         }

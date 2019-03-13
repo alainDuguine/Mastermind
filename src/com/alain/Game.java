@@ -111,9 +111,9 @@ public abstract class Game {
             }
         }else{
             if (this.win){
-                System.out.println("\nBravo ! Vous avez gagné en " + (trialNb) +" essais !");
+                System.out.println("Bravo ! Vous avez gagné en " + (trialNb) +" essais !");
             }else{
-                System.out.println("\nDésolé, vous avez perdu ! La combinaison secrète était : " + combination + "\n");
+                System.out.println("Désolé, vous avez perdu ! La combinaison secrète était : " + combination + "\n");
             }
         }
     }

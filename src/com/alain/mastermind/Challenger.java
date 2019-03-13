@@ -36,7 +36,7 @@ public class Challenger extends MastermindGame{
         playerCombination = this.inputCombination(this.getNbDigits(), this.getNbColors());
         System.out.println("Essai n° " + (this.trialNb+1) + " sur " + this.getNbTrials() + "\n");
         this.nbBlacksAndWhites = this.compareInput(playerCombination, this.generatedCombination);
-        this.displayResult(this.trialNb, this.nbBlacksAndWhites, playerCombination);
+        this.displayResult(this.nbBlacksAndWhites, playerCombination);
     }
 
     /**
@@ -51,7 +51,7 @@ public class Challenger extends MastermindGame{
         playerCombination = this.inputCombination(this.getNbDigits(), this.getNbColors());
         System.out.println("Essai n° " + (trialNb+1) + " sur " + this.getNbTrials() + " - Joueur\n");
         this.nbBlacksAndWhites = this.compareInput(playerCombination, solutionCombination);
-        this.displayResult(trialNb, this.nbBlacksAndWhites, playerCombination);
+        this.displayResult(this.nbBlacksAndWhites, playerCombination);
     }
 }
 
