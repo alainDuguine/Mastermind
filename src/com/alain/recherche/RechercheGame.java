@@ -4,8 +4,6 @@ import com.alain.Game;
 import com.alain.Utilities;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
-import java.io.*;
 import java.util.Arrays;
 import java.util.Properties;
 
@@ -17,7 +15,6 @@ abstract class RechercheGame extends Game{
     private static int nbDigits;
     private static int nbTrials;
     private static String resultGood = "";
-    private int nbMax = 10;
     private static boolean dev;
 
 //---------------------- CONSTRUCTOR ------------------------------
@@ -121,7 +118,7 @@ abstract class RechercheGame extends Game{
     }
 
     int getNbMax() {
-        return nbMax;
+        return 10;
     }
 
     static boolean isDev() {

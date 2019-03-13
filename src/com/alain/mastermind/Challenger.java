@@ -1,18 +1,15 @@
 package com.alain.mastermind;
 
-import java.io.IOException;
-
 public class Challenger extends MastermindGame{
 
     private int[] generatedCombination;
-    private int[] playerCombination;
     private int[] nbBlacksAndWhites;
 
     private int trialNb;
 
     //---------------------- CONSTRUCTOR ------------------------------
 
-    public Challenger(String levelName) throws IOException {
+    public Challenger(String levelName){
         super(levelName);
         this.trialNb=0;
     }
@@ -34,11 +31,12 @@ public class Challenger extends MastermindGame{
 
     @Override
     public void playTurn() {
+        int[] playerCombination;
         System.out.println("Essayez de trouver la combinaison de l'ordinateur, en entrant une combinaison de " + this.getNbDigits() + " chiffres, compris entre 0 et " + (getNbColors()-1) +".\n");
-        this.playerCombination = this.inputCombination(this.getNbDigits(), this.getNbColors());
+        playerCombination = this.inputCombination(this.getNbDigits(), this.getNbColors());
         System.out.println("Essai n° " + (this.trialNb+1) + " sur " + this.getNbTrials() + "\n");
-        this.nbBlacksAndWhites = this.compareInput(this.playerCombination, this.generatedCombination);
-        this.displayResult(this.trialNb, this.nbBlacksAndWhites, this.playerCombination);
+        this.nbBlacksAndWhites = this.compareInput(playerCombination, this.generatedCombination);
+        this.displayResult(this.trialNb, this.nbBlacksAndWhites, playerCombination);
     }
 
     /**

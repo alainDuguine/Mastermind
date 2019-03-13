@@ -13,7 +13,7 @@ public abstract class Game {
 
     //---------------------- CONSTRUCTOR ------------------------------
 
-    public Game() {
+    protected Game() {
         this.win = false;
     }
 

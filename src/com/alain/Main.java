@@ -3,7 +3,7 @@ package com.alain;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 
-public class Main {
+class Main {
     public static void main(String[] args) throws IllegalAccessException, InvocationTargetException, InstantiationException, NoSuchMethodException, ClassNotFoundException {
         String[] gameSelectionNames = null;
         String className;

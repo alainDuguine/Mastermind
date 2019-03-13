@@ -4,8 +4,6 @@ import com.alain.Game;
 import com.alain.Utilities;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
-import java.io.IOException;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.Properties;

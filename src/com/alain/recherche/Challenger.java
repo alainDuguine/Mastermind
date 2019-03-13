@@ -1,16 +1,13 @@
 package com.alain.recherche;
 
-import java.io.IOException;
-
 public class Challenger extends RechercheGame{
 
     private int[] generatedCombination;
-    private int[] playerCombination;
     private int trialNb;
 
     //---------------------- CONSTRUCTOR ------------------------------
 
-    public Challenger(String levelName) throws IOException {
+    public Challenger(String levelName){
         super(levelName);
         trialNb = 0;
     }
@@ -32,11 +29,12 @@ public class Challenger extends RechercheGame{
 
     @Override
     public void playTurn() {
+        int[] playerCombination;
         System.out.println("Essayez de trouver la combinaison de l'ordinateur, en entrant une combinaison de " + this.getNbDigits() + " chiffres, compris entre 0 et 9.\n");
-        this.playerCombination = this.inputCombination(this.getNbDigits(), this.getNbMax());
+        playerCombination = this.inputCombination(this.getNbDigits(), this.getNbMax());
         System.out.println("Essai n° " + (this.trialNb+1) + " sur " + this.getNbTrials() + "\n");
-        String result = this.compareInput(this.playerCombination, this.generatedCombination);
-        this.displayResult(result,this.playerCombination);
+        String result = this.compareInput(playerCombination, this.generatedCombination);
+        this.displayResult(result,playerCombination);
     }
 
 

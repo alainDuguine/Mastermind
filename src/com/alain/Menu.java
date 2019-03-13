@@ -2,13 +2,12 @@ package com.alain;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
 import java.util.Arrays;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
 class Menu {
-    static final Logger logger = LogManager.getLogger();
+    private static final Logger logger = LogManager.getLogger();
 
     private Scanner sc = new Scanner(System.in);
     private String[] selectionNames = {"jeu","mode","niveau"};
