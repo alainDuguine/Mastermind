@@ -1,12 +1,13 @@
 package com.alain;
 
+import java.util.Arrays;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 public abstract class Game {
-    static final Logger logger = LogManager.getLogger();
+    private static final Logger logger = LogManager.getLogger();
     private Scanner sc = new Scanner(System.in);
     private boolean win;
 
@@ -49,7 +50,7 @@ public abstract class Game {
             }
             i++;
         }
-        logger.trace("Combination generated" + generateCombination);
+        logger.trace("Combination generated" + Arrays.toString(generateCombination));
         return generateCombination;
     }
 

@@ -1,25 +1,23 @@
-2019-03-12 21:12:17.496 [main] TRACE com.alain.Menu - Game selection[recherche, Defender, Difficile]
-2019-03-12 21:12:17.506 [main] TRACE com.alain.recherche.RechercheGame - nbDigits : 12
-nbTrials : 8
-2019-03-12 21:12:25.266 [main] TRACE com.alain.Game - Combination generated[I@62379589
-2019-03-12 21:12:25.266 [main] TRACE com.alain.recherche.RechercheGame - Combination - [6, 9, 6, 8, 2, 4, 8, 2, 0, 5, 9, 8]
- Solution - [1, 4, 2, 5, 3, 9, 0, 0, 5, 7, 3, 1]
- Result - ----++--++--
-2019-03-12 21:12:30.409 [main] TRACE com.alain.recherche.RechercheGame - Combination - [4, 1, 1, 0, 3, 7, 1, 1, 2, 6, 7, 0]
- Solution - [1, 4, 2, 5, 3, 9, 0, 0, 5, 7, 3, 1]
- Result - -+++=+--++-+
-2019-03-12 21:12:32.806 [main] TRACE com.alain.recherche.RechercheGame - Combination - [2, 6, 2, 6, 3, 8, 0, 0, 9, 7, 3, 1]
- Solution - [1, 4, 2, 5, 3, 9, 0, 0, 5, 7, 3, 1]
- Result - --=-=+==-===
-2019-03-12 21:12:34.166 [main] TRACE com.alain.recherche.RechercheGame - Combination - [0, 5, 2, 2, 3, 9, 0, 0, 5, 7, 3, 1]
- Solution - [1, 4, 2, 5, 3, 9, 0, 0, 5, 7, 3, 1]
- Result - +-=+========
-2019-03-12 21:12:36.590 [main] TRACE com.alain.recherche.RechercheGame - Combination - [1, 2, 2, 3, 3, 9, 0, 0, 5, 7, 3, 1]
- Solution - [1, 4, 2, 5, 3, 9, 0, 0, 5, 7, 3, 1]
- Result - =+=+========
-2019-03-12 21:12:38.096 [main] TRACE com.alain.recherche.RechercheGame - Combination - [1, 3, 2, 4, 3, 9, 0, 0, 5, 7, 3, 1]
- Solution - [1, 4, 2, 5, 3, 9, 0, 0, 5, 7, 3, 1]
- Result - =+=+========
-2019-03-12 21:12:39.556 [main] TRACE com.alain.recherche.RechercheGame - Combination - [1, 4, 2, 5, 3, 9, 0, 0, 5, 7, 3, 1]
- Solution - [1, 4, 2, 5, 3, 9, 0, 0, 5, 7, 3, 1]
- Result - ============
+2019-03-13 15:08:14.063 [main] TRACE com.alain.Menu - Game selection[recherche, Challenger, Facile]
+2019-03-13 15:08:14.083 [main] TRACE com.alain.recherche.RechercheGame - nbDigits : 4
+nbTrials : 5
+2019-03-13 15:08:14.083 [main] TRACE com.alain.Game - Combination generated[I@2d3379b4
+2019-03-13 15:08:30.563 [main] TRACE com.alain.recherche.RechercheGame - Combination - [1, 1, 1, 1]
+ Solution - [8, 6, 2, 8]
+ Result - ++++
+2019-03-13 15:08:33.506 [main] TRACE com.alain.recherche.RechercheGame - Combination - [5, 5, 5, 5]
+ Solution - [8, 6, 2, 8]
+ Result - ++-+
+2019-03-13 15:08:38.427 [main] TRACE com.alain.recherche.RechercheGame - Combination - [7, 7, 3, 7]
+ Solution - [8, 6, 2, 8]
+ Result - +--+
+2019-03-13 15:08:45.043 [main] TRACE com.alain.recherche.RechercheGame - Combination - [9, 6, 2, 8]
+ Solution - [8, 6, 2, 8]
+ Result - -===
+2019-03-13 15:08:49.963 [main] TRACE com.alain.recherche.RechercheGame - Combination - [8, 6, 2, 8]
+ Solution - [8, 6, 2, 8]
+ Result - ====
+2019-03-13 15:09:02.927 [main] TRACE com.alain.Menu - Game selection[mastermind, Defender, Normal]
+2019-03-13 15:09:02.936 [main] TRACE com.alain.mastermind.MastermindGame - nbColors : 8nbDigits : 5
+nbTrials : 10
+2019-03-13 15:09:02.943 [main] TRACE com.alain.mastermind.MastermindGame - 32768

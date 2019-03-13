@@ -1,12 +1,11 @@
 package com.alain.mastermind;
 
 import com.alain.Game;
+import com.alain.Utilities;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.Properties;
@@ -24,7 +23,7 @@ abstract class MastermindGame extends Game {
 
     //---------------------- CONSTRUCTOR ------------------------------
 
-    MastermindGame(String levelName) throws IOException {
+    MastermindGame(String levelName){
         super();
         this.levelName = levelName;
         getProperties(levelName);
@@ -126,11 +125,8 @@ abstract class MastermindGame extends Game {
         return nbColors;
     }
 
-    private static void getProperties(String levelName) throws IOException {
-        Properties p = new Properties();
-
-        InputStream is = new FileInputStream("src/resources/config.properties");
-        p.load(is);
+    private static void getProperties(String levelName){
+        Properties p = new Utilities().connectFileProperties();
 
         nbColors = Integer.parseInt(p.getProperty("mastermind."+levelName.toLowerCase()+".nbColors"));
         nbDigits = Integer.parseInt(p.getProperty("mastermind."+levelName.toLowerCase()+".nbDigits"));

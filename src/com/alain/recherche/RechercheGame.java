@@ -1,17 +1,17 @@
 package com.alain.recherche;
 
 import com.alain.Game;
+import com.alain.Utilities;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.io.*;
-import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.Properties;
 
 abstract class RechercheGame extends Game{
 
-    static final Logger logger = LogManager.getLogger();
+    private static final Logger logger = LogManager.getLogger();
 
     private String levelName;
     private static int nbDigits;
@@ -22,7 +22,7 @@ abstract class RechercheGame extends Game{
 
 //---------------------- CONSTRUCTOR ------------------------------
 
-    RechercheGame(String levelName) throws IOException {
+    RechercheGame(String levelName){
         super();
         this.levelName = levelName;
         getProperties(levelName);
@@ -99,12 +99,8 @@ abstract class RechercheGame extends Game{
 
     //---------------- GETTERS & SETTERS--------------------
 
-    private static void getProperties(String levelName) throws IOException {
-
-        Properties p = new Properties();
-
-        InputStream is = new FileInputStream("src/resources/config.properties");
-        p.load(is);
+    private static void getProperties(String levelName){
+        Properties p = new Utilities().connectFileProperties();
 
         nbDigits = Integer.parseInt(p.getProperty("recherche."+levelName.toLowerCase()+".nbDigits"));
         nbTrials = Integer.parseInt(p.getProperty("recherche."+levelName.toLowerCase()+".nbTrials"));
