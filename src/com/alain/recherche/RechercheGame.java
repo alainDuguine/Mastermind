@@ -85,7 +85,6 @@ abstract class RechercheGame extends Game{
         int i =0;
         String combinationString="";
         for (int value : combination) {
-
             combinationString += value;
             i++;
         }

@@ -103,6 +103,7 @@ public abstract class Game {
      * @param combination that was to found
      */
     protected void endGameResult (String className, int trialNb, String combination) {
+        System.out.println("=====================================================================\n");
         if (className.contains("Defender")){
             if (this.win) {
                 System.out.println("Désolé ! Vous avez perdu, l'ordinateur a trouvé la combinaison  en " + (trialNb) + " essais !");
@@ -116,6 +117,7 @@ public abstract class Game {
                 System.out.println("Désolé, vous avez perdu ! La combinaison secrète était : " + combination + "\n");
             }
         }
+        System.out.println("=====================================================================\n");
     }
 
     /**
