@@ -36,7 +36,6 @@ class Menu {
 
         //Game Selection
         for (i = 0; i < selectionNames.length; i++){
-        //for (String[] value : selectionArrays) {
             title = "==\t Choix du " + selectionNames[i] + " :";
             gameSelectionIndex = displayMenu(mainTitle, title, selectionArrays[i]);
             // If user selected Quitter it brings him back one step further
@@ -48,21 +47,21 @@ class Menu {
                 mainTitle = mainTitle.replace("\n==\t " + gameSelectionNames[i+1], "");
             }else {
                 mainTitle += "\n==\t " + selectionArrays[i][gameSelectionIndex];
-                switch (selectionArrays[i][gameSelectionIndex]){
-                    case "Recherche +/-":
-                        gameSelectionNames[i] = "recherche";
-                        break;
-                    case "Mastermind":
-                        gameSelectionNames[i] = "mastermind";
-                        break;
-                    case "Défenseur":
-                        gameSelectionNames[i] = "Defender";
-                        break;
-                    default : gameSelectionNames[i] = selectionArrays[i][gameSelectionIndex];
-                }
+                gameSelectionNames[i] = selectionArrays[i][gameSelectionIndex];
             }
         }
         logger.trace("Game selection" + Arrays.toString(gameSelectionNames));
+        //Formatting game name to fit with class call
+        switch (gameSelectionNames[0]) {
+            case "Recherche +/-":
+                gameSelectionNames[0] = "recherche";
+                break;
+            case "Mastermind":
+                gameSelectionNames[0] = "mastermind";
+                break;
+        }
+        if (gameSelectionNames[1] == "Défenseur")
+                gameSelectionNames[1] = "Defender";
         return gameSelectionNames;
     }
 
@@ -112,7 +111,7 @@ class Menu {
                     throw new ArrayIndexOutOfBoundsException();
             } catch (ArrayIndexOutOfBoundsException | InputMismatchException e) {
                 logger.warn(e.getMessage() + " Mauvais Input - " + choiceInput);
-                System.out.println("Vous devez saisir un nombre entier, compris entre 0 et " + nbMax);
+                System.out.println("Vous devez saisir un nombre entier, compris entre 0 et " + (nbMax+1));
                 sc.nextLine();
                 responseIsGood = false;
             }
@@ -133,6 +132,6 @@ class Menu {
         System.out.println("0 - Quitter");
         System.out.println("=========================\n");
         System.out.println("Quel est votre choix :\n");
-        return this.playerInput(2);
+        return this.playerInput(1);
     }
 }
