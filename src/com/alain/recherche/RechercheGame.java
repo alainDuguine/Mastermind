@@ -83,13 +83,13 @@ abstract class RechercheGame extends Game{
      */
     String combinationToString(int[] combination) {
         int i =0;
-        String combinationString="";
+        StringBuilder combinationString= new StringBuilder();
         for (int value : combination) {
-            combinationString += value;
+            combinationString.append(value);
             i++;
         }
         //We add a " " every 4 digits for better readability
-        return combinationString.replaceAll("(.{4})", "$1 ");
+        return combinationString.toString().replaceAll("(.{4})", "$1 ");
     }
 
 

@@ -17,7 +17,6 @@ public class Duel extends MastermindGame {
             super(levelName);
             this.gamePlayer = new Challenger(this.getLevelName());
             this.gameComputer = new Defender(this.getLevelName());
-            //this.gameComputer.generateAllSolutions(this.getNbColors(), this.getNbDigits());
             this.trialNbDuel = 0;
         }
 

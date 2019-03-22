@@ -52,7 +52,6 @@ abstract class MastermindGame extends Game {
         int[] blacksAndWhites = new int [2];
         int[] test = testedCombination.clone();
         int[] solution = solutionCombination.clone();
-
         int i;
         //We first check if the numbers are in good spot, and we change their value for not finding them after
         for (i = 0; i < solutionCombination.length; i++) {
@@ -97,11 +96,11 @@ abstract class MastermindGame extends Game {
      * @return combinationString combination converted
      */
     String combinationToString(int[] combination) {
-        String combinationString="";
+        StringBuilder combinationString= new StringBuilder();
         for (int value : combination) {
-            combinationString += value;
+            combinationString.append(value);
         }
-        return combinationString;
+        return combinationString.toString();
     }
 
     //---------------- GETTERS & SETTERS--------------------

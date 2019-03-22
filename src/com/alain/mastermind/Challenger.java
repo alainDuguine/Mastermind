@@ -4,7 +4,6 @@ public class Challenger extends MastermindGame{
 
     private int[] generatedCombination;
     private int[] nbBlacksAndWhites;
-
     private int trialNb;
 
     //---------------------- CONSTRUCTOR ------------------------------

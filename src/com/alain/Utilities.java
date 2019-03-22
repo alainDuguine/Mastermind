@@ -19,12 +19,12 @@ public class Utilities {
         try {
             is = new FileInputStream("src/resources/config.properties");
         } catch (FileNotFoundException e) {
-            logger.error(e.getMessage());
+            logger.error("Fichier introuvable", e);
         }
         try {
             p.load(is);
         } catch (IOException e) {
-            logger.error(e.getMessage());
+            logger.error(e);
         }
         return p;
     }

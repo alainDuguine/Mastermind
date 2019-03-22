@@ -14,7 +14,6 @@ class Menu {
     private String[] games = {"Recherche +/-", "Mastermind"};
     private String[] modes = {"Challenger", "Défenseur", "Duel"};
     private String[] levels = {"Facile","Normal", "Difficile"};
-
     private String[][] selectionArrays = new String[3][];
     private String[] gameSelectionNames = new String[3];
 
@@ -60,7 +59,7 @@ class Menu {
                 gameSelectionNames[0] = "mastermind";
                 break;
         }
-        if (gameSelectionNames[1] == "Défenseur")
+        if (gameSelectionNames[1].equals("Défenseur"))
                 gameSelectionNames[1] = "Defender";
         return gameSelectionNames;
     }
@@ -110,7 +109,7 @@ class Menu {
                 if (choiceInput < -1 || choiceInput > nbMax)
                     throw new ArrayIndexOutOfBoundsException();
             } catch (ArrayIndexOutOfBoundsException | InputMismatchException e) {
-                logger.warn(e.getMessage() + " Mauvais Input - " + choiceInput);
+                logger.warn(" Mauvais Input", e);
                 System.out.println("Vous devez saisir un nombre entier, compris entre 0 et " + (nbMax+1));
                 sc.nextLine();
                 responseIsGood = false;

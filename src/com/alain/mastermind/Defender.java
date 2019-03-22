@@ -110,7 +110,7 @@ public class Defender extends MastermindGame {
      * @param nbColors nbColors that can be played
      * @param nbDigits nbDigits in the combination
      */
-    void generateAllSolutions(int nbColors, int nbDigits){
+    private void generateAllSolutions(int nbColors, int nbDigits){
         int remain, divisor;
         int[] comb;
         double totalNbCombinations = Math.pow(nbColors, nbDigits);
