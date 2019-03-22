@@ -122,9 +122,9 @@ abstract class MastermindGame extends Game {
         return nbColors;
     }
 
+
     private static void getProperties(String levelName){
         Properties p = new Utilities().connectFileProperties();
-
         nbColors = Integer.parseInt(p.getProperty("mastermind."+levelName.toLowerCase()+".nbColors"));
         nbDigits = Integer.parseInt(p.getProperty("mastermind."+levelName.toLowerCase()+".nbDigits"));
         nbTrials = Integer.parseInt(p.getProperty("mastermind."+levelName.toLowerCase()+".nbTrials"));

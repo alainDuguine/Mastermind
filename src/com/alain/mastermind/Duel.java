@@ -8,7 +8,7 @@ public class Duel extends MastermindGame {
         private int[] solutionPlayerCombination;
         private int trialNbDuel;
         private Game gamePlayer;
-        private Defender gameComputer;
+        private Game gameComputer;
 
 
         //---------------------- CONSTRUCTOR ------------------------------
@@ -17,7 +17,7 @@ public class Duel extends MastermindGame {
             super(levelName);
             this.gamePlayer = new Challenger(this.getLevelName());
             this.gameComputer = new Defender(this.getLevelName());
-            this.gameComputer.generateAllSolutions(this.getNbColors(), this.getNbDigits());
+            //this.gameComputer.generateAllSolutions(this.getNbColors(), this.getNbDigits());
             this.trialNbDuel = 0;
         }
 

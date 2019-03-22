@@ -95,8 +95,10 @@ abstract class RechercheGame extends Game{
 
     //---------------- GETTERS & SETTERS--------------------
 
+
     private static void getProperties(String levelName){
         Properties p = new Utilities().connectFileProperties();
+
 
         nbDigits = Integer.parseInt(p.getProperty("recherche."+levelName.toLowerCase()+".nbDigits"));
         nbTrials = Integer.parseInt(p.getProperty("recherche."+levelName.toLowerCase()+".nbTrials"));
